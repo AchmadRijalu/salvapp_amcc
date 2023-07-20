@@ -33,7 +33,7 @@ class CustomFormField extends StatelessWidget {
         Text(
           title!,
           style: blackTextStyle.copyWith(
-              fontWeight: FontWeight.w600, fontSize: 14),
+              fontWeight: regular, fontSize: 14),
         ),
         const SizedBox(
           height: 12,
