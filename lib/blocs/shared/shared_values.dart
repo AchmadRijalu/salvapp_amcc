@@ -1,4 +1,4 @@
-String baseUrlSalv = "http://20.241.231.79/";
+String baseUrlSalv = "";
 
 String baseUrlRegion = "https://api.binderbyte.com/wilayah/";
 String apikeyRegion =
