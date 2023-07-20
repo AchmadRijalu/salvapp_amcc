@@ -1,0 +1,215 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:salvapp_amcc/UI/pages/sign_up_wilayah_page.dart';
+
+
+import '../../blocs/shared/shared_methods.dart';
+import '../../common/common.dart';
+import '../../models/sign_up_form_model.dart';
+import '../widgets/buttons.dart';
+import '../widgets/forms.dart';
+
+class SignupPage extends StatefulWidget {
+  static const routeName = '/signup';
+  const SignupPage({super.key});
+
+  @override
+  State<SignupPage> createState() => _SignupPageState();
+}
+
+class _SignupPageState extends State<SignupPage> {
+  SignupFormModel? data;
+  List<String> listTipe = ["buyer", "seller"];
+  final TextEditingController nomorteleponController =
+      TextEditingController(text: '');
+  final TextEditingController usernameController =
+      TextEditingController(text: '');
+  final TextEditingController katasandiController =
+      TextEditingController(text: '');
+
+  final _keyState = GlobalKey<FormState>();
+
+  bool _obscureText = true;
+
+  dynamic tipe;
+
+  bool validate() {
+    if (nomorteleponController.text.isEmpty ||
+        usernameController.text.isEmpty ||
+        katasandiController.text.isEmpty ||
+        tipe == null) {
+      return false;
+    }
+    return true;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _obscureText = true;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 44, horizontal: 37),
+        child: Container(
+          child: ListView(children: [
+            Row(children: [Image.asset('assets/image/logo-png.png')]),
+            const SizedBox(
+              height: 53,
+            ),
+            Row(
+              children: [
+                Text(
+                  "Mulai bersihkan \nlingkungan dengan \nbergabung bersama kami",
+                  style: blackTextStyle.copyWith(
+                      fontSize: 20, fontWeight: FontWeight.w700),
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 23,
+            ),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(vertical: 23, horizontal: 19),
+              decoration: BoxDecoration(
+                  color: whiteColor, borderRadius: BorderRadius.circular(8)),
+              child: Column(children: [
+                CustomFormField(
+                  title: "Nama Pengguna / Username",
+                  controller: usernameController,
+                ),
+                const SizedBox(
+                  height: 18,
+                ),
+                Container(child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Kata Sandi",
+                      style: blackTextStyle.copyWith(
+                          fontWeight: FontWeight.w600, fontSize: 14),
+                      textAlign: TextAlign.start,
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    //PASSWORD
+                    TextFormField(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      controller: katasandiController,
+                      obscureText: _obscureText,
+                      decoration: InputDecoration(
+                          suffixIcon: IconButton(
+                            icon: _obscureText
+                                ? Icon(Icons.visibility_off)
+                                : Icon(Icons.visibility),
+                            onPressed: () {
+                              setState(() {
+                                _obscureText = !_obscureText;
+                              });
+                            },
+                          ),
+                          contentPadding: const EdgeInsets.all(12),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8))),
+                    ),
+                  ],
+                ),),
+                const SizedBox(
+                  height: 18,
+                ),
+                CustomFormField(
+                  controller: nomorteleponController,
+                  title: "Nomor Telepon",
+                  keyBoardType: TextInputType.number,
+                ),
+                const SizedBox(
+                  height: 18,
+                ),
+                Row(
+                  children: [
+                    Text(
+                      "Tipe",
+                      style: blackTextStyle.copyWith(
+                          fontWeight: FontWeight.w600, fontSize: 14),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 12,
+                ),
+                DropdownButtonFormField(
+                  decoration: InputDecoration(
+                      focusColor: greenColor,
+                      contentPadding: const EdgeInsets.all(12),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8))),
+                  items: listTipe.map((dynamic val) {
+                    return DropdownMenuItem(
+                      value: val,
+                      child: Text(
+                        val,
+                      ),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      tipe = value;
+                    });
+                  },
+                ),
+                const SizedBox(
+                  height: 35,
+                ),
+                CustomFilledButton(
+                  title: "Selanjutnya",
+                  onPressed: () {
+                    if (validate()) {
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          return SignupWilayahPage(
+                              data: SignupFormModel(
+                                  username: usernameController.text,
+                                  name: usernameController.text,
+                                  password: katasandiController.text,
+                                  type: tipe.toString(),
+                                  phone: nomorteleponController.text));
+                        },
+                      ));
+                    } else {
+                      showCustomSnacKbar(context, "Form tidak boleh kosong");
+                    }
+                    // Navigator.pushNamed(context, SignupWilayahPage.routeName);
+                  },
+                ),
+                const SizedBox(
+                  height: 17,
+                )
+              ]),
+            ),
+            Container(
+              margin: const EdgeInsets.only(top: 18),
+              child: Column(children: [
+                CustomTextButton(
+                  title: "Sudah Punya Akun?",
+                  onPressed: () => Navigator.pop(context),
+                )
+              ]),
+            ),
+            const SizedBox(
+              height: 12,
+            )
+          ]),
+        ),
+      ),
+    );
+  }
+}
