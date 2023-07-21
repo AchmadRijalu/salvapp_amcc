@@ -2,11 +2,11 @@ import 'dart:ffi';
 
 class SignupFormModel {
   final String? name;
-  final String? KecamatanId;
+  final String? email;
   final String? password;
   final String? username;
-  final String? phone;
-  final String? type;
+  final String? phoneNumber;
+  final dynamic type;
   final String? province;
   final String? city;
   final String? ward;
@@ -18,11 +18,12 @@ class SignupFormModel {
   final dynamic latitude;
 
   SignupFormModel(
-      {this.KecamatanId,
+      {
+      this.email,
       this.name,
       this.password,
       this.username,
-      this.phone,
+      this.phoneNumber,
       this.type,
       this.province,
       this.city,
@@ -37,10 +38,10 @@ class SignupFormModel {
   Map<String, dynamic> toJson() {
     return {
       "name": name,
-      'Kecamatan': KecamatanId,
+      "email": email,
       'password': password,
       'username': username,
-      'phone': phone,
+      'phone_number': phoneNumber,
       'type': type,
       'province': province,
       'city': city,
@@ -56,10 +57,10 @@ class SignupFormModel {
 
   SignupFormModel copyWith(
           {String? name,
-          String? KecamatanId,
+          String? email,
           String? password,
           String? username,
-          String? phone,
+          String? phoneNumber,
           String? type,
           dynamic latitude,
           dynamic longitude,
@@ -72,10 +73,10 @@ class SignupFormModel {
           String? image}) =>
       SignupFormModel(
           name: name ?? this.name,
-          KecamatanId: KecamatanId ?? this.KecamatanId,
+          email: email ?? this.email,
           password: password ?? this.password,
           username: username ?? this.username,
-          phone: phone ?? this.phone,
+          phoneNumber: phoneNumber ?? this.phoneNumber,
           type: type ?? this.type,
           province: province ?? this.province,
           city: city ?? this.city,

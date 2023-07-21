@@ -55,7 +55,7 @@ class _IklanPageState extends State<IklanPage> {
 
     if (authState is AuthSuccess) {
       usernameIklanA = authState.user!.username!;
-      userType = authState.user!.type;
+      userType = authState.user!.type.toString();
       userId = authState.user!.id;
 
       // print(authState.user!.token);

@@ -23,12 +23,11 @@ class AuthService {
 
       if (response.statusCode == 200) {
         var resHolder = jsonDecode(response.body)['message'];
-        if (resHolder == "Username already exists") {
+        if (resHolder == "username exist") {
           throw "Username sudah terpakai";
         } else {
           print("200");
           final user = Userdata.fromJson(jsonDecode(response.body)['data']);
-
           await storeCredentialToLocal(user);
           return user;
         }
@@ -51,7 +50,7 @@ class AuthService {
       if (response.statusCode == 200) {
         var resHolder = jsonDecode(response.body)['message'];
 
-        if (resHolder == "Invalid username or password") {
+        if (resHolder == "user not found") {
           throw "Username/Password Salah";
         } else {
           final user = Userdata.fromJson(jsonDecode(response.body)['data']);
@@ -89,13 +88,13 @@ class AuthService {
   }
 
   //Saving credential Account into local
-  Future<void> storeCredentialToLocal(Userdata user) async {
+  Future<void> storeCredentialToLocal(Userdata userdata) async {
     try {
       const storage = FlutterSecureStorage();
-      await storage.write(key: 'token', value: user.token);
-      await storage.write(key: 'username', value: user.username);
-      await storage.write(key: 'password', value: user.password);
-      await storage.write(key: 'type', value: user.type);
+      await storage.write(key: 'token', value: userdata.token);
+      await storage.write(key: 'username', value: userdata.username);
+      await storage.write(key: 'password', value: userdata.password);
+      await storage.write(key: 'type', value: userdata.type.toString());
     } catch (e) {
       rethrow;
     }
@@ -129,9 +128,7 @@ class AuthService {
   Future<String> getToken() async {
     String? token = '';
     const storage = FlutterSecureStorage();
-
     String? value = await storage.read(key: 'token');
-
     if (value != null) {
       token = "Bearer " + value;
     }

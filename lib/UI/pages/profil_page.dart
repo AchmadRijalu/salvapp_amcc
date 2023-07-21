@@ -46,7 +46,7 @@ class ProfilPage extends StatelessWidget {
             }
 
             if (state is AuthSuccess) {
-              Uint8List bytes = base64.decode(state.user!.image);
+              Uint8List bytes = base64.decode(state.user!.image!);
 
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),

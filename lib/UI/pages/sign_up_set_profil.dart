@@ -138,12 +138,13 @@ class _SignupSetProfilPageState extends State<SignupSetProfilPage> {
                                 title: "Daftar",
                                 onPressed: () {
                                   widget.data = SignupFormModel(
-                                    KecamatanId: widget.data!.KecamatanId,
+                                    // KecamatanId: widget.data!.KecamatanId,
                                     username: widget.data!.username,
+                                    email: widget.data!.email,
                                     name: widget.data!.name,
                                     password: widget.data!.password,
                                     type: widget.data!.type,
-                                    phone: widget.data!.phone,
+                                    phoneNumber: widget.data!.phoneNumber,
                                     province: widget.data!.province,
                                     city: widget.data!.city,
                                     subdistrict: widget.data!.subdistrict,
@@ -152,6 +153,7 @@ class _SignupSetProfilPageState extends State<SignupSetProfilPage> {
                                     latitude: widget.data!.latitude,
                                     longitude: widget.data!.longitude,
                                     address: widget.data!.address,
+                                    image: ""
                                   );
 
                                   context
@@ -159,18 +161,20 @@ class _SignupSetProfilPageState extends State<SignupSetProfilPage> {
                                       .add(AuthRegister(widget.data));
                                   print(widget.data!.username);
                                   print(widget.data!.name);
-                                  print(widget.data!.KecamatanId);
+                                  print(widget.data!.type);
+                                  print(widget.data!.email);
                                   print(widget.data!.address);
                                   print(widget.data!.city);
                                   print(widget.data!.latitude);
                                   print(widget.data!.longitude);
                                   print(widget.data!.password);
-                                  print(widget.data!.phone);
+                                  print(widget.data!.phoneNumber);
                                   print(widget.data!.postal_code);
                                   print(widget.data!.province);
                                   print(widget.data!.subdistrict);
                                   print(widget.data!.type);
                                   print(widget.data!.ward);
+                                  print(widget.data!.image);
                                 },
                               ),
                             ]),

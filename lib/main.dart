@@ -69,6 +69,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Salv',
         theme: ThemeData(
+          useMaterial3: true,
             primarySwatch: Colors.blue,
             scaffoldBackgroundColor: lightBackgroundColor,
             appBarTheme: AppBarTheme(

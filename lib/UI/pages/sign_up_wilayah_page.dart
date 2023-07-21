@@ -6,8 +6,8 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 // import 'package:location/location.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:salvapp_amcc/UI/pages/sign_up_set_profil.dart';
 import 'package:salvapp_amcc/UI/pages/sign_up_wilayah_2_page.dart';
-
 
 import '../../blocs/shared/shared_methods.dart';
 import '../../common/common.dart';
@@ -16,6 +16,7 @@ import '../../models/city_model.dart';
 import '../../models/provinces_model.dart';
 import '../../models/sign_up_form_model.dart';
 import '../../models/subdistricts_model.dart';
+import '../../models/ward_model.dart';
 import '../../services/region_service.dart';
 import '../widgets/buttons.dart';
 import '../widgets/forms.dart';
@@ -42,37 +43,24 @@ class _SignupWilayahPageState extends State<SignupWilayahPage> {
   dynamic subdistrictGetId;
   dynamic selectedSubdistrict;
 
+  dynamic wardValue;
+  dynamic wardGetId;
+  dynamic selectedWard;
+
+  final TextEditingController kodeposController =
+      TextEditingController(text: '');
+  final TextEditingController alamatLengkapController =
+      TextEditingController(text: '');
+
   late Future<Provinsi> provinceList;
   late Future<Kota> cityList;
   late Future<Kecamatan> kecamatanList;
   bool? isloading = false;
-  //Location
-  // Location location = new Location();
-  // bool? serviceEnabled;
-  // LocationData? currentPosition;
 
   //Geolocator
   Position? currentPositions;
   String? _currentAddress;
   Position? _currentPosition;
-
-  // Future<dynamic> getLocation() async {
-  //   var permissionStatus = await Permission.location.status;
-  //   serviceEnabled = await location.serviceEnabled();
-  //   if (serviceEnabled!) serviceEnabled = await location.requestService();
-  //   print("hasil : $permissionStatus");
-  //   if (permissionStatus.isDenied ||
-  //       permissionStatus.isPermanentlyDenied ||
-  //       permissionStatus.isRestricted) {
-  //     print("denied");
-
-  //     await openAppSettings();
-  //   } else {
-  //     currentPosition = await location.getLocation();
-  //   }
-
-  //   return currentPosition;
-  // }
 
   Future<bool> _handleLocationPermission() async {
     bool serviceEnabled;
@@ -150,20 +138,42 @@ class _SignupWilayahPageState extends State<SignupWilayahPage> {
     return listSubdistricts;
   }
 
+  Future<Kelurahan> getWards(dynamic subDistrictId) async {
+    dynamic listWards;
+    await RegionService().getWard(int.parse(subDistrictId)).then((value) {
+      setState(() {
+        listWards = value;
+      });
+    });
+    return listWards;
+  }
+
+  // kelurahanList = RegionService().getWard(widget.data.KecamatanId);
+
   bool validate() {
-    if (selectedProvince == null ||
-        selectedCity == null ||
-        selectedSubdistrict == null || _currentPosition == null) {
-      return false;
+    if (widget.data!.type == "buyer") {
+      if (selectedProvince == null ||
+          selectedCity == null ||
+          selectedWard == null || 
+          kodeposController.text == "" ||
+          alamatLengkapController.text == "" ||
+          selectedSubdistrict == null ||
+          _currentPosition == null) {
+        return false;
+      }
+      return true;
+    } else {
+      if (selectedProvince == null || selectedCity == null) {
+        return false;
+      }
+      return true;
     }
-    return true;
   }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
     provinceList = RegionService().getProvinces();
   }
 
@@ -178,19 +188,6 @@ class _SignupWilayahPageState extends State<SignupWilayahPage> {
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Row(children: [Image.asset('assets/image/logo-png.png')]),
-                  const SizedBox(
-                    height: 53,
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        "Masukkan Data \nWilayah Anda",
-                        style: blackTextStyle.copyWith(
-                            fontSize: 20, fontWeight: FontWeight.w700),
-                      )
-                    ],
-                  ),
                   const SizedBox(
                     height: 23,
                   ),
@@ -204,10 +201,25 @@ class _SignupWilayahPageState extends State<SignupWilayahPage> {
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          CustomFormField(
+                            title: "Alamat Lengkap",
+                            controller: alamatLengkapController,
+                          ),
+                          const SizedBox(
+                            height: 17,
+                          ),
+                          CustomFormField(
+                            title: "Kode Pos",
+                            keyBoardType: TextInputType.number,
+                            controller: kodeposController,
+                          ),
+                          const SizedBox(
+                            height: 17,
+                          ),
                           Text(
                             "Provinsi",
                             style: blackTextStyle.copyWith(
-                                fontWeight: FontWeight.w600, fontSize: 14),
+                                fontWeight: regular, fontSize: 14),
                           ),
                           const SizedBox(
                             height: 12,
@@ -293,7 +305,7 @@ class _SignupWilayahPageState extends State<SignupWilayahPage> {
                           Text(
                             "Kota",
                             style: blackTextStyle.copyWith(
-                                fontWeight: FontWeight.w600, fontSize: 14),
+                                fontWeight: regular, fontSize: 14),
                           ),
                           const SizedBox(
                             height: 12,
@@ -377,7 +389,7 @@ class _SignupWilayahPageState extends State<SignupWilayahPage> {
                                         return CircularProgressIndicator();
                                       }))
                                   : DropdownButtonFormField(
-                                      hint: Text("Pilih Kota"),
+                                      hint: Text("Provinsi belum diisi"),
                                       decoration: InputDecoration(
                                           focusColor: greenColor,
                                           contentPadding:
@@ -394,7 +406,7 @@ class _SignupWilayahPageState extends State<SignupWilayahPage> {
                           Text(
                             "Kecamatan",
                             style: blackTextStyle.copyWith(
-                                fontWeight: FontWeight.w600, fontSize: 14),
+                                fontWeight: regular, fontSize: 14),
                           ),
                           const SizedBox(
                             height: 12,
@@ -452,6 +464,9 @@ class _SignupWilayahPageState extends State<SignupWilayahPage> {
                                                   selectedSubdistrict = value;
                                                   selectedSubdistrict
                                                       .toString();
+                                                  wardValue = getWards(
+                                                      selectedSubdistrict.id);
+                                                  selectedWard = null;
                                                 });
                                               });
                                         } else if (snapshot.hasError) {
@@ -473,7 +488,102 @@ class _SignupWilayahPageState extends State<SignupWilayahPage> {
                                         return CircularProgressIndicator();
                                       }))
                                   : DropdownButtonFormField(
-                                      hint: Text("Pilih Kecamatan"),
+                                      hint: Text("Kota belum diisi"),
+                                      decoration: InputDecoration(
+                                          focusColor: greenColor,
+                                          contentPadding:
+                                              const EdgeInsets.all(12),
+                                          border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8))),
+                                      items: [],
+                                      onChanged: (value) {},
+                                    )),
+                          const SizedBox(
+                            height: 12,
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                "Kelurahan",
+                                style: blackTextStyle.copyWith(
+                                    fontWeight: regular, fontSize: 14),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 17,
+                          ),
+                          Container(
+                              child: selectedSubdistrict != null
+                                  ? FutureBuilder(
+                                      future: wardValue,
+                                      builder: ((context,
+                                          AsyncSnapshot<Kelurahan> snapshot) {
+                                        var state = snapshot.connectionState;
+                                        if (state != ConnectionState.done) {
+                                          return DropdownButtonFormField(
+                                            hint: Text("Tunggu Sebentar.."),
+                                            decoration: InputDecoration(
+                                                focusColor: greenColor,
+                                                contentPadding:
+                                                    const EdgeInsets.all(12),
+                                                border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8))),
+                                            items: [],
+                                            onChanged: (value) {},
+                                          );
+                                        } else {
+                                          if (snapshot.hasData) {
+                                            return DropdownButtonFormField(
+                                              hint: selectedWard == null
+                                                  ? Text("Pilih Kelurahan")
+                                                  : Text(
+                                                      selectedWard.toString()),
+                                              value: selectedWard,
+                                              isExpanded: true,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  selectedWard = value;
+                                                });
+                                              },
+                                              decoration: InputDecoration(
+                                                  focusColor: greenColor,
+                                                  contentPadding:
+                                                      const EdgeInsets.all(12),
+                                                  border: OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8))),
+                                              items: snapshot
+                                                  .data!.kelurahanvalue
+                                                  .map((val) {
+                                                return DropdownMenuItem(
+                                                  value: val,
+                                                  child: Text(
+                                                    val.name,
+                                                  ),
+                                                );
+                                              }).toList(),
+                                            );
+                                          } else if (snapshot.hasError) {
+                                            return Center(
+                                                child: Material(
+                                              child: Text(
+                                                  snapshot.error.toString()),
+                                            ));
+                                          } else {
+                                            return const Material(
+                                              child: Text(""),
+                                            );
+                                          }
+                                        }
+                                      }),
+                                    )
+                                  : DropdownButtonFormField(
+                                      hint: Text("Kecamatan belum diisi"),
                                       decoration: InputDecoration(
                                           focusColor: greenColor,
                                           contentPadding:
@@ -491,7 +601,7 @@ class _SignupWilayahPageState extends State<SignupWilayahPage> {
                             Text(
                               "Ambil Lokasi Anda",
                               style: blackTextStyle.copyWith(
-                                  fontWeight: FontWeight.w600, fontSize: 14),
+                                  fontWeight: FontWeight.w400, fontSize: 14),
                             ),
                             const SizedBox(
                               height: 12,
@@ -518,12 +628,14 @@ class _SignupWilayahPageState extends State<SignupWilayahPage> {
                                       isloading = true;
                                     });
                                     await _getCurrentPosition();
-                                    
+
                                     setState(() {
                                       isloading = false;
                                     });
-                                    print(_currentPosition!.latitude.toString());
-                                    print(_currentPosition!.longitude.toString());
+                                    print(
+                                        _currentPosition!.latitude.toString());
+                                    print(
+                                        _currentPosition!.longitude.toString());
                                   },
                                   child: Column(
                                     crossAxisAlignment:
@@ -572,17 +684,24 @@ class _SignupWilayahPageState extends State<SignupWilayahPage> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => SignupWilayah2Page(
+                                      builder: (context) => SignupSetProfilPage(
                                           data: widget.data!.copyWith(
-                                            latitude: _currentPosition == null ? 0 : _currentPosition?.latitude,
-                                            longitude: _currentPosition == null ? 0: _currentPosition?.longitude,
+                                              latitude: _currentPosition == null
+                                                  ? 0
+                                                  : _currentPosition?.latitude,
+                                              longitude: _currentPosition ==
+                                                      null
+                                                  ? 0
+                                                  : _currentPosition?.longitude,
                                               province: selectedProvince.name
                                                   .toString(),
                                               city:
                                                   selectedCity.name.toString(),
-                                              KecamatanId: selectedSubdistrict
-                                                  .id
-                                                  .toString(),
+                                              ward: selectedWard.name,
+                                              postal_code:
+                                                  kodeposController.text,
+                                              address:
+                                                  alamatLengkapController.text,
                                               subdistrict: selectedSubdistrict
                                                   .name
                                                   .toString())),

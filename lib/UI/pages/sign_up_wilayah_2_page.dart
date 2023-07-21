@@ -39,7 +39,7 @@ class _SignupWilayah2PageState extends State<SignupWilayah2Page> {
   void initState() {
     // TODO: implement initState
 
-    kelurahanList = RegionService().getWard(widget.data.KecamatanId);
+    // kelurahanList = RegionService().getWard(widget.data.KecamatanId);
   }
 
   bool validate() {
@@ -201,12 +201,12 @@ class _SignupWilayah2PageState extends State<SignupWilayah2Page> {
                           onPressed: () {
                             if (validate()) {
                               widget.data = SignupFormModel(
-                                KecamatanId: widget.data!.KecamatanId,
+                                // KecamatanId: widget.data!.KecamatanId,
                                 username: widget.data!.username,
                                 name: widget.data!.name,
                                 password: widget.data!.password,
                                 type: widget.data!.type,
-                                phone: widget.data!.phone,
+                                phoneNumber: widget.data!.phoneNumber,
                                 province: widget.data!.province,
                                 city: widget.data!.city,
                                 subdistrict: widget.data!.subdistrict,
