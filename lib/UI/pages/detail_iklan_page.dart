@@ -70,6 +70,7 @@ void _launchMapsUrl(double lat, double lon) async {
                     if (state is IklanFailed) {
                       showCustomSnacKbar(context, state.e);
                     }
+                    
                   },
                   builder: (context, state) {
                     if (state is IklanBuyerGetDetailSuccess) {

@@ -34,6 +34,7 @@ import 'package:firebase_core/firebase_core.dart';
 
 import 'blocs/edukasi/edukasi_bloc.dart';
 import 'common/common.dart';
+import 'models/topup_form_model.dart';
 
 
 void main()  {
@@ -107,7 +108,7 @@ class MyApp extends StatelessWidget {
           CameraPreviewPage.routeName: (context) =>
               CameraPreviewPage(picture: '', label: ''),
          TopupAmountPage.routeName: (context) => TopupAmountPage(),
-         WebviewMidtransPage.routeName: (context) => WebviewMidtransPage(),
+         WebviewMidtransPage.routeName: (context) => WebviewMidtransPage(topupFormModel: ModalRoute.of(context)!.settings.arguments as TopupFormModel),
         },
       ),
     );

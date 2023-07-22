@@ -1,31 +1,26 @@
 import 'package:salvapp_amcc/blocs/shared/shared_values.dart';
+import 'package:salvapp_amcc/models/midtrans_model.dart';
 
 import '../models/topup_form_model.dart';
 import 'auth_services.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-class TopUpServices{
-   Future<String> topUp(TopupFormModel data) async {
+class TopUpServices {
+  Future<MidtransPayment> topUp(TopupFormModel data) async {
     try {
-      print(data.toJson());
-      final token = await AuthService().getToken();
-
-      final res = await http.post(
-        Uri.parse('{$baseUrlSalv}midtrans/top-up/${data.amount}}'),
+      final res = await http.get(
+        Uri.parse('${baseUrlSalv}midtrans/top-up/${int.parse(data.amount!)}'),
         headers: {
-          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+          'Authorization': await AuthService().getToken(),
         },
-        body: data.toJson(),
       );
-
-      print(res.body);
-
       if (res.statusCode == 200) {
-        return jsonDecode(res.body)['redirect_url'];
+        return MidtransPayment.fromJson(jsonDecode(res.body));
+      } else {
+        throw jsonDecode(res.body)['message'];
       }
-
-      throw jsonDecode(res.body)['message'];
     } catch (e) {
       rethrow;
     }

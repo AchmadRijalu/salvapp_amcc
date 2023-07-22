@@ -7,6 +7,7 @@ import 'package:salvapp_amcc/UI/pages/webview_midtrans_page.dart';
 import 'package:salvapp_amcc/models/topup_form_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../blocs/shared/shared_methods.dart';
 import '../../common/common.dart';
 import '../widgets/buttons.dart';
 
@@ -201,7 +202,15 @@ class _TopupAmountPageState extends State<TopupAmountPage> {
                 //   Navigator.pushNamedAndRemoveUntil(
                 //       context, '/topup-success', (route) => false);
                 // }
-                Navigator.pushNamed(context, WebviewMidtransPage.routeName);
+                if (amountController.text == '0') {
+                  showCustomSnacKbar(context, "Jumlah Topup tidak boleh 0");
+                  return;
+                } else {
+                  // print(amountController.text.replaceAll('.', ''));
+                  Navigator.pushNamed(context, WebviewMidtransPage.routeName,
+                      arguments: TopupFormModel(
+                          amount: amountController.text.replaceAll('.', '')));
+                }
               },
             ),
             const SizedBox(
