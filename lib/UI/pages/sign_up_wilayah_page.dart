@@ -256,7 +256,6 @@ class _SignupWilayahPageState extends State<SignupWilayahPage> {
                                 indicatorStyle: IndicatorStyle(
                                   color: greyColor,
                                 ),
-                                
                                 axis: TimelineAxis.horizontal,
                                 alignment: TimelineAlign.center,
                                 endChild: Container(
@@ -963,6 +962,9 @@ class _SignupWilayahPageState extends State<SignupWilayahPage> {
                       ]),
                 ),
               ),
+              Padding(
+                  padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).viewInsets.bottom))
             ]),
           ),
         ));

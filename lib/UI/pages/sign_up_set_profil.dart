@@ -47,6 +47,7 @@ class _SignupSetProfilPageState extends State<SignupSetProfilPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: false,
+        appBar: AppBar(title: Text("Daftar")),
         backgroundColor: lightBackgroundColor,
         body: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
@@ -125,8 +126,12 @@ class _SignupSetProfilPageState extends State<SignupSetProfilPage> {
                                       width: MediaQuery.of(context).size.width /
                                           3.5,
                                       constraints: const BoxConstraints(),
-                                      child: Wrap(
-                                          children: [Text("Informasi Dasar", style: greenTextStyle,)]),
+                                      child: Wrap(children: [
+                                        Text(
+                                          "Informasi Dasar",
+                                          style: greenTextStyle,
+                                        )
+                                      ]),
                                     ),
                                     startChild: Container(
                                       width: MediaQuery.of(context).size.width /
@@ -149,7 +154,12 @@ class _SignupSetProfilPageState extends State<SignupSetProfilPage> {
                                       width: MediaQuery.of(context).size.width /
                                           3.5,
                                       constraints: const BoxConstraints(),
-                                      child: Wrap(children: [Text("Lokasi", style: greenTextStyle,)]),
+                                      child: Wrap(children: [
+                                        Text(
+                                          "Lokasi",
+                                          style: greenTextStyle,
+                                        )
+                                      ]),
                                     ),
                                     startChild: Container(
                                       width: MediaQuery.of(context).size.width /
@@ -169,8 +179,12 @@ class _SignupSetProfilPageState extends State<SignupSetProfilPage> {
                                       width: MediaQuery.of(context).size.width /
                                           3.5,
                                       constraints: const BoxConstraints(),
-                                      child:
-                                          Wrap(children: [Text("Foto Profil", style: greenTextStyle,)]),
+                                      child: Wrap(children: [
+                                        Text(
+                                          "Foto Profil",
+                                          style: greenTextStyle,
+                                        )
+                                      ]),
                                     ),
                                     startChild: Container(
                                       width: MediaQuery.of(context).size.width /
@@ -267,22 +281,6 @@ class _SignupSetProfilPageState extends State<SignupSetProfilPage> {
                                           context
                                               .read<AuthBloc>()
                                               .add(AuthRegister(widget.data));
-                                          // print(widget.data!.username);
-                                          // print(widget.data!.name);
-                                          // print(widget.data!.type);
-                                          // print(widget.data!.email);
-                                          // print(widget.data!.address);
-                                          // print(widget.data!.city);
-                                          // print(widget.data!.latitude);
-                                          // print(widget.data!.longitude);
-                                          // print(widget.data!.password);
-                                          // print(widget.data!.phoneNumber);
-                                          // print(widget.data!.postal_code);
-                                          // print(widget.data!.province);
-                                          // print(widget.data!.subdistrict);
-                                          // print(widget.data!.type);
-                                          // print(widget.data!.ward);
-                                          // print(widget.data!.image);
                                         },
                                       ),
                                     )
