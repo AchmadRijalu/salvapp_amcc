@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:salvapp_amcc/UI/pages/sign_up_wilayah_page.dart';
+import 'package:timeline_tile/timeline_tile.dart';
 
 import '../../blocs/shared/shared_methods.dart';
 import '../../common/common.dart';
@@ -26,7 +27,7 @@ class _SignupPageState extends State<SignupPage> {
   final TextEditingController nomorteleponController =
       TextEditingController(text: '');
   final TextEditingController emailController = TextEditingController(text: '');
-final TextEditingController usernameController =
+  final TextEditingController usernameController =
       TextEditingController(text: '');
   final TextEditingController katasandiController =
       TextEditingController(text: '');
@@ -86,9 +87,7 @@ final TextEditingController usernameController =
       resizeToAvoidBottomInset: false,
       appBar: AppBar(title: const Text("Daftar")),
       body: Container(
-        child: ListView(
-          physics: BouncingScrollPhysics(),
-          children: [
+        child: ListView(physics: BouncingScrollPhysics(), children: [
           Container(
             color: greenColor,
             width: double.infinity,
@@ -118,14 +117,95 @@ final TextEditingController usernameController =
             ]),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 44, horizontal: 26),
+            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 26),
             child: Container(
                 child: Column(
               children: [
                 Container(
+                  height: 40,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TimelineTile(
+                        indicatorStyle: IndicatorStyle(
+                          color: greenColor,
+                        ),
+                        afterLineStyle: LineStyle(color: greenColor),
+                        isFirst: true,
+                        axis: TimelineAxis.horizontal,
+                        alignment: TimelineAlign.center,
+                        endChild: Container(
+                          margin: const EdgeInsets.only(top: 14),
+                          alignment: Alignment.center,
+                          width: MediaQuery.of(context).size.width / 3.5,
+                          constraints: const BoxConstraints(),
+                          child: Wrap(children: [
+                            Text(
+                              "Informasi Dasar",
+                              style: greenTextStyle,
+                            )
+                          ]),
+                        ),
+                        startChild: Container(
+                          width: MediaQuery.of(context).size.width / 3.5,
+                        ),
+                      ),
+                      TimelineTile(
+                        indicatorStyle: IndicatorStyle(
+                          color: greyColor,
+                        ),
+                        axis: TimelineAxis.horizontal,
+                        alignment: TimelineAlign.center,
+                        endChild: Container(
+                          margin: const EdgeInsets.only(top: 14),
+                          alignment: Alignment.center,
+                          width: MediaQuery.of(context).size.width / 3.5,
+                          constraints: const BoxConstraints(),
+                          child: Wrap(children: [
+                            Text(
+                              "Lokasi",
+                              style: greenTextStyle,
+                            )
+                          ]),
+                        ),
+                        startChild: Container(
+                          width: MediaQuery.of(context).size.width / 3.5,
+                        ),
+                      ),
+                      TimelineTile(
+                        indicatorStyle: IndicatorStyle(
+                          color: greyColor,
+                        ),
+                        isLast: true,
+                        axis: TimelineAxis.horizontal,
+                        alignment: TimelineAlign.center,
+                        endChild: Container(
+                          margin: const EdgeInsets.only(top: 14),
+                          alignment: Alignment.center,
+                          width: MediaQuery.of(context).size.width / 3.5,
+                          constraints: const BoxConstraints(),
+                          child: Wrap(children: [
+                            Text(
+                              "Foto Profil",
+                              style: greenTextStyle,
+                            )
+                          ]),
+                        ),
+                        startChild: Container(
+                          width: MediaQuery.of(context).size.width / 3.5,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 44,
+                ),
+                Container(
                   width: double.infinity,
                   child: Column(children: [
                     CustomFormField(
+                      isShowTitle: false,
                       title: "Nama Lengkap",
                       controller: namaLengkapController,
                     ),
@@ -133,6 +213,7 @@ final TextEditingController usernameController =
                       height: 18,
                     ),
                     CustomFormField(
+                      isShowTitle: false,
                       title: "Username",
                       controller: usernameController,
                     ),
@@ -154,6 +235,7 @@ final TextEditingController usernameController =
                           ),
                           //PASSWORD
                           TextFormField(
+                            cursorColor: greenColor,
                             validator: (val) =>
                                 val!.isEmpty || !val.contains("@")
                                     ? "Masukkan format email yang benar"
@@ -162,6 +244,11 @@ final TextEditingController usernameController =
                                 AutovalidateMode.onUserInteraction,
                             controller: emailController,
                             decoration: InputDecoration(
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide:
+                                      BorderSide(color: greenColor, width: 2.0),
+                                ),
                                 hintText: "Masukkan Email",
                                 contentPadding: const EdgeInsets.all(12),
                                 border: OutlineInputBorder(
@@ -174,6 +261,7 @@ final TextEditingController usernameController =
                       height: 18,
                     ),
                     CustomFormField(
+                      isShowTitle: false,
                       controller: nomorteleponController,
                       title: "Nomor Telepon",
                       keyBoardType: TextInputType.number,
@@ -196,15 +284,28 @@ final TextEditingController usernameController =
                           ),
                           //PASSWORD
                           TextFormField(
+                            cursorColor: greenColor,
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
                             controller: katasandiController,
                             obscureText: _obscureText,
                             decoration: InputDecoration(
+                                hintText: "Masukkan Kata Sandi",
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide:
+                                      BorderSide(color: greenColor, width: 2.0),
+                                ),
                                 suffixIcon: IconButton(
                                   icon: _obscureText
-                                      ? Icon(Icons.visibility_off)
-                                      : Icon(Icons.visibility),
+                                      ? Icon(
+                                          Icons.visibility_off,
+                                          color: greenColor,
+                                        )
+                                      : Icon(
+                                          Icons.visibility,
+                                          color: greenColor,
+                                        ),
                                   onPressed: () {
                                     setState(() {
                                       _obscureText = !_obscureText;
@@ -226,7 +327,7 @@ final TextEditingController usernameController =
                         Text(
                           "Tipe",
                           style: blackTextStyle.copyWith(
-                              fontWeight: FontWeight.w600, fontSize: 14),
+                              fontWeight: regular, fontSize: 14),
                         ),
                       ],
                     ),
@@ -235,6 +336,12 @@ final TextEditingController usernameController =
                     ),
                     DropdownButtonFormField(
                       decoration: InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide:
+                                BorderSide(color: greenColor, width: 2.0),
+                          ),
+                          hintText: "Pilih Tipe",
                           focusColor: greenColor,
                           contentPadding: const EdgeInsets.all(12),
                           border: OutlineInputBorder(
@@ -268,13 +375,14 @@ final TextEditingController usernameController =
                                       email: emailController.text,
                                       name: namaLengkapController.text,
                                       password: katasandiController.text,
-                                      type: tipe == "buyer" ?2 : 3,
-                                      phoneNumber: nomorteleponController.text));
+                                      type: tipe == "buyer" ? 2 : 3,
+                                      phoneNumber:
+                                          nomorteleponController.text));
                             },
                           ));
                         } else {
-                          showCustomSnacKbar(
-                              context, "Form tidak boleh kosong dan harus sesuai format");
+                          showCustomSnacKbar(context,
+                              "Form tidak boleh kosong dan harus sesuai format");
                         }
                         // Navigator.pushNamed(context, SignupWilayahPage.routeName);
                       },

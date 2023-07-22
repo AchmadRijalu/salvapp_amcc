@@ -46,7 +46,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           final SigninFormModel? data =
               await AuthService().getCredentialFromLocal();
           final Userdata user = await AuthService().login(data!);
-
           emit(AuthSuccess(user));
         } catch (e) {
           print(e);

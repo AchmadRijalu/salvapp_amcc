@@ -8,6 +8,7 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:salvapp_amcc/UI/pages/pencairan_poin_page.dart';
 import 'package:salvapp_amcc/UI/pages/sign_in_page.dart';
+import 'package:salvapp_amcc/UI/pages/topup_amount_page.dart';
 import 'package:salvapp_amcc/UI/pages/topup_point_page.dart';
 import 'package:salvapp_amcc/UI/pages/ubah_data_alamat_page.dart';
 import 'package:salvapp_amcc/UI/pages/ubah_data_profil_page.dart';
@@ -124,7 +125,7 @@ class ProfilPage extends StatelessWidget {
                         GestureDetector(
                           onTap: () {
                             Navigator.pushNamed(
-                                context, TopupPointPage.routeName);
+                                context, TopupAmountPage.routeName);
                           },
                           child: Container(
                             margin: const EdgeInsets.only(bottom: 30),

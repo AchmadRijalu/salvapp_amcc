@@ -1,9 +1,5 @@
-// To parse this JSON data, do
-//
-//     final user = userFromJson(jsonString);
 
 import 'dart:convert';
-import 'dart:ffi';
 
 User userFromJson(String str) => User.fromJson(json.decode(str));
 
@@ -17,11 +13,11 @@ class User {
     this.tokenType,
   });
 
-  final Userdata? data;
-  final String? message;
-  final int? statusCode;
+   Userdata? data;
+   String? message;
+   int? statusCode;
 
-  final String? tokenType;
+   String? tokenType;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
         data: Userdata.fromJson(json["data"]),
@@ -61,26 +57,26 @@ class Userdata {
       this.longitude,
       this.point});
 
-  final int? type;
-  final String? token;
-  final String? name;
-  final String? password;
-  final String? username;
-  final String? email;
-  final String? phoneNumber;
-  final String? province;
-  final String? city;
-  final String? subdistrict;
-  final String? ward;
-  final String? address;
-  final String? postalCode;
-  final int? point;
-  final String? image;
-  final dynamic latitude;
-  final dynamic longitude;
-  final String? id;
-  final String? createdAt;
-  final dynamic updatedAt;
+   int? type;
+   String? token;
+   String? name;
+   String? password;
+   String? username;
+   String? email;
+   String? phoneNumber;
+   String? province;
+   String? city;
+   String? subdistrict;
+   String? ward;
+   String? address;
+   String? postalCode;
+   int? point;
+   String? image;
+   dynamic latitude;
+   dynamic longitude;
+   String? id;
+   String? createdAt;
+   dynamic updatedAt;
 
   factory Userdata.fromJson(Map<String, dynamic> json) => Userdata(
         address: json["address"],
@@ -106,7 +102,7 @@ class Userdata {
       );
 
   // Map<String, dynamic> toJson() {
-  //   final Map<String, dynamic> data = <String, dynamic>{};
+  //    Map<String, dynamic> data = <String, dynamic>{};
   //   data['address'] = address;
   //   data['city'] = city;
   //   data['id'] = id;
@@ -153,10 +149,10 @@ class Userdata {
 
 // To parse this JSON data, do
 //
-//     final user = userFromJson(jsonString);
+//      user = userFromJson(jsonString);
 
 // To parse this JSON data, do
 //
-//     final user = userFromJson(jsonString);
+//      user = userFromJson(jsonString);
 
 

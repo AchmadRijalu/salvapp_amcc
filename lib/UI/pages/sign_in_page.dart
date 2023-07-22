@@ -138,15 +138,23 @@ class _SigninPageState extends State<SigninPage> {
                                       ),
                                       //PASSWORD
                                       TextFormField(
+                                        cursorColor: greenColor,
                                         autovalidateMode:
                                             AutovalidateMode.onUserInteraction,
                                         controller: katasandiController,
                                         obscureText: _obscureText,
                                         decoration: InputDecoration(
+                                            focusedBorder: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                              borderSide: BorderSide(
+                                                  color: greenColor,
+                                                  width: 2.0),
+                                            ),
                                             suffixIcon: IconButton(
                                               icon: _obscureText
-                                                  ? Icon(Icons.visibility_off)
-                                                  : Icon(Icons.visibility),
+                                                  ? Icon(Icons.visibility_off, color: greenColor,)
+                                                  : Icon(Icons.visibility, color: greenColor,),
                                               onPressed: () {
                                                 setState(() {
                                                   _obscureText = !_obscureText;
@@ -209,7 +217,12 @@ class _SigninPageState extends State<SigninPage> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
-                                            Text("Tidak mempunyai akun?", style: blackTextStyle.copyWith(color: blackColor, fontSize: 14),),
+                                            Text(
+                                              "Tidak mempunyai akun?",
+                                              style: blackTextStyle.copyWith(
+                                                  color: blackColor,
+                                                  fontSize: 14),
+                                            ),
                                             TextButton(
                                               style: TextButton.styleFrom(
                                                   padding: EdgeInsets.zero),

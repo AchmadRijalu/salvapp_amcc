@@ -27,7 +27,8 @@ class AuthService {
           throw "Username sudah terpakai";
         } else {
           print("200");
-          final user = Userdata.fromJson(jsonDecode(response.body)['data']);
+          Userdata user = Userdata.fromJson(jsonDecode(response.body)['data']);
+          // user.password = data.password;
           await storeCredentialToLocal(user);
           return user;
         }
@@ -49,12 +50,12 @@ class AuthService {
 
       if (response.statusCode == 200) {
         var resHolder = jsonDecode(response.body)['message'];
-
+        print(resHolder);
         if (resHolder == "user not found") {
           throw "Username/Password Salah";
         } else {
           final user = Userdata.fromJson(jsonDecode(response.body)['data']);
-        
+          user.password = data.password;
           await storeCredentialToLocal(user);
 
           return user;
@@ -62,12 +63,14 @@ class AuthService {
       } else {
         throw jsonDecode(response.body)['message'];
       }
-    } catch (e) {
-      print("500");
+    } catch (e){
+      // print("500");
+      // print("eror");
       print(e);
       rethrow;
     }
   }
+  
 
   Future<void> logout() async {
     try {
@@ -103,7 +106,6 @@ class AuthService {
   Future<SigninFormModel?> getCredentialFromLocal() async {
     try {
       const storage = FlutterSecureStorage();
-
       Map<String, dynamic> values = await storage.readAll();
       if (values['username'] == null ||
           values['password'] == null ||

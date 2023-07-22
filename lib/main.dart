@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:salvapp_amcc/UI/pages/topup_amount_page.dart';
 
 import 'UI/pages/beranda_detail.dart';
 import 'UI/pages/beranda_page.dart';
@@ -19,7 +20,6 @@ import 'UI/pages/profil_page.dart';
 import 'UI/pages/sign_in_page.dart';
 import 'UI/pages/sign_up_page.dart';
 import 'UI/pages/sign_up_success_page.dart';
-import 'UI/pages/sign_up_wilayah_2_page.dart';
 import 'UI/pages/splash_page.dart';
 import 'UI/pages/tambah_iklan_limbah1_page.dart';
 import 'UI/pages/tambah_iklan_limbah2_page.dart';
@@ -69,7 +69,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Salv',
         theme: ThemeData(
-          useMaterial3: true,
+         
             primarySwatch: Colors.blue,
             scaffoldBackgroundColor: lightBackgroundColor,
             appBarTheme: AppBarTheme(
@@ -107,7 +107,8 @@ class MyApp extends StatelessWidget {
           TopupPointPage.routeName: (context) => TopupPointPage(),
           DetailIklanPabrikPage.routeName: (context) => DetailIklanPabrikPage(),
           CameraPreviewPage.routeName: (context) =>
-              CameraPreviewPage(picture: '', label: '')
+              CameraPreviewPage(picture: '', label: ''),
+         TopupAmountPage.routeName: (context) => TopupAmountPage(),
         },
       ),
     );

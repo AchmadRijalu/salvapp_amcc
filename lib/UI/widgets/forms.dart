@@ -4,7 +4,6 @@ import 'package:flutter/src/widgets/placeholder.dart';
 
 import '../../common/common.dart';
 
-
 class CustomFormField extends StatelessWidget {
   final String? title;
   final bool? obscureText;
@@ -13,7 +12,6 @@ class CustomFormField extends StatelessWidget {
   final TextInputType? keyBoardType;
   final AutovalidateMode? autovalidateMode;
   final bool? isWeight;
-  
 
   const CustomFormField(
       {super.key,
@@ -32,20 +30,32 @@ class CustomFormField extends StatelessWidget {
       children: [
         Text(
           title!,
-          style: blackTextStyle.copyWith(
-              fontWeight: regular, fontSize: 14),
+          style: blackTextStyle.copyWith(fontWeight: regular, fontSize: 14),
         ),
         const SizedBox(
           height: 12,
         ),
         TextFormField(
+          cursorColor: greenColor,
           autovalidateMode: autovalidateMode,
           keyboardType: keyBoardType,
           controller: controller,
           obscureText: obscureText!,
           decoration: InputDecoration(
-            suffix: isWeight! ? Text("/Kilogram", style: blackTextStyle.copyWith(fontWeight: semiBold, ),): null,
-              hintText: isShowTitle ? '' : title,
+            
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide(color: greenColor, width: 2.0),
+              ),
+              suffix: isWeight!
+                  ? Text(
+                      "/Kilogram",
+                      style: blackTextStyle.copyWith(
+                        fontWeight: semiBold,
+                      ),
+                    )
+                  : null,
+              hintText: isShowTitle ? '' : "Masukkan ${title}",
               contentPadding: const EdgeInsets.all(12),
               border:
                   OutlineInputBorder(borderRadius: BorderRadius.circular(8))),

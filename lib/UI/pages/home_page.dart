@@ -24,13 +24,7 @@ class _HomePageState extends State<HomePage> {
   int currentIndex = 0;
 
   List<BottomNavigationBarItem> bottomNavbarItems = [
-    BottomNavigationBarItem(
-        icon: SvgPicture.asset("assets/image/icon_beranda.svg"),
-        activeIcon: SvgPicture.asset(
-          "assets/image/icon_beranda.svg",
-          color: greenColor,
-        ),
-        label: "Beranda"),
+    
     BottomNavigationBarItem(
         icon: SvgPicture.asset(
           "assets/image/icon_iklan.svg",
@@ -70,7 +64,6 @@ class _HomePageState extends State<HomePage> {
   ];
 
   List<Widget> listWidget = [
-    BerandaPage(),
     IklanPage(),
     PenawaranPage(),
     EdukasiPage(),
