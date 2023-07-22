@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:salvapp_amcc/UI/pages/topup_amount_page.dart';
+import 'package:salvapp_amcc/UI/pages/webview_midtrans_page.dart';
 
 import 'UI/pages/beranda_detail.dart';
 import 'UI/pages/beranda_page.dart';
@@ -25,8 +26,6 @@ import 'UI/pages/tambah_iklan_limbah1_page.dart';
 import 'UI/pages/tambah_iklan_limbah2_page.dart';
 import 'UI/pages/tambah_iklan_limbah3_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'UI/pages/topup_point_page.dart';
 import 'UI/pages/ubah_data_alamat_page.dart';
 import 'UI/pages/ubah_data_profil_page.dart';
 import 'blocs/auth/auth_bloc.dart';
@@ -104,11 +103,11 @@ class MyApp extends StatelessWidget {
           TambahIklanLimbah1Page.routeName: (context) => TambahIklanLimbah1Page(
                 step: ModalRoute.of(context)!.settings.arguments as int,
               ),
-          TopupPointPage.routeName: (context) => TopupPointPage(),
           DetailIklanPabrikPage.routeName: (context) => DetailIklanPabrikPage(),
           CameraPreviewPage.routeName: (context) =>
               CameraPreviewPage(picture: '', label: ''),
          TopupAmountPage.routeName: (context) => TopupAmountPage(),
+         WebviewMidtransPage.routeName: (context) => WebviewMidtransPage(),
         },
       ),
     );

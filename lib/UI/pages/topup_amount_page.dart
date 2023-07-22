@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:intl/intl.dart';
+import 'package:salvapp_amcc/UI/pages/webview_midtrans_page.dart';
 import 'package:salvapp_amcc/models/topup_form_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -195,11 +196,12 @@ class _TopupAmountPageState extends State<TopupAmountPage> {
             CustomFilledButton(
               title: "Top Up Sekarang",
               onPressed: () async {
-                if (await Navigator.pushNamed(context, '/pin') == true) {
-                  await launchUrl(Uri.parse("https://demo.midtrans.com/"));
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, '/topup-success', (route) => false);
-                }
+                // if (await Navigator.pushNamed(context, '/pin') == true) {
+                //   await launchUrl(Uri.parse("https://demo.midtrans.com/"));
+                //   Navigator.pushNamedAndRemoveUntil(
+                //       context, '/topup-success', (route) => false);
+                // }
+                Navigator.pushNamed(context, WebviewMidtransPage.routeName);
               },
             ),
             const SizedBox(
