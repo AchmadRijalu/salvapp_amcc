@@ -59,7 +59,7 @@ class _CameraPageState extends State<CameraPage> {
         await pictureRef.putString(dataUrl, format: PutStringFormat.dataUrl);
         String downloadURL = await pictureRef.getDownloadURL();
         final response = await http.post(
-            Uri.parse("https://salv.cloud/image/upload"),
+            Uri.parse("http://40.71.59.199/predict"),
             headers: {'Content-Type': 'application/json'},
             body: jsonEncode({"image": downloadURL}));
 

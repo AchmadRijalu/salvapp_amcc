@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "365890102802",
+    "project_id": "salv-amcc",
+    "storage_bucket": "salv-amcc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:365890102802:android:7b81202cfc60e9c6ee5acb",
+        "android_client_info": {
+          "package_name": "com.example.salvapp_amcc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "365890102802-ldlgq2c4pekq6svrs4nttjkjv866it9l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmsZEJfmtGdYBC7Eahmiq9YF471WXV8xM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "365890102802-ldlgq2c4pekq6svrs4nttjkjv866it9l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
