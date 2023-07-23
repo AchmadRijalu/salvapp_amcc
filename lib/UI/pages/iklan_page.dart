@@ -56,6 +56,7 @@ class _IklanPageState extends State<IklanPage> {
       usernameIklanA = authState.user!.username!;
       userType = authState.user!.type.toString();
       userId = authState.user!.id;
+      print(userId);
 
       // print(authState.user!.token);
     }
@@ -78,7 +79,7 @@ class _IklanPageState extends State<IklanPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: userType == "buyer"
+      floatingActionButton: userType == "2"
           ? Container()
           : FloatingActionButton(
               backgroundColor: blueColor,
@@ -158,7 +159,7 @@ class _IklanPageState extends State<IklanPage> {
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            if (userType == "buyer") ...[
+                            if (userType == "2") ...[
                               buildTambahIklan(context, usernameIklanA),
                             ],
                             // Text(userList.length.toString()),
@@ -175,7 +176,7 @@ class _IklanPageState extends State<IklanPage> {
                             const SizedBox(
                               height: 6,
                             ),
-                            if (userType == "seller") ...[
+                            if (userType == "3") ...[
                               BlocProvider(
                                 create: (context) => _iklanBloc,
                                 child: BlocBuilder<IklanBloc, IklanState>(
@@ -242,7 +243,7 @@ class _IklanPageState extends State<IklanPage> {
                                   },
                                 ),
                               ),
-                            ] else if (userType == "buyer") ...[
+                            ] else if (userType == "2") ...[
                               BlocProvider(
                                 create: (context) =>
                                     IklanBloc()..add(IklanGetAllBuyer(userId)),
@@ -268,7 +269,6 @@ class _IklanPageState extends State<IklanPage> {
                                         itemBuilder: (context, index) {
                                           var iklan =
                                               state.iklanBuyer!.data[index];
-
                                           getAdvertisementId = iklan.id;
                                           String iklanDate = iklan.endDate;
                                           final iklanDateConv =
@@ -305,14 +305,20 @@ class _IklanPageState extends State<IklanPage> {
                                     }
 
                                     if (state is IklanFailed) {
-                                      return Center(
-                                        child: Text(
-                                          "Terjadi Kesalahan :(",
-                                          style: blackTextStyle.copyWith(
-                                              fontSize: 16,
-                                              fontWeight: semiBold),
-                                        ),
-                                      );
+                                      return Container(
+                                          height: 100,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                "Terjadi Kesalahan :(",
+                                                style: blackTextStyle.copyWith(
+                                                    fontSize: 16,
+                                                    fontWeight: semiBold),
+                                              ),
+                                            ],
+                                          ));
                                     }
                                     return Container();
                                   },
@@ -333,7 +339,7 @@ class _IklanPageState extends State<IklanPage> {
 
 Widget buildTambahIklan(BuildContext context, String? usernameIklan) {
   return Container(
-    padding: const EdgeInsets.symmetric(horizontal: 37),
+    
     width: double.infinity,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,

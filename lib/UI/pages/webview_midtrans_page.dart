@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:salvapp_amcc/UI/pages/topup_success.dart';
 import 'package:salvapp_amcc/blocs/topup/topup_bloc.dart';
 import 'package:salvapp_amcc/models/topup_form_model.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -76,14 +77,16 @@ class _WebviewMidtransPageState extends State<WebviewMidtransPage> {
                           onWebResourceError: (WebResourceError error) {},
                           onNavigationRequest: (NavigationRequest request) {
                             if (request.url.contains("verifyPaymentPin")) {
-                              print(request.url);
-                               Navigator.pop(context);
-                              return NavigationDecision.prevent;
+                              Future.delayed(Duration(seconds: 2), () {
+                                Navigator.pushAndRemoveUntil(context,
+                                    MaterialPageRoute(
+                                  builder: (context) {
+                                    return TopUpSuccessPage();
+                                  },
+                                ), (route) => false);
+                              });
                             }
-                            if (request.url.startsWith('verifyPaymentPin')) {
-                              Navigator.pop(context);
-                              return NavigationDecision.prevent;
-                            }
+
                             return NavigationDecision.navigate;
                           },
                         ),

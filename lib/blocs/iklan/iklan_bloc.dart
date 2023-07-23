@@ -47,11 +47,11 @@ class IklanBloc extends Bloc<IklanEvent, IklanState> {
       if (event is IklanAddAds) {
         try {
           emit(IklanLoading());
-
           final tambahIklan = await IklanService().addIklanBuyer(event.data!);
 
           emit(IklanAddSuccess(tambahIklan));
         } catch (e) {
+          print(e.toString());
           emit(IklanFailed(e.toString()));
         }
       }
@@ -59,7 +59,9 @@ class IklanBloc extends Bloc<IklanEvent, IklanState> {
       if (event is IklanGetAllBuyer) {
         try {
           emit(IklanLoading());
+          print(event.userdata!);
           final iklan = await IklanService().getIklanBuyer(event.userdata!);
+          
           emit(IklanBuyerGetSuccess(iklan));
         } catch (e) {
           emit(IklanFailed(e.toString()));
@@ -69,8 +71,10 @@ class IklanBloc extends Bloc<IklanEvent, IklanState> {
       if (event is IklanGetDetailBuyer) {
         try {
           emit(IklanLoading());
+          print("hahah ${event.adsId}");
           final getIklan =
               await IklanService().getIklanBuyerDetail(event.adsId);
+            
           emit(IklanBuyerGetDetailSuccess(getIklan));
         } catch (e) {
           emit(IklanFailed(e.toString()));

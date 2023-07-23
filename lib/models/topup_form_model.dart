@@ -1,5 +1,5 @@
 class TopupFormModel {
-  final String? amount;
+  final dynamic amount;
 
   TopupFormModel({
     this.amount,

@@ -17,6 +17,7 @@ class TopUpServices {
         },
       );
       if (res.statusCode == 200) {
+        print(res.body);
         return MidtransPayment.fromJson(jsonDecode(res.body));
       } else {
         throw jsonDecode(res.body)['message'];

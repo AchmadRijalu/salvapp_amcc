@@ -3,6 +3,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:salvapp_amcc/UI/pages/sign_up_page.dart';
+import 'package:salvapp_amcc/UI/pages/topup_success.dart';
 
 import '../../blocs/auth/auth_bloc.dart';
 import '../../blocs/shared/shared_methods.dart';
@@ -153,8 +154,14 @@ class _SigninPageState extends State<SigninPage> {
                                             ),
                                             suffixIcon: IconButton(
                                               icon: _obscureText
-                                                  ? Icon(Icons.visibility_off, color: greenColor,)
-                                                  : Icon(Icons.visibility, color: greenColor,),
+                                                  ? Icon(
+                                                      Icons.visibility_off,
+                                                      color: greenColor,
+                                                    )
+                                                  : Icon(
+                                                      Icons.visibility,
+                                                      color: greenColor,
+                                                    ),
                                               onPressed: () {
                                                 setState(() {
                                                   _obscureText = !_obscureText;
@@ -213,6 +220,11 @@ class _SigninPageState extends State<SigninPage> {
                                     margin: const EdgeInsets.only(top: 61),
                                     child: Column(
                                       children: [
+                                        TextButton(
+                                            onPressed: () {
+                                              Navigator.push(context, MaterialPageRoute(builder: (context) => TopUpSuccessPage()));
+                                            },
+                                            child: Text("Lottie")),
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,

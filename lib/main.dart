@@ -7,7 +7,6 @@ import 'UI/pages/beranda_detail.dart';
 import 'UI/pages/beranda_page.dart';
 import 'UI/pages/camera_preview_page.dart';
 import 'UI/pages/detail_edukasi_page.dart';
-import 'UI/pages/detail_iklan_pabrik_page.dart';
 import 'UI/pages/detail_iklan_page.dart';
 import 'UI/pages/detail_penawaran_page.dart';
 import 'UI/pages/edukasi_page.dart';
@@ -104,7 +103,7 @@ class MyApp extends StatelessWidget {
           TambahIklanLimbah1Page.routeName: (context) => TambahIklanLimbah1Page(
                 step: ModalRoute.of(context)!.settings.arguments as int,
               ),
-          DetailIklanPabrikPage.routeName: (context) => DetailIklanPabrikPage(),
+          
           CameraPreviewPage.routeName: (context) =>
               CameraPreviewPage(picture: '', label: ''),
          TopupAmountPage.routeName: (context) => TopupAmountPage(),

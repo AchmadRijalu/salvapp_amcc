@@ -53,7 +53,7 @@ class IklanBuyerDetailData {
     int maximumWeight;
     int minimumWeight;
     int price;
-    String status;
+    String? status;
     int retrievalSystem;
     String title;
 

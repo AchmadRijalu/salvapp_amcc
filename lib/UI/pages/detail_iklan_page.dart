@@ -46,21 +46,19 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
     }
   }
 
-
-void _launchMapsUrl(double lat, double lon) async {
-  final url = 'https://www.google.com/maps/search/?api=1&query=$lat,$lon';
-  if (await canLaunchUrlString(url)) {
-    await launchUrlString(url);
-  } else {
-    throw 'Could not launch $url';
+  void _launchMapsUrl(double lat, double lon) async {
+    final url = 'https://www.google.com/maps/search/?api=1&query=$lat,$lon';
+    if (await canLaunchUrlString(url)) {
+      await launchUrlString(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
-}
-
 
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: Text("Detail Iklan")),
-        body: userType == "buyer"
+        body: userType == 2
             ? BlocProvider(
                 create: (context) => IklanBloc()
                   ..add(IklanGetDetailBuyer(widget.advertisementId)),
@@ -70,9 +68,14 @@ void _launchMapsUrl(double lat, double lon) async {
                     if (state is IklanFailed) {
                       showCustomSnacKbar(context, state.e);
                     }
-                    
                   },
                   builder: (context, state) {
+                    if (state is IklanLoading) {
+                      return Container(
+                          child: Center(
+                        child: CircularProgressIndicator(color: greenColor),
+                      ));
+                    }
                     if (state is IklanBuyerGetDetailSuccess) {
                       return Padding(
                         padding: const EdgeInsets.symmetric(
@@ -87,7 +90,7 @@ void _launchMapsUrl(double lat, double lon) async {
 
                                   // if pabrik
                                   Flexible(
-                                      flex: userType == "buyer" ? 2 : 4,
+                                      flex: userType == 2 ? 2 : 4,
                                       child: Container(
                                         child: Column(
                                             crossAxisAlignment:
@@ -562,7 +565,6 @@ void _launchMapsUrl(double lat, double lon) async {
                   },
                   builder: (context, state) {
                     if (state is IklanSellerGetDetailSuccess) {
-                      
                       return Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 36, vertical: 14),
@@ -887,18 +889,19 @@ void _launchMapsUrl(double lat, double lon) async {
                                                                 .iklanSellerDetail!
                                                                 .data
                                                                 .latitude);
-                                                                print(state.iklanSellerDetail!.data.longitude);
+                                                            print(state
+                                                                .iklanSellerDetail!
+                                                                .data
+                                                                .longitude);
                                                             _launchMapsUrl(
                                                                 state
                                                                     .iklanSellerDetail!
                                                                     .data
-                                                                    .latitude
-                                                                    ,
+                                                                    .latitude,
                                                                 state
                                                                     .iklanSellerDetail!
                                                                     .data
-                                                                    .longitude
-                                                                    );
+                                                                    .longitude);
                                                           },
                                                           child: Row(
                                                             children: [
@@ -1035,7 +1038,7 @@ void _launchMapsUrl(double lat, double lon) async {
                                     height: 23,
                                   ),
 
-                                  if (userType == "buyer") ...[
+                                  if (userType == 2) ...[
                                     Expanded(
                                         child: Container(
                                       child: Column(children: [

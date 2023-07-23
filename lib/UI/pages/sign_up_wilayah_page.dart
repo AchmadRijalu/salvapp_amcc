@@ -823,7 +823,7 @@ class _SignupWilayahPageState extends State<SignupWilayahPage> {
                                             items: [],
                                             onChanged: (value) {},
                                           )),
-                                if (widget.data!.type == "buyer") ...[
+                                if (widget.data!.type == 2) ...[
                                   const SizedBox(
                                     height: 17,
                                   ),
