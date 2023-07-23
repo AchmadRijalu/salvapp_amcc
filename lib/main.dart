@@ -34,19 +34,16 @@ import 'package:firebase_core/firebase_core.dart';
 import 'blocs/edukasi/edukasi_bloc.dart';
 import 'common/common.dart';
 import 'models/topup_form_model.dart';
+import 'firebase_options.dart';
 
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
-void main()  {
-  // WidgetsFlutterBinding.ensureInitialized();
-  // initializeFirebase();
   runApp(const MyApp());
 }
-
-// void initializeFirebase() async {
-//   await Firebase.initializeApp(
-//     options: DefaultFirebaseOptions.currentPlatform,
-//   );
-// }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -68,7 +65,6 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Salv',
         theme: ThemeData(
-         
             primarySwatch: Colors.blue,
             scaffoldBackgroundColor: lightBackgroundColor,
             appBarTheme: AppBarTheme(
@@ -96,7 +92,9 @@ class MyApp extends StatelessWidget {
           JualLimbahSuccessPage.routeName: (context) => JualLimbahSuccessPage(),
           DetailPenawaranPage.routeName: (context) => DetailPenawaranPage(),
           DetailEdukasiPage.routeName: (context) => DetailEdukasiPage(),
-          PencairanPoinPage.routeName: (context) => PencairanPoinPage(point: ModalRoute.of(context)!.settings.arguments as int,),
+          PencairanPoinPage.routeName: (context) => PencairanPoinPage(
+                point: ModalRoute.of(context)!.settings.arguments as int,
+              ),
           UbahDataProfilPage.routeName: (context) => UbahDataProfilPage(),
           UbahDataAlamatPage.routeName: (context) => UbahDataAlamatPage(),
           BerandaDetailPage.routeName: (context) => BerandaDetailPage(),
