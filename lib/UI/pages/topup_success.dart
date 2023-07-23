@@ -42,7 +42,9 @@ class TopUpSuccessPage extends StatelessWidget {
                                   color: greenColor,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 18)),
-
+                      Text("Ketuk Tombol dibawah untuk Kembali",
+                          style: greenTextStyle.copyWith(
+                              fontSize: 12, fontWeight: regular)),
                     ],
                   )),
                   Expanded(
@@ -58,9 +60,12 @@ class TopUpSuccessPage extends StatelessWidget {
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 40, vertical: 10.0)),
                             onPressed: () {
-                              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder:(context) {
-                                return HomePage();
-                              },), (route) => false);
+                              Navigator.pushAndRemoveUntil(context,
+                                  MaterialPageRoute(
+                                builder: (context) {
+                                  return HomePage();
+                                },
+                              ), (route) => false);
                             },
                             child: Text("Kembali",
                                 style: whiteTextStyle.copyWith(

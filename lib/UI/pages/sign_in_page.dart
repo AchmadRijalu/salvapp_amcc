@@ -220,11 +220,6 @@ class _SigninPageState extends State<SigninPage> {
                                     margin: const EdgeInsets.only(top: 61),
                                     child: Column(
                                       children: [
-                                        TextButton(
-                                            onPressed: () {
-                                              Navigator.push(context, MaterialPageRoute(builder: (context) => TopUpSuccessPage()));
-                                            },
-                                            child: Text("Lottie")),
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
