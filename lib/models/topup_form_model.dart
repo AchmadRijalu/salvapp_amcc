@@ -1,5 +1,5 @@
 class TopupFormModel {
-  final String? amount;
+  final dynamic amount;
 
   TopupFormModel({
     this.amount,
@@ -7,8 +7,6 @@ class TopupFormModel {
 
   TopupFormModel copyWith({
     String? amount,
-    String? pin,
-    String? paymentMethodCode,
   }) =>
       TopupFormModel(
         amount: amount ?? this.amount,

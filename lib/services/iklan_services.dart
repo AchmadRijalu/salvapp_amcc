@@ -78,6 +78,7 @@ class IklanService {
 
       return IklanBuyer.fromJson(json.decode(response.body));
     } catch (e) {
+      print("errornya : $e");
       rethrow;
     }
   }
@@ -91,7 +92,6 @@ class IklanService {
           'Authorization': await AuthService().getToken(),
         },
       );
-
       return IklanBuyerDetail.fromJson(json.decode(response.body));
     } catch (e) {
       rethrow;
@@ -108,10 +108,11 @@ class IklanService {
                 'Authorization': await AuthService().getToken(),
               },
               body: jsonEncode(tambahIklanForm.toJson()));
-
+      
       if (response.statusCode == 200) {
+        print("200");
+        print(response.body);
         final iklanAdded = IklanAddModel.fromJson(jsonDecode(response.body));
-
         return iklanAdded;
       } else {
         throw jsonDecode(response.body);

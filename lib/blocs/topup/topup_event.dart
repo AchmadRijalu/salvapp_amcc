@@ -6,3 +6,12 @@ abstract class TopupEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+
+class TopupGetAmount extends TopupEvent {
+  final TopupFormModel? topupFormModel;
+   TopupGetAmount({required this.topupFormModel});
+
+  @override
+  List<Object> get props => [topupFormModel!];
+}

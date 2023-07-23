@@ -8,3 +8,20 @@ abstract class TopupState extends Equatable {
 }
 
 class TopupInitial extends TopupState {}
+
+class TopupLoading extends TopupState {}
+
+class TopupSuccess extends TopupState {
+  final MidtransPayment? midtransPayment;
+  const TopupSuccess(this.midtransPayment);
+
+  @override
+  List<Object> get props => [midtransPayment!];
+}
+class TopupFailed extends TopupState {
+  final String e;
+  const TopupFailed(this.e);
+
+  @override
+  List<Object> get props => [e];
+}

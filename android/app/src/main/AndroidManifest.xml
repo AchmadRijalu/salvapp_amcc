@@ -29,6 +29,7 @@ webView.setWebChromeClient(new WebChromeClient(){
     <application
         android:label="salvapp_amcc"
         android:name="${applicationName}"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-
 import 'package:http/http.dart' as http;
 
 import '../blocs/shared/shared_values.dart';
@@ -27,7 +26,12 @@ class AuthService {
           throw "Username sudah terpakai";
         } else {
           print("200");
-          Userdata user = Userdata.fromJson(jsonDecode(response.body)['data']);
+          // print(response.body);
+          if (jsonDecode(response.body)['data'] == "username exist") {
+            throw "Username sudah terpakai";
+          }
+          print(response.body);
+          final user = Userdata.fromJson(jsonDecode(response.body)['data']);
           // user.password = data.password;
           await storeCredentialToLocal(user);
           return user;
@@ -63,14 +67,13 @@ class AuthService {
       } else {
         throw jsonDecode(response.body)['message'];
       }
-    } catch (e){
+    } catch (e) {
       // print("500");
       // print("eror");
       print(e);
       rethrow;
     }
   }
-  
 
   Future<void> logout() async {
     try {
@@ -81,7 +84,8 @@ class AuthService {
           'Authorization': await getToken(),
         },
       );
-
+      print(response.statusCode);
+      print(response.body);
       if (response.statusCode == 200) {
         await clearLocalStorage();
       } else {
