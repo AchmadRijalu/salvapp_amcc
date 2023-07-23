@@ -3,7 +3,6 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 import '../../blocs/edukasi/edukasi_bloc.dart';
 import '../../common/common.dart';
 import '../widgets/list_edukasi_widget.dart';
@@ -18,7 +17,6 @@ class EdukasiPage extends StatefulWidget {
 }
 
 class _EdukasiPageState extends State<EdukasiPage> {
-
   dynamic stateEdukasi;
   @override
   void initState() {
@@ -67,7 +65,7 @@ class _EdukasiPageState extends State<EdukasiPage> {
                                   )
                                 ],
                               ),
-                            
+
                               ListView.builder(
                                 shrinkWrap: true,
                                 physics: NeverScrollableScrollPhysics(),
@@ -76,13 +74,15 @@ class _EdukasiPageState extends State<EdukasiPage> {
                                   var edukasi = state.edukasi!.data[index];
                                   return ListEdukasi(
                                     onTap: () {
-                                      
-                                      Navigator.push(context, MaterialPageRoute(builder:(context) {
-                                        return DetailEdukasiPage(edukasiId: edukasi.id,);
-                                      },));
+                                      Navigator.push(context, MaterialPageRoute(
+                                        builder: (context) {
+                                          return DetailEdukasiPage(
+                                            edukasiId: edukasi.id,
+                                          );
+                                        },
+                                      ));
                                     },
                                     gambarLimbah:
-                                    
                                         "assets/image/image_sampah.png",
                                     namaTutorial: edukasi.title,
                                     durasiVideo: 15,
@@ -108,7 +108,7 @@ class _EdukasiPageState extends State<EdukasiPage> {
           if (state is EdukasiFailed) {
             return Center(
               child: Text(
-                "Terjadi Kesalahan :(",
+                "Ditunggu segera...",
                 style:
                     blackTextStyle.copyWith(fontSize: 16, fontWeight: semiBold),
               ),

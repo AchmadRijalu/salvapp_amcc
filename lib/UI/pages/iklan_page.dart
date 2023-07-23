@@ -79,52 +79,50 @@ class _IklanPageState extends State<IklanPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: userType == "2"
+      floatingActionButton: userType == 2
           ? Container()
           : FloatingActionButton(
               backgroundColor: blueColor,
               onPressed: () async {
-                //Function with imagePicker to open and save photo.
-                // initializeFirebase();
-                // ImagePicker imagePicker = ImagePicker();
-                // XFile? picture =
-                //     await imagePicker.pickImage(source: ImageSource.camera);
-                // final storageRef = FirebaseStorage.instance.ref();
-                // final pictureRef = storageRef.child(picture!.path);
-                // String dataUrl = 'data:image/png;base64,' +
-                //     base64Encode(File(picture.path).readAsBytesSync());
+                ImagePicker imagePicker = ImagePicker();
+                XFile? picture =
+                    await imagePicker.pickImage(source: ImageSource.camera);
+                final storageRef = FirebaseStorage.instance.ref();
+                final pictureRef = storageRef.child(picture!.path);
+                String dataUrl = 'data:image/png;base64,' +
+                    base64Encode(File(picture.path).readAsBytesSync());
 
-                // try {
-                //   setState(() {
-                //     isProcess = true;
-                //   });
+                try {
+                  setState(() {
+                    isProcess = true;
+                  });
 
-                //   await pictureRef.putString(dataUrl,
-                //       format: PutStringFormat.dataUrl);
-                //   String downloadUrl = await pictureRef.getDownloadURL();
+                  await pictureRef.putString(dataUrl,
+                      format: PutStringFormat.dataUrl);
+                  String downloadUrl = await pictureRef.getDownloadURL();
 
-                //   final response = await http.post(
-                //       Uri.parse("https://salv.cloud/image/upload"),
-                //       headers: {
-                //         'Content-Type': 'application/json',
-                //         'Authorization': await AuthService().getToken(),
-                //       },
-                //       body: jsonEncode({"image": downloadUrl}));
+                  final response =
+                      await http.post(Uri.parse("http://40.71.59.199/predict"),
+                          headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': await AuthService().getToken(),
+                          },
+                          body: jsonEncode({"image": downloadUrl}));
 
-                //   if (response.statusCode == 200) {
-                //     setState(() {
-                //       isProcess = false;
-                //     });
-                //     final data = jsonDecode(response.body);
-                //     Navigator.push(context,
-                //         MaterialPageRoute(builder: (context) {
-                //       return CameraPreviewPage(
-                //           picture: data['image'], label: data['label']);
-                //     }));
-                //   }
-                // } on FirebaseException catch (e) {
-                //   print(e);
-                // }
+                  if (response.statusCode == 200) {
+                    setState(() {
+                      isProcess = false;
+                    });
+                    final data = jsonDecode(response.body);
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return CameraPreviewPage(
+                          picture: data['image'], label: data['label']);
+                    }));
+                  }
+                } on FirebaseException catch (e) {
+                  print(e);
+                }
               },
               child: const Icon(Icons.camera_alt),
             ),
@@ -339,7 +337,6 @@ class _IklanPageState extends State<IklanPage> {
 
 Widget buildTambahIklan(BuildContext context, String? usernameIklan) {
   return Container(
-    
     width: double.infinity,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
