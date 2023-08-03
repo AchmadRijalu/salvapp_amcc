@@ -38,7 +38,7 @@ class TransaksiBuyerData {
   TransaksiBuyerData({
     required this.createdAt,
     required this.id,
-    required this.mahasiswa,
+    required this.user,
     required this.status,
     required this.title,
     required this.weight,
@@ -46,7 +46,7 @@ class TransaksiBuyerData {
 
   String createdAt;
   String id;
-  String mahasiswa;
+  String user;
   int status;
   String title;
   int weight;
@@ -55,7 +55,7 @@ class TransaksiBuyerData {
       TransaksiBuyerData(
         createdAt: json["created_at"],
         id: json["id"],
-        mahasiswa: json["mahasiswa"],
+        user: json["user"],
         status: json["status"],
         title: json["title"],
         weight: json["weight"],
@@ -64,7 +64,7 @@ class TransaksiBuyerData {
   Map<String, dynamic> toJson() => {
         "created_at": createdAt,
         "id": id,
-        "mahasiswa": mahasiswa,
+        "user": user,
         "status": status,
         "title": title,
         "weight": weight,

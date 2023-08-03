@@ -72,7 +72,7 @@ class _PenawaranPageState extends State<PenawaranPage> {
                   ],
                 ),
                 //TODO: UI for buyers
-                if (userType == "buyer") ...[
+                if (userType == 2) ...[
                   BlocProvider(
                     create: (context) =>
                         TransaksiBloc()..add(TransaksiGetAllBuyer(userId)),
@@ -108,7 +108,7 @@ class _PenawaranPageState extends State<PenawaranPage> {
                                                   ? "Dibatalkan"
                                                   : "Ditolak",
                                   tanggal: transaksi.createdAt.substring(4, 16),
-                                  username: transaksi.mahasiswa,
+                                  username: transaksi.user,
                                   onTap: () {
                                     print(transaksi.status);
                                     Navigator.push(context,
@@ -140,7 +140,7 @@ class _PenawaranPageState extends State<PenawaranPage> {
                 ]
 
                 //TODO: UI for sellers
-                else if (userType == "seller") ...[
+                else if (userType == 3) ...[
                   BlocProvider(
                     create: (context) =>
                         TransaksiBloc()..add(TransaksiGetAllSeller(userId)),
@@ -178,7 +178,7 @@ class _PenawaranPageState extends State<PenawaranPage> {
                                                   ? "Dibatalkan"
                                                   : "Ditolak",
                                   tanggal: transaksi.createdAt.substring(4, 16),
-                                  username: transaksi.pabrik,
+                                  username: transaksi.user,
                                   onTap: () {
                                     Navigator.push(context,
                                         MaterialPageRoute(builder: (context) {

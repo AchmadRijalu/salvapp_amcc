@@ -40,7 +40,7 @@ class TransaksiSellerData {
   TransaksiSellerData({
     required this.createdAt,
     required this.id,
-    required this.pabrik,
+    required this.user,
     required this.status,
     required this.title,
     required this.totalPrice,
@@ -48,7 +48,7 @@ class TransaksiSellerData {
 
   String createdAt;
   String id;
-  String pabrik;
+  String user;
   int status;
   String title;
   int totalPrice;
@@ -57,7 +57,7 @@ class TransaksiSellerData {
       TransaksiSellerData(
         createdAt: json["created_at"],
         id: json["id"],
-        pabrik: json["pabrik"],
+        user: json["user"],
         status: json["status"],
         title: json["title"],
         totalPrice: json["total_price"],
@@ -66,19 +66,19 @@ class TransaksiSellerData {
   Map<String, dynamic> toJson() => {
         "created_at": createdAt,
         "id": id,
-        "pabrik": pabrikValues.reverse[pabrik],
+        "user": userValues.reverse[user],
         "status": status,
         "title": title,
         "total_price": totalPrice,
       };
 }
 
-enum Pabrik { JON_MEDINA, JAMES_MARSH, ACHMAD_RIJALU }
+enum User { JON_MEDINA, JAMES_MARSH, ACHMAD_RIJALU }
 
-final pabrikValues = EnumValues({
-  "Achmad Rijalu": Pabrik.ACHMAD_RIJALU,
-  "James Marsh": Pabrik.JAMES_MARSH,
-  "Jon Medina": Pabrik.JON_MEDINA
+final userValues = EnumValues({
+  "Achmad Rijalu": User.ACHMAD_RIJALU,
+  "James Marsh": User.JAMES_MARSH,
+  "Jon Medina": User.JON_MEDINA
 });
 
 class EnumValues<T> {
