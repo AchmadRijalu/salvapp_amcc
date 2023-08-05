@@ -39,7 +39,7 @@ class TransaksiService {
           'Authorization': await AuthService().getToken(),
         },
       );
-      print(response.body);
+
       return TransaksiBuyer.fromJson(json.decode(response.body));
     } catch (e) {
       rethrow;
@@ -55,7 +55,6 @@ class TransaksiService {
           'Authorization': await AuthService().getToken(),
         },
       );
-      print("PRINT : ${response.body}");
 
       return DetailTransaksiSeller.fromJson(json.decode(response.body));
     } catch (e) {
@@ -72,7 +71,6 @@ class TransaksiService {
           'Authorization': await AuthService().getToken(),
         },
       );
-      print("PRINT : ${response.body}");
 
       return DetailTransaksiBuyer.fromJson(json.decode(response.body));
     } catch (e) {
@@ -90,7 +88,7 @@ class TransaksiService {
           'Authorization': await AuthService().getToken(),
         },
       );
-      print("PRINT : ${response.body}");
+     
       return AksiTransaksiBuyer.fromJson(json.decode(response.body));
     } catch (e) {
       rethrow;
@@ -107,7 +105,7 @@ class TransaksiService {
           'Authorization': await AuthService().getToken(),
         },
       );
-      print("PRINT: ${response.body}");
+
       return AksiTransaksiSeller.fromJson(json.decode(response.body));
     } catch (e) {
       rethrow;

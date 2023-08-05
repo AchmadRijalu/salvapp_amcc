@@ -13,18 +13,6 @@ class BerandaBloc extends Bloc<BerandaEvent, BerandaState> {
     on<BerandaEvent>((event, emit) async {
       // TODO: implement event handler
 
-      // if (event is BerandaGetAllSeller) {
-      //   try {
-      //     emit(BerandaLoading());
-      //     final berandaSeller =
-      //         await BerandaService().getAllBerandaSeller(event.berandaSeller!);
-      //     emit(BerandaSellerGetSuccess(berandaSeller));
-      //   } catch (e) {
-      //     print(e.toString());
-      //     emit(BerandaFailed(e.toString()));
-      //   }
-      // }
-
       if (event is BerandaGetAllBuyer) {
         try {
           emit(BerandaLoading());

@@ -57,8 +57,6 @@ class _IklanPageState extends State<IklanPage> {
       userType = authState.user!.type.toString();
       userId = authState.user!.id;
       print("User ID AKUN : $userId");
-
-      // print(authState.user!.token);
     }
   }
 
@@ -174,8 +172,7 @@ class _IklanPageState extends State<IklanPage> {
                               child: CupertinoTextField(
                                 prefix: Icon(Icons.search),
                                 placeholder: "Daging Ayam Prasmanan",
-                                placeholderStyle:
-                                    TextStyle(color: Colors.grey),
+                                placeholderStyle: TextStyle(color: Colors.grey),
                                 onChanged: ((value) {})
                                 // ((value) => SearchList(value))
                                 ,

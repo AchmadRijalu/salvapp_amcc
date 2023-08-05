@@ -74,7 +74,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   onPageChanged: ((index, reason) {
                     setState(() {
                       currentIndex = index;
-                      print(currentIndex);
+                      
                     });
                   }))),
           const SizedBox(

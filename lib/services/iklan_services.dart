@@ -4,7 +4,6 @@ import 'package:http/http.dart' as http;
 import 'package:salvapp_amcc/models/iklan_form_model.dart';
 import 'package:salvapp_amcc/models/iklan_seller_detail_model.dart';
 
-
 import '../blocs/shared/shared_values.dart';
 import '../models/batal_iklan_buyer.dart';
 
@@ -25,8 +24,7 @@ class IklanService {
           'Authorization': await AuthService().getToken(),
         },
       );
-      print(response.body);
-      
+
       return IklanSeller.fromJson(json.decode(response.body));
     } catch (e) {
       print("Hasil error : ${e}");
@@ -110,10 +108,8 @@ class IklanService {
                 'Authorization': await AuthService().getToken(),
               },
               body: jsonEncode(tambahIklanForm.toJson()));
-      
+
       if (response.statusCode == 200) {
-        print("200");
-        print(response.body);
         final iklanAdded = IklanAddModel.fromJson(jsonDecode(response.body));
         return iklanAdded;
       } else {
@@ -133,7 +129,7 @@ class IklanService {
           'Authorization': await AuthService().getToken(),
         },
       );
-      print("PRINT: ${response.body}");
+
       return BatalIklanBuyer.fromJson(json.decode(response.body));
     } catch (e) {
       rethrow;

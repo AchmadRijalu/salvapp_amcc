@@ -4,7 +4,8 @@ import 'package:http/http.dart' as http;
 import '../blocs/shared/shared_values.dart';
 import '../models/kategori_limbah_model.dart';
 import 'auth_services.dart';
-class KategoriLimbahService{
+
+class KategoriLimbahService {
   Future<KategoriLimbah> getKategoriLimbah() async {
     try {
       final response = await http.get(
@@ -14,7 +15,7 @@ class KategoriLimbahService{
           'Authorization': await AuthService().getToken(),
         },
       );
-      print(response.body);
+
       return KategoriLimbah.fromJson(json.decode(response.body));
     } catch (e) {
       rethrow;

@@ -26,7 +26,7 @@ class AuthService {
           throw "Username sudah terpakai";
         } else {
           print("200");
-          // print(response.body);
+          
           if (jsonDecode(response.body)['data'] == "username exist") {
             throw "Username sudah terpakai";
           }
@@ -54,7 +54,6 @@ class AuthService {
 
       if (response.statusCode == 200) {
         var resHolder = jsonDecode(response.body)['message'];
-        print(resHolder);
         if (resHolder == "user not found") {
           throw "Username/Password Salah";
         } else {
@@ -84,8 +83,7 @@ class AuthService {
           'Authorization': await getToken(),
         },
       );
-      print(response.statusCode);
-      print(response.body);
+     
       if (response.statusCode == 200) {
         await clearLocalStorage();
       } else {

@@ -42,7 +42,7 @@ class RegionService {
     try {
       final response = await http.get(Uri.parse(
           "${baseUrlRegion}/kecamatan?api_key=${apikeyRegion}&id_kabupaten=${cityId}"));
-      print(response);
+
       if (response.statusCode == 200) {
         return Kecamatan.fromJson(jsonDecode(response.body));
       } else {
