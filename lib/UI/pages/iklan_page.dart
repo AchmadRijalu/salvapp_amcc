@@ -256,8 +256,6 @@ class _IklanPageState extends State<IklanPage> {
                                 }
                                 if (state is IklanSearchSuccess &&
                                     onSearch == true) {
-                                  print('horay');
-                                  print(state.searchIklan!.data[0].title);
                                   return ListView.builder(
                                     shrinkWrap: true,
                                     itemCount: state.searchIklan!.data.length,
