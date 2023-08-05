@@ -15,9 +15,9 @@ class OnboardingPage extends StatefulWidget {
 }
 
 class _OnboardingPageState extends State<OnboardingPage> {
-   int currentIndex = 0;
+  int currentIndex = 0;
 
-   CarouselController carouselController = CarouselController();
+  CarouselController carouselController = CarouselController();
 
   List<String> title = [
     "Salv: Solusi Limbah \nMakanan Anda!",
@@ -74,7 +74,6 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   onPageChanged: ((index, reason) {
                     setState(() {
                       currentIndex = index;
-                      
                     });
                   }))),
           const SizedBox(
@@ -126,77 +125,77 @@ class _OnboardingPageState extends State<OnboardingPage> {
               //         ],
               //       )
               // :
-                  Row(
-                      children: [
-                        Container(
-                          width: 12,
-                          height: 12,
-                          margin: const EdgeInsets.only(right: 10),
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: currentIndex == 0
-                                  ? greenColor
-                                  : lightBackgroundColor),
-                        ),
-                        Container(
-                          width: 12,
-                          height: 12,
-                          margin: const EdgeInsets.only(right: 10),
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: currentIndex == 1
-                                  ? greenColor
-                                  : lightBackgroundColor),
-                        ),
-                        Container(
-                          width: 12,
-                          height: 12,
-                          margin: const EdgeInsets.only(right: 10),
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: currentIndex == 2
-                                  ? blueColor
-                                  : lightBackgroundColor),
-                        ),
-                        Container(
-                          width: 12,
-                          height: 12,
-                          margin: const EdgeInsets.only(right: 10),
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: currentIndex == 3
-                                  ? greenColor
-                                  : lightBackgroundColor),
-                        ),
-                        Container(
-                          width: 12,
-                          height: 12,
-                          margin: const EdgeInsets.only(right: 10),
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: currentIndex == 4
-                                  ? greenColor
-                                  : lightBackgroundColor),
-                        ),
-                        const Spacer(),
-                        currentIndex == 4?
-                        CustomFilledButton(
+              Row(
+                children: [
+                  Container(
+                    width: 12,
+                    height: 12,
+                    margin: const EdgeInsets.only(right: 10),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: currentIndex == 0
+                            ? greenColor
+                            : lightBackgroundColor),
+                  ),
+                  Container(
+                    width: 12,
+                    height: 12,
+                    margin: const EdgeInsets.only(right: 10),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: currentIndex == 1
+                            ? greenColor
+                            : lightBackgroundColor),
+                  ),
+                  Container(
+                    width: 12,
+                    height: 12,
+                    margin: const EdgeInsets.only(right: 10),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: currentIndex == 2
+                            ? blueColor
+                            : lightBackgroundColor),
+                  ),
+                  Container(
+                    width: 12,
+                    height: 12,
+                    margin: const EdgeInsets.only(right: 10),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: currentIndex == 3
+                            ? greenColor
+                            : lightBackgroundColor),
+                  ),
+                  Container(
+                    width: 12,
+                    height: 12,
+                    margin: const EdgeInsets.only(right: 10),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: currentIndex == 4
+                            ? greenColor
+                            : lightBackgroundColor),
+                  ),
+                  const Spacer(),
+                  currentIndex == 4
+                      ? CustomFilledButton(
                           width: 150,
                           title: "Mulai",
                           onPressed: () {
-                            Navigator.pushNamedAndRemoveUntil(
-                                context, SigninPage.routeName, (route) => false);
+                            Navigator.pushNamedAndRemoveUntil(context,
+                                SigninPage.routeName, (route) => false);
                           },
-                        ):
-                        CustomFilledButton(
+                        )
+                      : CustomFilledButton(
                           width: 150,
                           title: "Lanjut",
                           onPressed: () {
                             carouselController.nextPage();
                           },
                         )
-                      ],
-                    )
+                ],
+              )
             ]),
           )
         ],

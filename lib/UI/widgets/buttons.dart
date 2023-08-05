@@ -5,7 +5,6 @@ import 'package:flutter/src/widgets/placeholder.dart';
 
 import '../../common/common.dart';
 
-
 class CustomFilledButton extends StatelessWidget {
   final String? title;
   final double? width;
@@ -26,9 +25,7 @@ class CustomFilledButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap:() {
-        
-      },
+      onTap: () {},
       child: SizedBox(
         width: width,
         height: height,
@@ -47,7 +44,6 @@ class CustomFilledButton extends StatelessWidget {
     );
   }
 }
-
 
 class CustomTextButton extends StatelessWidget {
   final String? title;
@@ -79,6 +75,7 @@ class CustomTextButton extends StatelessWidget {
     );
   }
 }
+
 class CustomInputButton extends StatelessWidget {
   final String title;
   final VoidCallback? onTap;
@@ -91,8 +88,7 @@ class CustomInputButton extends StatelessWidget {
       child: Container(
         width: 60,
         height: 60,
-        decoration:
-            BoxDecoration(shape: BoxShape.circle, color: blackColor),
+        decoration: BoxDecoration(shape: BoxShape.circle, color: blackColor),
         child: Center(
             child: Text(
           title,

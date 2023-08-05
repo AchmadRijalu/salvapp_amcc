@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:salvapp_amcc/models/iklan_form_model.dart';
 import 'package:salvapp_amcc/models/iklan_seller_detail_model.dart';
+import 'package:salvapp_amcc/models/search_iklan_model.dart';
 
 import '../blocs/shared/shared_values.dart';
 import '../models/batal_iklan_buyer.dart';
@@ -131,6 +132,22 @@ class IklanService {
       );
 
       return BatalIklanBuyer.fromJson(json.decode(response.body));
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<SearchIklan> searchIklan(dynamic query) async {
+    try {
+      final response = await http.get(
+        Uri.parse("${baseUrlSalv}seller-advertisement/search/${query}"),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': await AuthService().getToken(),
+        },
+      );
+
+      return SearchIklan.fromJson(json.decode(response.body));
     } catch (e) {
       rethrow;
     }

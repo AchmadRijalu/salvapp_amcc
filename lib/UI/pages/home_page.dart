@@ -24,7 +24,7 @@ class _HomePageState extends State<HomePage> {
   int currentIndex = 0;
 
   List<BottomNavigationBarItem> bottomNavbarItems = [
-     BottomNavigationBarItem(
+    BottomNavigationBarItem(
         icon: SvgPicture.asset(
           "assets/image/icon_beranda.svg",
         ),

@@ -42,7 +42,6 @@ class CustomFormField extends StatelessWidget {
           controller: controller,
           obscureText: obscureText!,
           decoration: InputDecoration(
-            
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
                 borderSide: BorderSide(color: greenColor, width: 2.0),

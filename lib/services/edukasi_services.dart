@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-
 import '../blocs/shared/shared_values.dart';
 import '../models/detail_edukasi_model.dart';
 import '../models/edukasi_model.dart';

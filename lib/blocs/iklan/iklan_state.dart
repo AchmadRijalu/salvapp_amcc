@@ -60,6 +60,13 @@ class IklanCancelBuyerSuccess extends IklanState {
   List<Object> get props => [batalIklanBuyer!];
 }
 
+class IklanSearchSuccess extends IklanState {
+  final SearchIklan? searchIklan;
+
+  const IklanSearchSuccess(this.searchIklan);
+  List<Object> get props => [searchIklan!];
+}
+
 class IklanLoading extends IklanState {}
 
 class IklanFailed extends IklanState {

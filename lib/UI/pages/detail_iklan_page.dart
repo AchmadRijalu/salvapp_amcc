@@ -865,10 +865,8 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
                                         return Center(
                                           child: LoadingAnimationWidget
                                               .twistingDots(
-                                            leftDotColor:
-                                                greenColor,
-                                            rightDotColor:
-                                                greenColor,
+                                            leftDotColor: greenColor,
+                                            rightDotColor: greenColor,
                                             size: 40,
                                           ),
                                         );

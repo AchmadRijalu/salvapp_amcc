@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 User userFromJson(String str) => User.fromJson(json.decode(str));
@@ -13,11 +12,11 @@ class User {
     this.tokenType,
   });
 
-   Userdata? data;
-   String? message;
-   int? statusCode;
+  Userdata? data;
+  String? message;
+  int? statusCode;
 
-   String? tokenType;
+  String? tokenType;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
         data: Userdata.fromJson(json["data"]),
@@ -57,26 +56,26 @@ class Userdata {
       this.longitude,
       this.point});
 
-   int? type;
-   String? token;
-   String? name;
-   String? password;
-   String? username;
-   String? email;
-   String? phoneNumber;
-   String? province;
-   String? city;
-   String? subdistrict;
-   String? ward;
-   String? address;
-   String? postalCode;
-   int? point;
-   String? image;
-   dynamic latitude;
-   dynamic longitude;
-   String? id;
-   String? createdAt;
-   dynamic updatedAt;
+  int? type;
+  String? token;
+  String? name;
+  String? password;
+  String? username;
+  String? email;
+  String? phoneNumber;
+  String? province;
+  String? city;
+  String? subdistrict;
+  String? ward;
+  String? address;
+  String? postalCode;
+  int? point;
+  String? image;
+  dynamic latitude;
+  dynamic longitude;
+  String? id;
+  String? createdAt;
+  dynamic updatedAt;
 
   factory Userdata.fromJson(Map<String, dynamic> json) => Userdata(
         address: json["address"],
@@ -154,5 +153,3 @@ class Userdata {
 // To parse this JSON data, do
 //
 //      user = userFromJson(jsonString);
-
-

@@ -8,7 +8,7 @@ class ListLimbahBerandaItem extends StatelessWidget {
   ListLimbahBerandaItem(
       {super.key,
       required this.category,
-       this.image,
+      this.image,
       required this.totalWeight});
 
   @override

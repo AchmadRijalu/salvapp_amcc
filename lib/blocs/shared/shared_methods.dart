@@ -4,8 +4,6 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../common/common.dart';
 
-
-
 void showCustomSnacKbar(BuildContext context, String message) {
   Flushbar(
     message: message,

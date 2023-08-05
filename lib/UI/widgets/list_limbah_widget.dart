@@ -4,7 +4,6 @@ import 'package:flutter/src/widgets/placeholder.dart';
 
 import '../../common/common.dart';
 
-
 class LimbahBerandaPage extends StatelessWidget {
   final String? title;
   final int? price;
@@ -44,11 +43,10 @@ class LimbahBerandaPage extends StatelessWidget {
                                   child: Text(
                                     title!,
                                     overflow: TextOverflow.clip,
-                                    style:
-                                        whiteTextStyle.copyWith(fontSize: 22, fontWeight: medium),
+                                    style: whiteTextStyle.copyWith(
+                                        fontSize: 22, fontWeight: medium),
                                   ),
                                 )
-                                
                               ],
                             )),
                       ),

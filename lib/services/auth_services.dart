@@ -26,7 +26,7 @@ class AuthService {
           throw "Username sudah terpakai";
         } else {
           print("200");
-          
+
           if (jsonDecode(response.body)['data'] == "username exist") {
             throw "Username sudah terpakai";
           }
@@ -83,7 +83,7 @@ class AuthService {
           'Authorization': await getToken(),
         },
       );
-     
+
       if (response.statusCode == 200) {
         await clearLocalStorage();
       } else {

@@ -3,7 +3,6 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 import '../../blocs/auth/auth_bloc.dart';
 import '../../blocs/shared/shared_methods.dart';
 import '../../common/common.dart';

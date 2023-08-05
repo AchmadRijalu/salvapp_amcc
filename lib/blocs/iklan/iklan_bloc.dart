@@ -8,6 +8,7 @@ import '../../models/iklan_form_model.dart';
 import '../../models/iklan_seller_detail_model.dart';
 import '../../models/pembeli_iklan_model.dart';
 import '../../models/penjual_iklan_model.dart';
+import '../../models/search_iklan_model.dart';
 import '../../services/iklan_services.dart';
 
 part 'iklan_event.dart';
@@ -98,6 +99,16 @@ class IklanBloc extends Bloc<IklanEvent, IklanState> {
 
           final cancelIklan = await IklanService().batalIklanBuyer(event.adsId);
           emit(IklanCancelBuyerSuccess(cancelIklan));
+        } catch (e) {
+          emit(IklanFailed(e.toString()));
+        }
+      }
+
+      if (event is IklanSearch) {
+        try {
+          emit(IklanLoading());
+          final getIklanSearch = await IklanService().searchIklan(event.query);
+          emit(IklanSearchSuccess(getIklanSearch));
         } catch (e) {
           emit(IklanFailed(e.toString()));
         }

@@ -36,20 +36,19 @@ class DetailTransaksiBuyer {
 }
 
 class DetailTransaksiBuyerData {
-  DetailTransaksiBuyerData({
-    required this.additionalInformation,
-    required this.category,
-    required this.id,
-    required this.location,
-    required this.maximumWeight,
-    required this.minimumWeight,
-    required this.price,
-    required this.retrievalSystem,
-    required this.title,
-    required this.totalPrice,
-    required this.weight,
-    this.image
-  });
+  DetailTransaksiBuyerData(
+      {required this.additionalInformation,
+      required this.category,
+      required this.id,
+      required this.location,
+      required this.maximumWeight,
+      required this.minimumWeight,
+      required this.price,
+      required this.retrievalSystem,
+      required this.title,
+      required this.totalPrice,
+      required this.weight,
+      this.image});
 
   String additionalInformation;
   String category;
@@ -66,19 +65,18 @@ class DetailTransaksiBuyerData {
 
   factory DetailTransaksiBuyerData.fromJson(Map<String, dynamic> json) =>
       DetailTransaksiBuyerData(
-        additionalInformation: json["additional_information"],
-        category: json["category"],
-        id: json["id"],
-        location: json["location"],
-        maximumWeight: json["maximum_weight"],
-        minimumWeight: json["minimum_weight"],
-        price: json["price"],
-        retrievalSystem: json["retrieval_system"],
-        title: json["title"],
-        totalPrice: json["total_price"],
-        weight: json["weight"],
-        image: json["image"]
-      );
+          additionalInformation: json["additional_information"],
+          category: json["category"],
+          id: json["id"],
+          location: json["location"],
+          maximumWeight: json["maximum_weight"],
+          minimumWeight: json["minimum_weight"],
+          price: json["price"],
+          retrievalSystem: json["retrieval_system"],
+          title: json["title"],
+          totalPrice: json["total_price"],
+          weight: json["weight"],
+          image: json["image"]);
 
   Map<String, dynamic> toJson() => {
         "additional_information": additionalInformation,

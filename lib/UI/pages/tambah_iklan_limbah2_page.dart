@@ -30,7 +30,6 @@ class _TambahIklanLimbah2PageState extends State<TambahIklanLimbah2Page> {
   void initState() {
     // TODO: implement initState
     super.initState();
-  
   }
 
   @override

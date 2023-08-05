@@ -61,16 +61,13 @@ class TambahIklanForm {
           name: name ?? this.name,
           retrievalSystem: retrievalSystem ?? this.retrievalSystem,
           location: location ?? this.location,
-          additionalInformation: additionalInformation ?? this.additionalInformation,
+          additionalInformation:
+              additionalInformation ?? this.additionalInformation,
           price: price ?? this.price,
           requestedWeight: requestedWeight ?? this.requestedWeight,
           minimumWeight: minimumWeight ?? this.minimumWeight,
-          maximumWeight: maximumWeight ?? this.maximumWeight
-      );
+          maximumWeight: maximumWeight ?? this.maximumWeight);
 }
-
-
-
 
 // TambahIklanForm copyWith({
 //     String? nama,

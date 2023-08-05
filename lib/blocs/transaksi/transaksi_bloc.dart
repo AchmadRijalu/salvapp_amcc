@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-
 import '../../models/aksi_transaksi_buyer_model.dart';
 import '../../models/aksi_transaksi_seller_model.dart';
 import '../../models/detail_transaksi_buyer_model.dart';

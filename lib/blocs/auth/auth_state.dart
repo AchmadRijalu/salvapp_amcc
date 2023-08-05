@@ -27,8 +27,6 @@ class AuthCheckEmailSuccess extends AuthState {}
 class AuthSuccess extends AuthState {
   final Userdata? user;
 
-
-  
   const AuthSuccess(this.user);
 
   @override

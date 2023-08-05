@@ -4,7 +4,6 @@ import 'package:flutter/src/widgets/placeholder.dart';
 
 import '../../common/common.dart';
 
-
 class ListPenawaran extends StatelessWidget {
   final String? namaLimbah;
   final String? username;
@@ -111,47 +110,53 @@ class ListPenawaran extends StatelessWidget {
                   child: Column(
                 children: [
                   Expanded(
-                    flex: 2,
+                      flex: 2,
                       child: Container(
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Flexible(
-                            child: Container(
-                              child: Row(
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Flexible(
+                                child: Container(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        tanggal!,
+                                        style: statusPenawaran == 'Respon' ||
+                                                statusPenawaran ==
+                                                    "Sedang Berlangsung" ||
+                                                statusPenawaran ==
+                                                    "Menunggu Konfirmasi"
+                                            ? whiteTextStyle.copyWith(
+                                                fontSize: 7, fontWeight: medium)
+                                            : greenTextStyle.copyWith(
+                                                fontSize: 7,
+                                                fontWeight: medium),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                  child: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   Text(
-                                    tanggal!,
+                                    beratLimbah!.toString(),
                                     style: statusPenawaran == 'Respon' ||
                                             statusPenawaran ==
                                                 "Sedang Berlangsung" ||
                                             statusPenawaran ==
                                                 "Menunggu Konfirmasi"
-                                        ? whiteTextStyle.copyWith(fontSize: 7, fontWeight: medium)
-                                        : greenTextStyle.copyWith(fontSize: 7, fontWeight: medium),
+                                        ? whiteTextStyle.copyWith(
+                                            fontSize: 10, fontWeight: medium)
+                                        : greenTextStyle.copyWith(
+                                            fontSize: 10, fontWeight: medium),
                                   )
                                 ],
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                              child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text(
-                                beratLimbah!.toString(),
-                                style: statusPenawaran == 'Respon' ||
-                                        statusPenawaran ==
-                                            "Sedang Berlangsung" ||
-                                        statusPenawaran == "Menunggu Konfirmasi"
-                                    ? whiteTextStyle.copyWith(fontSize: 10, fontWeight: medium)
-                                    : greenTextStyle.copyWith(fontSize: 10, fontWeight: medium),
-                              )
-                            ],
-                          ))
-                        ]),
-                  )),
+                              ))
+                            ]),
+                      )),
                   Expanded(
                       child: Container(
                           width: double.infinity,
@@ -169,20 +174,25 @@ class ListPenawaran extends StatelessWidget {
                                   style: statusPenawaran == 'Respon' ||
                                           statusPenawaran ==
                                               "Menunggu Konfirmasi"
-                                      ? greenTextStyle.copyWith(fontSize: 12, fontWeight: semiBold)
+                                      ? greenTextStyle.copyWith(
+                                          fontSize: 12, fontWeight: semiBold)
                                       : statusPenawaran == "Diterima"
                                           ? greenTextStyle.copyWith(
-                                              fontSize: 12, fontWeight: semiBold )
+                                              fontSize: 12,
+                                              fontWeight: semiBold)
                                           : statusPenawaran == "Dibatalkan" ||
                                                   statusPenawaran == "Ditolak"
                                               ? redTextStyle.copyWith(
-                                                  fontSize: 12, fontWeight: semiBold)
+                                                  fontSize: 12,
+                                                  fontWeight: semiBold)
                                               : statusPenawaran ==
                                                       "Sedang Berlangsung"
                                                   ? greenTextStyle.copyWith(
-                                                      fontSize: 12, fontWeight: semiBold)
+                                                      fontSize: 12,
+                                                      fontWeight: semiBold)
                                                   : whiteTextStyle.copyWith(
-                                                      fontSize: 12, fontWeight: semiBold))
+                                                      fontSize: 12,
+                                                      fontWeight: semiBold))
                             ],
                           )))
                 ],

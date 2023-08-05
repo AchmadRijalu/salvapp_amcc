@@ -5,16 +5,12 @@ abstract class EdukasiEvent extends Equatable {
 
   @override
   List<Object> get props => [];
-  
 }
 
-class EdukasiGetAll extends EdukasiEvent{
-  
-}
+class EdukasiGetAll extends EdukasiEvent {}
 
-class EdukasiGetDetail extends EdukasiEvent{
+class EdukasiGetDetail extends EdukasiEvent {
   String? edukasiid;
-  
 
   EdukasiGetDetail(this.edukasiid);
   List<Object> get props => [edukasiid!];

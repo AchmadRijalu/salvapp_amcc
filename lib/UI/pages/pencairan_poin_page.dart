@@ -7,7 +7,6 @@ import '../widgets/buttons.dart';
 import '../widgets/forms.dart';
 
 class PencairanPoinPage extends StatelessWidget {
-
   final int? point;
   static const routeName = '/pencairanpoin';
   const PencairanPoinPage({super.key, required this.point});

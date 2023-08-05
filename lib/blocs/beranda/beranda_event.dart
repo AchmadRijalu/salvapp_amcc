@@ -7,6 +7,4 @@ abstract class BerandaEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class BerandaGetAllBuyer extends BerandaEvent {
-  
-}
+class BerandaGetAllBuyer extends BerandaEvent {}

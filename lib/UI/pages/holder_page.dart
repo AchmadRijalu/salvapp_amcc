@@ -4,7 +4,6 @@ import 'package:flutter/src/widgets/placeholder.dart';
 
 import 'home_page.dart';
 
-
 class HolderPage extends StatelessWidget {
   static const routeName = '/holderPage';
   const HolderPage({super.key});

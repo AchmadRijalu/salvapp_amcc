@@ -88,7 +88,7 @@ class TransaksiService {
           'Authorization': await AuthService().getToken(),
         },
       );
-     
+
       return AksiTransaksiBuyer.fromJson(json.decode(response.body));
     } catch (e) {
       rethrow;

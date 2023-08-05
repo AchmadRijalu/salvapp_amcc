@@ -5,8 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:salvapp_amcc/UI/pages/onboarding_page.dart';
 import 'package:salvapp_amcc/UI/pages/sign_in_page.dart';
 
-
-
 import '../../blocs/auth/auth_bloc.dart';
 import '../../common/common.dart';
 import 'holder_page.dart';
@@ -23,13 +21,14 @@ class SplashPage extends StatelessWidget {
         listener: (context, state) {
           // TODO: implement listener
           if (state is AuthSuccess) {
-            Navigator.pushNamedAndRemoveUntil(context, HolderPage.routeName, (route) => false);
-         
+            Navigator.pushNamedAndRemoveUntil(
+                context, HolderPage.routeName, (route) => false);
           }
-          
-          if(state is AuthFailed){
+
+          if (state is AuthFailed) {
             print(state.props);
-            Navigator.pushNamedAndRemoveUntil(context, OnboardingPage.routeName, (route) => false);
+            Navigator.pushNamedAndRemoveUntil(
+                context, OnboardingPage.routeName, (route) => false);
           }
         },
         child: Center(
@@ -47,10 +46,10 @@ class SplashPage extends StatelessWidget {
   }
 }
 // @override
-  // void initState() {
-  //   super.initState();
-  //   Timer(
-  //       const Duration(seconds: 3),
-  //       (() => Navigator.pushNamedAndRemoveUntil(
-  //           context, SigninPage.routeName, (route) => false)));
-  // }
+// void initState() {
+//   super.initState();
+//   Timer(
+//       const Duration(seconds: 3),
+//       (() => Navigator.pushNamedAndRemoveUntil(
+//           context, SigninPage.routeName, (route) => false)));
+// }

@@ -10,7 +10,7 @@ abstract class AuthEvent extends Equatable {
 class AuthRegister extends AuthEvent {
   late SignupFormModel? data;
 
-   AuthRegister(this.data);
+  AuthRegister(this.data);
 
   @override
   // TODO: implement props
@@ -29,6 +29,4 @@ class AuthLogin extends AuthEvent {
 
 class AuthGetCurrentUser extends AuthEvent {}
 
-class AuthLogout extends AuthEvent{
-  
-}
+class AuthLogout extends AuthEvent {}

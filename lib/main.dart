@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:salvapp_amcc/UI/pages/onboarding_page.dart';
@@ -103,12 +102,13 @@ class MyApp extends StatelessWidget {
           TambahIklanLimbah1Page.routeName: (context) => TambahIklanLimbah1Page(
                 step: ModalRoute.of(context)!.settings.arguments as int,
               ),
-          
           CameraPreviewPage.routeName: (context) =>
               CameraPreviewPage(picture: '', label: ''),
-         TopupAmountPage.routeName: (context) => TopupAmountPage(),
-         WebviewMidtransPage.routeName: (context) => WebviewMidtransPage(topupFormModel: ModalRoute.of(context)!.settings.arguments as TopupFormModel),
-         OnboardingPage.routeName: (context) => OnboardingPage(),
+          TopupAmountPage.routeName: (context) => TopupAmountPage(),
+          WebviewMidtransPage.routeName: (context) => WebviewMidtransPage(
+              topupFormModel:
+                  ModalRoute.of(context)!.settings.arguments as TopupFormModel),
+          OnboardingPage.routeName: (context) => OnboardingPage(),
         },
       ),
     );

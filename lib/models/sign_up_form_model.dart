@@ -18,8 +18,7 @@ class SignupFormModel {
   final dynamic latitude;
 
   SignupFormModel(
-      {
-      this.email,
+      {this.email,
       this.name,
       this.password,
       this.username,

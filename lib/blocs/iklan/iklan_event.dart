@@ -55,3 +55,9 @@ class IklanCancelBuyer extends IklanEvent {
   IklanCancelBuyer(this.adsId);
   List<Object> get props => [adsId!];
 }
+
+class IklanSearch extends IklanEvent {
+  late String? query;
+  IklanSearch(this.query);
+  List<Object> get props => [query!];
+}

@@ -11,8 +11,6 @@ class BerandaInitial extends BerandaState {}
 
 class BerandaLoading extends BerandaState {}
 
-
-
 class BerandaGetSuccess extends BerandaState {
   final Beranda? beranda;
   const BerandaGetSuccess(this.beranda);

@@ -6,7 +6,6 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:salvapp_amcc/UI/pages/recommendation_page.dart';
 
-
 import '../widgets/buttons.dart';
 
 class CameraPreviewPage extends StatelessWidget {

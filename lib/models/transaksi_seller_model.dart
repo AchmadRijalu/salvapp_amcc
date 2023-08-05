@@ -37,15 +37,14 @@ class TransaksiSeller {
 }
 
 class TransaksiSellerData {
-  TransaksiSellerData({
-    required this.createdAt,
-    required this.id,
-    required this.user,
-    required this.status,
-    required this.title,
-    required this.totalPrice,
-    required this.image
-  });
+  TransaksiSellerData(
+      {required this.createdAt,
+      required this.id,
+      required this.user,
+      required this.status,
+      required this.title,
+      required this.totalPrice,
+      required this.image});
 
   String createdAt;
   String id;

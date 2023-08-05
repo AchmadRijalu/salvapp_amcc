@@ -51,7 +51,8 @@ class IklanSellerData {
     required this.image,
   });
 
-  factory IklanSellerData.fromJson(Map<String, dynamic> json) => IklanSellerData(
+  factory IklanSellerData.fromJson(Map<String, dynamic> json) =>
+      IklanSellerData(
         id: json["id"],
         title: json["title"],
         category: json["category"],

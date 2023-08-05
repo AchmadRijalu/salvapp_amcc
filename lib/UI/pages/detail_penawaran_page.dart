@@ -837,7 +837,7 @@ class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
                           if (state is DetailTransaksiBuyerGetSuccess) {
                             var detailTransaksi =
                                 state.detailTransaksiBuyer!.data;
-                                print(detailTransaksi.image);
+                            print(detailTransaksi.image);
                             return Flexible(
                                 flex: 4,
                                 child: Container(
@@ -845,26 +845,26 @@ class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                       if (detailTransaksi.image != "" ||
-                                                detailTransaksi != null) ...[
-                                              Container(
-                                                margin: const EdgeInsets.only(
-                                                    top: 12, bottom: 12),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Image.network(
-                                                      detailTransaksi.image!,
-                                                      width: 200,
-                                                      height: 200,
-                                                    ),
-                                                  ],
+                                        if (detailTransaksi.image != "" ||
+                                            detailTransaksi != null) ...[
+                                          Container(
+                                            margin: const EdgeInsets.only(
+                                                top: 12, bottom: 12),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Image.network(
+                                                  detailTransaksi.image!,
+                                                  width: 200,
+                                                  height: 200,
                                                 ),
-                                              ),
-                                            ] else ...[
-                                              Container(),
-                                            ],
+                                              ],
+                                            ),
+                                          ),
+                                        ] else ...[
+                                          Container(),
+                                        ],
                                         Container(
                                           width: double.infinity,
                                           padding: const EdgeInsets.symmetric(
