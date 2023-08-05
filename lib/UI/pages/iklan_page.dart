@@ -56,7 +56,7 @@ class _IklanPageState extends State<IklanPage> {
       usernameIklanA = authState.user!.username!;
       userType = authState.user!.type.toString();
       userId = authState.user!.id;
-      print(userId);
+      print("User ID AKUN : $userId");
 
       // print(authState.user!.token);
     }
@@ -79,7 +79,7 @@ class _IklanPageState extends State<IklanPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: userType == 2
+      floatingActionButton: userType == "2"
           ? Container()
           : FloatingActionButton(
               backgroundColor: blueColor,
@@ -140,193 +140,208 @@ class _IklanPageState extends State<IklanPage> {
                 isRefresh = false;
               });
             },
-            child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 37),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    const SizedBox(
-                      height: 44,
-                    ),
-                    Row(children: [Image.asset('assets/image/logo-png.png')]),
-                    const SizedBox(
-                      height: 17,
-                    ),
-                    Expanded(
-                        child: SingleChildScrollView(
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            if (userType == "2") ...[
-                              buildTambahIklan(context, usernameIklanA),
-                            ],
-                            // Text(userList.length.toString()),
-                            Row(
+            child: SafeArea(
+              child: ListView(children: [
+                Container(
+                  color: greenColor,
+                  height: 118,
+                  child: Stack(
+                      clipBehavior: Clip.none,
+                      // mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Positioned.fill(
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 24),
+                            child: Row(
                               children: [
                                 Text(
-                                  "Lihat Iklan yang \nsedang berlangsung",
-                                  style: blackTextStyle.copyWith(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w700),
+                                  "Pilihlah iklan yang sesuai dengan \nlimbah makanan yang anda miliki",
+                                  style: whiteTextStyle.copyWith(fontSize: 14),
                                 )
                               ],
                             ),
-                            const SizedBox(
-                              height: 6,
-                            ),
-                            if (userType == "3") ...[
-                              BlocProvider(
-                                create: (context) => _iklanBloc,
-                                child: BlocBuilder<IklanBloc, IklanState>(
-                                  builder: (context, state) {
-                                    if (state is IklanLoading && !isRefresh ||
-                                        isRefresh) {
-                                      return Container(
-                                          margin:
-                                              const EdgeInsets.only(top: 40),
-                                          child: Center(
-                                            child: CircularProgressIndicator(
-                                                color: greenColor),
-                                          ));
-                                    }
-                                    if (state is IklanGetSuccess) {
-                                      return ListView.builder(
-                                        shrinkWrap: true,
-                                        itemCount:
-                                            state.iklanSeller!.data.length,
-                                        physics: NeverScrollableScrollPhysics(),
-                                        itemBuilder: (context, index) {
-                                          var iklan =
-                                              state.iklanSeller!.data[index];
-                                          getAdvertisementId = iklan.id;
-                                          return ListIklan(
-                                            progressBarIndicator:
-                                                (iklan.ongoingWeight /
-                                                    iklan.requestedWeight),
-                                            title: iklan.title,
-                                            price: iklan.price,
-                                            onGoingWeight: iklan.ongoingWeight,
-                                            requestedWeight:
-                                                iklan.requestedWeight,
-                                            onTap: () {
-                                              Navigator.push(context,
-                                                  MaterialPageRoute(
-                                                builder: (context) {
-                                                  return DetailIklanPage(
-                                                    maxProgress:
-                                                        iklan.requestedWeight,
-                                                    advertisementId: iklan.id,
-                                                    iklanProgress: (iklan
-                                                            .ongoingWeight /
-                                                        iklan.requestedWeight),
-                                                  );
-                                                },
-                                              ));
-                                            },
-                                          );
-                                        },
-                                      );
-                                    }
-                                    if (state is IklanFailed) {
-                                      return Center(
-                                        child: Text(
-                                          "Terjadi Kesalahan :(",
-                                          style: blackTextStyle.copyWith(
-                                              fontSize: 16,
-                                              fontWeight: semiBold),
-                                        ),
-                                      );
-                                    }
-                                    return Container();
-                                  },
-                                ),
+                          ),
+                        ),
+                        Positioned(
+                          top: 100,
+                          left: 26,
+                          right: 26,
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: SizedBox(
+                              width: 325,
+                              height: 40,
+                              child: CupertinoTextField(
+                                prefix: Icon(Icons.search),
+                                placeholder: "Daging Ayam Prasmanan",
+                                placeholderStyle:
+                                    TextStyle(color: Colors.grey),
+                                onChanged: ((value) {})
+                                // ((value) => SearchList(value))
+                                ,
                               ),
-                            ] else if (userType == "2") ...[
-                              BlocProvider(
-                                create: (context) =>
-                                    IklanBloc()..add(IklanGetAllBuyer(userId)),
-                                child: BlocConsumer<IklanBloc, IklanState>(
-                                  listener: (context, state) {},
-                                  builder: (context, state) {
-                                    if (state is IklanLoading) {
-                                      return Container(
-                                          margin:
-                                              const EdgeInsets.only(top: 40),
-                                          child: Center(
-                                            child: CircularProgressIndicator(
-                                                color: greenColor),
-                                          ));
-                                    }
+                            ),
+                          ),
+                        ),
+                      ]),
+                ),
+                const SizedBox(
+                  height: 46,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        //BUYER ONLY
+                        if (userType == "2") ...[
+                          buildTambahIklan(context, usernameIklanA),
+                        ],
+                        // Text(userList.length.toString()),
 
-                                    if (state is IklanBuyerGetSuccess) {
-                                      return ListView.builder(
-                                        shrinkWrap: true,
-                                        itemCount:
-                                            state.iklanBuyer!.data.length,
-                                        physics: NeverScrollableScrollPhysics(),
-                                        itemBuilder: (context, index) {
-                                          var iklan =
-                                              state.iklanBuyer!.data[index];
-                                          getAdvertisementId = iklan.id;
-                                          String iklanDate = iklan.endDate;
-                                          final iklanDateConv =
-                                              iklanDate.indexOf("2023", 0);
-                                          return ListIklanPabrik(
-                                            title: iklan.title,
-                                            progressBarIndicator:
-                                                iklan.ongoingWeight /
-                                                    iklan.requestedWeight,
-                                            ongoing_weight: iklan.ongoingWeight,
-                                            requested_weight:
-                                                iklan.requestedWeight,
-                                            endDate: iklan.endDate
-                                                .substring(0, iklanDateConv),
-                                            onTap: () {
-                                              Navigator.push(context,
-                                                  MaterialPageRoute(
-                                                builder: (context) {
-                                                  return DetailIklanPage(
-                                                    advertisementId: iklan.id,
-                                                    iklanProgress: iklan
-                                                            .ongoingWeight /
-                                                        iklan.requestedWeight,
-                                                  );
-                                                },
-                                              ));
-                                              // context
-                                              //     .read<IklanBloc>()
-                                              //     .add(IklanGetDetailBuyer(iklan.id));
+                        const SizedBox(
+                          height: 6,
+                        ),
+                        if (userType == "3") ...[
+                          BlocProvider(
+                            create: (context) => _iklanBloc,
+                            child: BlocBuilder<IklanBloc, IklanState>(
+                              builder: (context, state) {
+                                if (state is IklanLoading && !isRefresh ||
+                                    isRefresh) {
+                                  return Container(
+                                      margin: const EdgeInsets.only(top: 40),
+                                      child: Center(
+                                        child: CircularProgressIndicator(
+                                            color: greenColor),
+                                      ));
+                                }
+                                if (state is IklanGetSuccess) {
+                                  return ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: state.iklanSeller!.data.length,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemBuilder: (context, index) {
+                                      var iklan =
+                                          state.iklanSeller!.data[index];
+                                      getAdvertisementId = iklan.id;
+                                      return ListIklan(
+                                        title: iklan.title,
+                                        id: getAdvertisementId,
+                                        price: iklan.price,
+                                        image: iklan.image,
+                                        user: iklan.user,
+                                        category: iklan.category,
+                                        onTap: () {
+                                          Navigator.push(context,
+                                              MaterialPageRoute(
+                                            builder: (context) {
+                                              return DetailIklanPage(
+                                                advertisementId:
+                                                    getAdvertisementId,
+                                              );
                                             },
-                                          );
+                                          ));
                                         },
                                       );
-                                    }
+                                    },
+                                  );
+                                }
+                                if (state is IklanFailed) {
+                                  return Center(
+                                    child: Text(
+                                      "Terjadi Kesalahan :(",
+                                      style: blackTextStyle.copyWith(
+                                          fontSize: 16, fontWeight: semiBold),
+                                    ),
+                                  );
+                                }
+                                return Container();
+                              },
+                            ),
+                          ),
+                        ] else if (userType == "2") ...[
+                          BlocProvider(
+                            create: (context) =>
+                                IklanBloc()..add(IklanGetAllBuyer(userId)),
+                            child: BlocConsumer<IklanBloc, IklanState>(
+                              listener: (context, state) {},
+                              builder: (context, state) {
+                                if (state is IklanLoading) {
+                                  return Container(
+                                      margin: const EdgeInsets.only(top: 40),
+                                      child: Center(
+                                        child: CircularProgressIndicator(
+                                            color: greenColor),
+                                      ));
+                                }
 
-                                    if (state is IklanFailed) {
-                                      return Container(
-                                          height: 100,
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                "Terjadi Kesalahan :(",
-                                                style: blackTextStyle.copyWith(
-                                                    fontSize: 16,
-                                                    fontWeight: semiBold),
-                                              ),
-                                            ],
+                                if (state is IklanBuyerGetSuccess) {
+                                  return ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: state.iklanBuyer!.data.length,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemBuilder: (context, index) {
+                                      var iklan = state.iklanBuyer!.data[index];
+                                      getAdvertisementId = iklan.id;
+                                      String iklanDate = iklan.endDate;
+                                      final iklanDateConv =
+                                          iklanDate.indexOf("2023", 0);
+                                      return ListIklanPabrik(
+                                        title: iklan.title,
+                                        progressBarIndicator:
+                                            iklan.ongoingWeight /
+                                                iklan.requestedWeight,
+                                        ongoing_weight: iklan.ongoingWeight,
+                                        requested_weight: iklan.requestedWeight,
+                                        endDate: iklan.endDate
+                                            .substring(0, iklanDateConv),
+                                        onTap: () {
+                                          Navigator.push(context,
+                                              MaterialPageRoute(
+                                            builder: (context) {
+                                              return DetailIklanPage(
+                                                advertisementId: iklan.id,
+                                                // iklanProgress:
+                                                //     iklan.ongoingWeight /
+                                                //         iklan.requestedWeight,
+                                              );
+                                            },
                                           ));
-                                    }
-                                    return Container();
-                                  },
-                                ),
-                              )
-                            ],
-                          ]),
-                    ))
-                  ],
-                )),
+                                          // context
+                                          //     .read<IklanBloc>()
+                                          //     .add(IklanGetDetailBuyer(iklan.id));
+                                        },
+                                      );
+                                    },
+                                  );
+                                }
+
+                                if (state is IklanFailed) {
+                                  return Container(
+                                      height: 100,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            "Terjadi Kesalahan :(",
+                                            style: blackTextStyle.copyWith(
+                                                fontSize: 16,
+                                                fontWeight: semiBold),
+                                          ),
+                                        ],
+                                      ));
+                                }
+                                return Container();
+                              },
+                            ),
+                          )
+                        ],
+                      ]),
+                )
+              ]),
+            ),
           ),
           isProcess == true ? UiLoading.loadingBlock() : Container()
         ],

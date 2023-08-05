@@ -49,6 +49,7 @@ class RegionService {
         throw Exception("Failed to load the data");
       }
     } catch (e) {
+      print("Hasil error : ${e}");
       rethrow;
     }
   }

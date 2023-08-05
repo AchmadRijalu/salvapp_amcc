@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:salvapp_amcc/UI/pages/onboarding_page.dart';
 import 'package:salvapp_amcc/UI/pages/sign_in_page.dart';
 
 
@@ -23,6 +24,7 @@ class SplashPage extends StatelessWidget {
           // TODO: implement listener
           if (state is AuthSuccess) {
             Navigator.pushNamedAndRemoveUntil(context, HolderPage.routeName, (route) => false);
+         
           }
           
           if(state is AuthFailed){

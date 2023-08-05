@@ -50,6 +50,7 @@ dependencies:
   http: ^0.13.5
   image_picker: ^0.8.7+1
   intl: ^0.18.1
+  loading_animation_widget: ^1.2.0+4
   lottie: ^2.5.0
   percent_indicator: ^4.2.2
   permission_handler: ^10.2.0

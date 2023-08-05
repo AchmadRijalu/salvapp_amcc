@@ -25,9 +25,11 @@ class IklanService {
           'Authorization': await AuthService().getToken(),
         },
       );
-
+      print(response.body);
+      
       return IklanSeller.fromJson(json.decode(response.body));
     } catch (e) {
+      print("Hasil error : ${e}");
       rethrow;
     }
   }

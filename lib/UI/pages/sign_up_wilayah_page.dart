@@ -120,7 +120,7 @@ class _SignupWilayahPageState extends State<SignupWilayahPage> {
 
   Future<Kota> getCities(dynamic provId) async {
     dynamic listCity;
-    await RegionService().getCity(int.parse(provId)).then((value) {
+    await RegionService().getCity(int.tryParse(provId)).then((value) {
       setState(() {
         listCity = value;
       });
@@ -130,7 +130,8 @@ class _SignupWilayahPageState extends State<SignupWilayahPage> {
 
   Future<Kecamatan> getSubDistricts(dynamic cityId) async {
     dynamic listSubdistricts;
-    await RegionService().getSubDistrict(int.parse(cityId)).then((value) {
+    print("Hasil : ${cityId.runtimeType}");
+    await RegionService().getSubDistrict(cityId).then((value) {
       setState(() {
         listSubdistricts = value;
       });
@@ -140,7 +141,8 @@ class _SignupWilayahPageState extends State<SignupWilayahPage> {
 
   Future<Kelurahan> getWards(dynamic subDistrictId) async {
     dynamic listWards;
-    await RegionService().getWard(int.parse(subDistrictId)).then((value) {
+    print("Hasil : ${subDistrictId}");
+    await RegionService().getWard(subDistrictId).then((value) {
       setState(() {
         listWards = value;
       });

@@ -44,6 +44,7 @@ class TransaksiSellerData {
     required this.status,
     required this.title,
     required this.totalPrice,
+    required this.image
   });
 
   String createdAt;
@@ -52,6 +53,7 @@ class TransaksiSellerData {
   int status;
   String title;
   int totalPrice;
+  String image;
 
   factory TransaksiSellerData.fromJson(Map<String, dynamic> json) =>
       TransaksiSellerData(
@@ -61,6 +63,7 @@ class TransaksiSellerData {
         status: json["status"],
         title: json["title"],
         totalPrice: json["total_price"],
+        image: json["image"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -70,6 +73,7 @@ class TransaksiSellerData {
         "status": status,
         "title": title,
         "total_price": totalPrice,
+        "image": image,
       };
 }
 

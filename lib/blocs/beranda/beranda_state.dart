@@ -11,16 +11,12 @@ class BerandaInitial extends BerandaState {}
 
 class BerandaLoading extends BerandaState {}
 
-class BerandaSellerGetSuccess extends BerandaState {
-  final BerandaSeller? berandaSeller;
-  const BerandaSellerGetSuccess(this.berandaSeller);
-  List<Object> get props => [berandaSeller!];
-}
 
-class BerandaBuyerGetSuccess extends BerandaState {
-  final BerandaBuyer? berandaBuyer;
-  const BerandaBuyerGetSuccess(this.berandaBuyer);
-  List<Object> get props => [berandaBuyer!];
+
+class BerandaGetSuccess extends BerandaState {
+  final Beranda? beranda;
+  const BerandaGetSuccess(this.beranda);
+  List<Object> get props => [beranda!];
 }
 
 class BerandaFailed extends BerandaState {

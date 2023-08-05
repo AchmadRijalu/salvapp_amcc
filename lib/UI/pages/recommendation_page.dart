@@ -94,25 +94,13 @@ class _IklanRecommendationPageState extends State<IklanRecommendationPage> {
                                     var iklan = state.iklanSeller!.data[index];
                                     getAdvertisementId = iklan.id;
                                     return ListIklan(
-                                      progressBarIndicator:
-                                          iklan.ongoingWeight /
-                                              iklan.requestedWeight,
                                       title: iklan.title,
                                       price: iklan.price,
-                                      onGoingWeight: iklan.ongoingWeight,
-                                      requestedWeight: iklan.requestedWeight,
                                       onTap: () {
                                         Navigator.push(context,
                                             MaterialPageRoute(
                                           builder: (context) {
-                                            return DetailIklanPage(
-                                              maxProgress:
-                                                  iklan.requestedWeight,
-                                              advertisementId: iklan.id,
-                                              iklanProgress:
-                                                  (iklan.ongoingWeight /
-                                                      iklan.requestedWeight),
-                                            );
+                                            return DetailIklanPage();
                                           },
                                         ));
                                       },

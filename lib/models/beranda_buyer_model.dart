@@ -1,60 +1,95 @@
 // To parse this JSON data, do
 //
-//     final berandaBuyer = berandaBuyerFromJson(jsonString);
+//     final beranda = berandaFromJson(jsonString);
 
 import 'dart:convert';
 
-BerandaBuyer berandaBuyerFromJson(String str) =>
-    BerandaBuyer.fromJson(json.decode(str));
+Beranda berandaFromJson(String str) => Beranda.fromJson(json.decode(str));
 
-String berandaBuyerToJson(BerandaBuyer data) => json.encode(data.toJson());
+String berandaToJson(Beranda data) => json.encode(data.toJson());
 
-class BerandaBuyer {
-  BerandaBuyer({
-    required this.data,
-    required this.message,
+class Beranda {
+  int statusCode;
+  String message;
+  List<BerandaData> data;
+  List<Transaction> transactions;
+
+  Beranda({
     required this.statusCode,
+    required this.message,
+    required this.data,
+    required this.transactions,
   });
 
-  List<BerandaBuyerData> data;
-  String message;
-  int statusCode;
-
-  factory BerandaBuyer.fromJson(Map<String, dynamic> json) => BerandaBuyer(
-        data: List<BerandaBuyerData>.from(
-            json["data"].map((x) => BerandaBuyerData.fromJson(x))),
-        message: json["message"],
+  factory Beranda.fromJson(Map<String, dynamic> json) => Beranda(
         statusCode: json["status_code"],
+        message: json["message"],
+        data: List<BerandaData>.from(
+            json["data"].map((x) => BerandaData.fromJson(x))),
+        transactions: List<Transaction>.from(
+            json["transactions"].map((x) => Transaction.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
-        "message": message,
         "status_code": statusCode,
+        "message": message,
+        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "transactions": List<dynamic>.from(transactions.map((x) => x.toJson())),
       };
 }
 
-class BerandaBuyerData {
-  BerandaBuyerData({
+class BerandaData {
+  String category;
+  int totalWeight;
+  int transactionCount;
+
+  BerandaData({
     required this.category,
-    required this.finishedWeight,
-    required this.id,
+    required this.totalWeight,
+    required this.transactionCount,
   });
 
-  String category;
-  int finishedWeight;
-  String id;
-
-  factory BerandaBuyerData.fromJson(Map<String, dynamic> json) =>
-      BerandaBuyerData(
+  factory BerandaData.fromJson(Map<String, dynamic> json) => BerandaData(
         category: json["category"],
-        finishedWeight: json["finished_weight"],
-        id: json["id"],
+        totalWeight: json["total_weight"],
+        transactionCount: json["transaction_count"],
       );
 
   Map<String, dynamic> toJson() => {
         "category": category,
-        "finished_weight": finishedWeight,
-        "id": id,
+        "total_weight": totalWeight,
+        "transaction_count": transactionCount,
+      };
+}
+
+class Transaction {
+  DateTime createdAt;
+  String status;
+  String title;
+  int totalPrice;
+  String user;
+
+  Transaction({
+    required this.createdAt,
+    required this.status,
+    required this.title,
+    required this.totalPrice,
+    required this.user,
+  });
+
+  factory Transaction.fromJson(Map<String, dynamic> json) => Transaction(
+        createdAt: DateTime.parse(json["created_at"]),
+        status: json["status"],
+        title: json["title"],
+        totalPrice: json["total_price"],
+        user: json["user"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "created_at": createdAt.toIso8601String(),
+        "status": status,
+        "title": title,
+        "total_price": totalPrice,
+        "user": user,
       };
 }

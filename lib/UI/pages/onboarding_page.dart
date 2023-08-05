@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:salvapp_amcc/UI/pages/sign_in_page.dart';
 
 import '../../common/common.dart';
 import '../widgets/buttons.dart';
@@ -19,15 +20,19 @@ class _OnboardingPageState extends State<OnboardingPage> {
    CarouselController carouselController = CarouselController();
 
   List<String> title = [
-    "Grow Your\nFinancial Today",
-    "Build From\nZero to Freedom",
-    "Start Together"
+    "Salv: Solusi Limbah \nMakanan Anda!",
+    "Cara Salv Bekerja",
+    "Panduan Penjual",
+    "Pandual Pembeli",
+    "Clean the environment, \nget your benefits!"
   ];
 
   List<String> subTitles = [
-    "Our system is helping you to\nachieve a better goal",
-    "We provide tips for you so that\nyou can adapt easier",
-    "We will guide you to where\nyou wanted it too"
+    "Misi kami untuk mengurangi \nlimbah makanan dan mendukung \nkomunitas lokal.",
+    "Tempat dimana Anda dapat \nmenjual atau membeli limbah \nmakanan sesuai kebutuhan",
+    "Cari iklan dengan mudah dan \ntawarkan limbah makanan, serta \nedukasi seputar limbah makanan.",
+    "Buat iklan dan terima tawaran \nlimbah makanan serta edukasi \nseputar limbah makanan.",
+    "Dengan Bergabung Anda telah \nmendukung misi kami, bagikan \npengalaman, dan bertukar ide."
   ];
 
   @override
@@ -41,18 +46,26 @@ class _OnboardingPageState extends State<OnboardingPage> {
           CarouselSlider(
               carouselController: carouselController,
               items: [
-                // Image.asset(
-                //   "assets/img_onboarding1.png",
-                //   height: 331,
-                // ),
-                // Image.asset(
-                //   "assets/img_onboarding2.png",
-                //   height: 331,
-                // ),
-                // Image.asset(
-                //   "assets/img_onboarding3.png",
-                //   height: 331,
-                // ),
+                Image.asset(
+                  "assets/image/image_onboarding1.png",
+                  height: 331,
+                ),
+                Image.asset(
+                  "assets/image/image_onboarding1.png",
+                  height: 331,
+                ),
+                Image.asset(
+                  "assets/image/image_onboarding1.png",
+                  height: 331,
+                ),
+                Image.asset(
+                  "assets/image/image_onboarding2.png",
+                  height: 331,
+                ),
+                Image.asset(
+                  "assets/image/image_onboarding3.png",
+                  height: 331,
+                ),
               ],
               options: CarouselOptions(
                   height: 331,
@@ -88,31 +101,32 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 textAlign: TextAlign.center,
               ),
               SizedBox(
-                height: currentIndex == 2 ? 38 : 50,
+                height: currentIndex == 4 ? 38 : 50,
               ),
-              currentIndex == 2
-                  ? Column(
-                      children: [
-                        CustomFilledButton(
-                          title: "Get Started",
-                          onPressed: () {
-                            Navigator.pushNamedAndRemoveUntil(
-                                context, "/sign-up", (route) => false);
-                          },
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        CustomTextButton(
-                          title: "Sign In",
-                          onPressed: () {
-                            Navigator.pushNamedAndRemoveUntil(
-                                context, "/sign-in", (route) => false);
-                          },
-                        )
-                      ],
-                    )
-                  : Row(
+              // currentIndex == 4
+              //     ? Column(
+              //         children: [
+              //           CustomFilledButton(
+              //             title: "Get Started",
+              //             onPressed: () {
+              //               Navigator.pushNamedAndRemoveUntil(
+              //                   context, "/sign-up", (route) => false);
+              //             },
+              //           ),
+              //           SizedBox(
+              //             height: 20,
+              //           ),
+              //           CustomTextButton(
+              //             title: "Sign In",
+              //             onPressed: () {
+              //               Navigator.pushNamedAndRemoveUntil(
+              //                   context, "/sign-in", (route) => false);
+              //             },
+              //           )
+              //         ],
+              //       )
+              // :
+                  Row(
                       children: [
                         Container(
                           width: 12,
@@ -121,7 +135,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                           decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color: currentIndex == 0
-                                  ? blueColor
+                                  ? greenColor
                                   : lightBackgroundColor),
                         ),
                         Container(
@@ -131,7 +145,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                           decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color: currentIndex == 1
-                                  ? blueColor
+                                  ? greenColor
                                   : lightBackgroundColor),
                         ),
                         Container(
@@ -144,10 +158,39 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                   ? blueColor
                                   : lightBackgroundColor),
                         ),
+                        Container(
+                          width: 12,
+                          height: 12,
+                          margin: const EdgeInsets.only(right: 10),
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: currentIndex == 3
+                                  ? greenColor
+                                  : lightBackgroundColor),
+                        ),
+                        Container(
+                          width: 12,
+                          height: 12,
+                          margin: const EdgeInsets.only(right: 10),
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: currentIndex == 4
+                                  ? greenColor
+                                  : lightBackgroundColor),
+                        ),
                         const Spacer(),
+                        currentIndex == 4?
                         CustomFilledButton(
                           width: 150,
-                          title: "Continue",
+                          title: "Mulai",
+                          onPressed: () {
+                            Navigator.pushNamedAndRemoveUntil(
+                                context, SigninPage.routeName, (route) => false);
+                          },
+                        ):
+                        CustomFilledButton(
+                          width: 150,
+                          title: "Lanjut",
                           onPressed: () {
                             carouselController.nextPage();
                           },

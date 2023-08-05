@@ -72,7 +72,7 @@ class _PenawaranPageState extends State<PenawaranPage> {
                   ],
                 ),
                 //TODO: UI for buyers
-                if (userType == 2) ...[
+                if (userType == "2") ...[
                   BlocProvider(
                     create: (context) =>
                         TransaksiBloc()..add(TransaksiGetAllBuyer(userId)),
@@ -140,7 +140,7 @@ class _PenawaranPageState extends State<PenawaranPage> {
                 ]
 
                 //TODO: UI for sellers
-                else if (userType == 3) ...[
+                else if (userType == "3") ...[
                   BlocProvider(
                     create: (context) =>
                         TransaksiBloc()..add(TransaksiGetAllSeller(userId)),

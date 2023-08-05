@@ -3,7 +3,9 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:salvapp_amcc/blocs/transaksi/transaksi_bloc.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../blocs/auth/auth_bloc.dart';
@@ -15,13 +17,11 @@ import '../../models/user_model.dart';
 import '../widgets/buttons.dart';
 import 'form_jual_limbah_page.dart';
 import 'holder_page.dart';
+import 'jual_limbah_success_page.dart';
 
 class DetailIklanPage extends StatefulWidget {
   final String? advertisementId;
-  final dynamic iklanProgress;
-  final dynamic maxProgress;
-  DetailIklanPage(
-      {super.key, this.advertisementId, this.iklanProgress, this.maxProgress});
+  DetailIklanPage({super.key, this.advertisementId});
   static const routeName = '/detailiklan';
 
   @override
@@ -34,11 +34,18 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
   dynamic userType;
   JualLimbahForm? jualLimbahForm;
 
+  dynamic penghasilanValue = "";
+
+  final TextEditingController beratLimbahController =
+      TextEditingController(text: '');
+
   void initState() {
     // TODO: implement initState
 
     super.initState();
     final authState = context.read<AuthBloc>().state;
+
+    print("ID : ${widget.advertisementId}");
 
     if (authState is AuthSuccess) {
       userType = authState.user!.type;
@@ -57,7 +64,16 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("Detail Iklan")),
+        appBar: AppBar(
+          title: userType == 2
+              ? Text("Detail Iklan")
+              : Text(
+                  "Buat Penawaran",
+                  style: whiteTextStyle.copyWith(fontWeight: regular),
+                ),
+          backgroundColor: greenColor,
+          iconTheme: IconThemeData(color: whiteColor),
+        ),
         body: userType == 2
             ? BlocProvider(
                 create: (context) => IklanBloc()
@@ -200,23 +216,7 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
                                                           crossAxisAlignment:
                                                               CrossAxisAlignment
                                                                   .end,
-                                                          children: [
-                                                            Text(
-                                                              state.iklanBuyerDetail!.data
-                                                                          .retrievalSystem
-                                                                          .toString() ==
-                                                                      0
-                                                                  ? "Diantar pemilik Limbah"
-                                                                  : "Diambil di pemilik limbah",
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .right,
-                                                              style: blackTextStyle
-                                                                  .copyWith(
-                                                                      fontWeight:
-                                                                          semiBold),
-                                                            )
-                                                          ],
+                                                          children: [],
                                                         ),
                                                       ))
                                                     ],
@@ -239,15 +239,6 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
                                                         "Lokasi Tujuan",
                                                         style: blackTextStyle,
                                                       ),
-                                                      Text(
-                                                        state.iklanBuyerDetail!
-                                                            .data.location,
-                                                        style: blackTextStyle
-                                                            .copyWith(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600),
-                                                      )
                                                     ],
                                                   ),
                                                   const SizedBox(
@@ -435,8 +426,14 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
                                                                   fontSize: 15),
                                                         ),
                                                         lineHeight: 11,
-                                                        percent: widget
-                                                            .iklanProgress,
+                                                        percent: state
+                                                                .iklanBuyerDetail!
+                                                                .data
+                                                                .ongoingWeight /
+                                                            state
+                                                                .iklanBuyerDetail!
+                                                                .data
+                                                                .requestedWeight,
                                                         animation: true,
                                                         progressColor:
                                                             Colors.yellow,
@@ -449,77 +446,6 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
                                                     const SizedBox(
                                                       height: 12,
                                                     ),
-                                                    if (state.iklanBuyerDetail!
-                                                            .data.status ==
-                                                        "ongoing") ...[
-                                                      BlocProvider(
-                                                        create: (context) =>
-                                                            IklanBloc(),
-                                                        child: BlocConsumer<
-                                                            IklanBloc,
-                                                            IklanState>(
-                                                          listener:
-                                                              (context, state) {
-                                                            // TODO: implement listener
-                                                            if (state
-                                                                is IklanFailed) {
-                                                              showCustomSnacKbar(
-                                                                  context,
-                                                                  state.e);
-                                                            }
-                                                            if (state
-                                                                is IklanCancelBuyerSuccess) {
-                                                              Navigator.pushNamedAndRemoveUntil(
-                                                                  context,
-                                                                  HolderPage
-                                                                      .routeName,
-                                                                  (route) =>
-                                                                      false);
-                                                            }
-                                                          },
-                                                          builder:
-                                                              (context, state) {
-                                                            return ElevatedButton(
-                                                                style: ElevatedButton.styleFrom(
-                                                                    backgroundColor:
-                                                                        Colors
-                                                                            .red
-                                                                            .shade900),
-                                                                onPressed: () {
-                                                                  context
-                                                                      .read<
-                                                                          IklanBloc>()
-                                                                      .add(IklanCancelBuyer(
-                                                                          widget
-                                                                              .advertisementId));
-                                                                },
-                                                                child: Text(
-                                                                  "Batalkan Iklan",
-                                                                ));
-                                                          },
-                                                        ),
-                                                      ),
-                                                    ] else ...[
-                                                      Container(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(12),
-                                                        decoration: BoxDecoration(
-                                                            color: Colors.white,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        8)),
-                                                        child: Text(
-                                                          "Iklan diNon-Aktifkan.",
-                                                          style:
-                                                              redTextStyle.copyWith(
-                                                                  fontWeight:
-                                                                      semiBold,
-                                                                  fontSize: 12),
-                                                        ),
-                                                      )
-                                                    ],
                                                     Expanded(
                                                         child: Container(
                                                       child: Row(
@@ -564,10 +490,17 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
                     }
                   },
                   builder: (context, state) {
+                    if (state is IklanLoading) {
+                      return Center(
+                        child: CircularProgressIndicator(
+                          color: greenColor,
+                        ),
+                      );
+                    }
                     if (state is IklanSellerGetDetailSuccess) {
                       return Padding(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 36, vertical: 14),
+                            horizontal: 36, vertical: 24),
                         child: Container(
                           child: CustomScrollView(
                             slivers: [
@@ -575,7 +508,6 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
                                 hasScrollBody: false,
                                 child: Column(children: [
                                   //Only for Mahasiswa
-
                                   Flexible(
                                       child: Container(
                                     child: Column(
@@ -585,35 +517,55 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
                                               MainAxisAlignment.center,
                                           children: [
                                             Text(
-                                              "${state.iklanSellerDetail!.data.ongoingWeight.toString()} / ${widget.maxProgress}",
-                                              style: blueTextStyle.copyWith(
-                                                  fontSize: 48,
-                                                  fontWeight: FontWeight.w700),
+                                                "${state.iklanSellerDetail!.data.ongoingWeight.toString()}",
+                                                style: blackTextStyle.copyWith(
+                                                    fontSize: 48,
+                                                    fontWeight: regular)),
+                                            // ),
+                                            Container(
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.end,
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Container(
+                                                        height: 48,
+                                                        child: Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .end,
+                                                          children: [
+                                                            Row(
+                                                              children: [
+                                                                Text(
+                                                                  " / ${state.iklanSellerDetail!.data.requestedWeight.toString()}",
+                                                                  style: blackTextStyle
+                                                                      .copyWith(
+                                                                          fontSize:
+                                                                              18),
+                                                                ),
+                                                                Text(
+                                                                  "Kg",
+                                                                  style: blueTextStyle
+                                                                      .copyWith(
+                                                                          fontSize:
+                                                                              16),
+                                                                )
+                                                              ],
+                                                            )
+                                                          ],
+                                                        ),
+                                                      )
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
                                             ),
-                                            const SizedBox(
-                                              width: 5,
-                                            ),
-                                            Text(
-                                              "Kg",
-                                              style: blueTextStyle.copyWith(
-                                                  fontSize: 16),
-                                            )
                                           ],
                                         ),
                                         const SizedBox(
                                           height: 2,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              "Iklan dibuat pada 14/04/23",
-                                              style: blueTextStyle.copyWith(
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.w400),
-                                            )
-                                          ],
                                         ),
                                         const SizedBox(
                                           height: 29,
@@ -624,7 +576,10 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
                                               const EdgeInsets.only(left: 9),
                                           child: LinearPercentIndicator(
                                             lineHeight: 27,
-                                            percent: widget.iklanProgress,
+                                            percent: state.iklanSellerDetail!
+                                                    .data.ongoingWeight /
+                                                state.iklanSellerDetail!.data
+                                                    .requestedWeight,
                                             animation: true,
                                             progressColor: greenColor,
                                             backgroundColor: Colors.grey[350],
@@ -648,394 +603,296 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
                                                     fontSize: 16),
                                               ),
                                               Text(
-                                                "${widget.maxProgress}Kg",
+                                                "${state.iklanSellerDetail!.data.requestedWeight.toString()}Kg",
                                                 style: blueTextStyle.copyWith(
                                                     fontSize: 16),
                                               )
                                             ],
                                           ),
                                         )),
-                                        const SizedBox(height: 20),
-                                        CustomFilledButton(
-                                          width: 200,
-                                          title: "Buat Penawaran",
-                                          onPressed: () {
-                                            Navigator.push(context,
-                                                MaterialPageRoute(
-                                              builder: (context) {
-                                                return FormJualLimbahPage(
-                                                  adsId: widget.advertisementId,
-                                                  userId: userId,
-                                                );
-                                              },
-                                            ));
-                                          },
+                                        const SizedBox(
+                                          height: 22,
                                         ),
+                                        Divider(
+                                          color: greyColor,
+                                        ),
+                                        const SizedBox(
+                                          height: 21,
+                                        ),
+                                        Container(
+                                          child: Column(children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                Flexible(
+                                                    child: Wrap(children: [
+                                                  Text(
+                                                    state.iklanSellerDetail!
+                                                        .data.title,
+                                                    textAlign: TextAlign.center,
+                                                    style:
+                                                        blackTextStyle.copyWith(
+                                                            fontSize: 16,
+                                                            fontWeight:
+                                                                regular),
+                                                  )
+                                                ])),
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 8,
+                                            ),
+                                            Row(
+                                              children: [
+                                                Flexible(
+                                                    child: Text(
+                                                  state.iklanSellerDetail!.data
+                                                      .category,
+                                                  style: greyTextStyle.copyWith(
+                                                      fontWeight: regular),
+                                                ))
+                                              ],
+                                            )
+                                          ]),
+                                        )
                                       ],
                                     ),
                                   )),
 
-                                  // if pabrik
-                                  Expanded(
-                                      flex: 2,
-                                      child: Container(
-                                        child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.stretch,
+                                  Divider(
+                                    color: greyColor,
+                                  ),
+                                  const SizedBox(
+                                    height: 16,
+                                  ),
+                                  Container(
+                                    child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
                                             children: [
-                                              Container(
-                                                width: double.infinity,
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 17,
-                                                        vertical: 16),
-                                                decoration: BoxDecoration(
-                                                    color: whiteColor,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8)),
-                                                child: Column(children: [
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Flexible(
-                                                          child:
-                                                              Wrap(children: [
-                                                        Text(
-                                                          state
-                                                              .iklanSellerDetail!
-                                                              .data
-                                                              .title,
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          style: blackTextStyle
-                                                              .copyWith(
-                                                                  fontSize: 16,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600),
-                                                        )
-                                                      ]))
-                                                    ],
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 12,
-                                                  ),
-                                                  Divider(
-                                                    color: greyColor,
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 12,
-                                                  ),
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Text(
-                                                        "Kategori",
-                                                        style: blackTextStyle,
-                                                      ),
-                                                      Text(
-                                                        state.iklanSellerDetail!
-                                                            .data.category,
-                                                        style: blackTextStyle
-                                                            .copyWith(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600),
-                                                      )
-                                                    ],
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 12,
-                                                  ),
-                                                  Divider(
-                                                    color: greyColor,
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 12,
-                                                  ),
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Text(
-                                                        "Ketersediaan Sistem",
-                                                        style: blackTextStyle,
-                                                      ),
-                                                      Flexible(
-                                                          child: Column(
-                                                        children: [
-                                                          Text(
-                                                            state.iklanSellerDetail!.data
-                                                                        .retrievalSystem
-                                                                        .toString() ==
-                                                                    0
-                                                                ? "Diantar pemilik Limbah"
-                                                                : "Diambil di pemilik limbah",
-                                                            style: blackTextStyle
-                                                                .copyWith(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w600),
-                                                            textAlign:
-                                                                TextAlign.end,
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .visible,
-                                                          ),
-                                                        ],
-                                                      ))
-                                                    ],
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 12,
-                                                  ),
-                                                  Divider(
-                                                    color: greyColor,
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 12,
-                                                  ),
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Text(
-                                                        "Lokasi Tujuan",
-                                                        style: blackTextStyle,
-                                                      ),
-                                                      Text(
-                                                        state.iklanSellerDetail!
-                                                            .data.location,
-                                                        style: blackTextStyle
-                                                            .copyWith(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600),
-                                                      )
-                                                    ],
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 12,
-                                                  ),
-                                                  Divider(
-                                                    color: greyColor,
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 12,
-                                                  ),
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Text(
-                                                        "Spesifikasi",
-                                                        style: blackTextStyle,
-                                                      ),
-                                                      Text(
-                                                        state.iklanSellerDetail!.data
-                                                                    .additionalInformation !=
-                                                                ""
-                                                            ? state
-                                                                .iklanSellerDetail!
-                                                                .data
-                                                                .additionalInformation
-                                                            : "-",
-                                                        style: blackTextStyle
-                                                            .copyWith(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600),
-                                                      )
-                                                    ],
-                                                  ),
-                                                  //location
-                                                  const SizedBox(
-                                                    height: 12,
-                                                  ),
-                                                  Divider(
-                                                    color: greyColor,
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 12,
-                                                  ),
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Text(
-                                                        "Detail Lokasi",
-                                                        style: blackTextStyle,
-                                                      ),
-
-                                                      ElevatedButton(
-                                                          style: ElevatedButton
-                                                              .styleFrom(
-                                                            primary:
-                                                                greenColor, // Set the button's background color
-                                                            onPrimary: Colors
-                                                                .white, // Set the button's text color
-                                                          ),
-                                                          onPressed: () {
-                                                            print(state
-                                                                .iklanSellerDetail!
-                                                                .data
-                                                                .latitude);
-                                                            print(state
-                                                                .iklanSellerDetail!
-                                                                .data
-                                                                .longitude);
-                                                            _launchMapsUrl(
-                                                                state
-                                                                    .iklanSellerDetail!
-                                                                    .data
-                                                                    .latitude,
-                                                                state
-                                                                    .iklanSellerDetail!
-                                                                    .data
-                                                                    .longitude);
-                                                          },
-                                                          child: Row(
-                                                            children: [
-                                                              Icon(Icons
-                                                                  .location_on),
-                                                              Text(
-                                                                  "Lihat lokasi")
-                                                            ],
-                                                          ))
-                                                      // Text(
-                                                      //   state.iklanSellerDetail!.data
-                                                      //               .additionalInformation !=
-                                                      //           ""
-                                                      //       ? state
-                                                      //           .iklanSellerDetail!
-                                                      //           .data
-                                                      //           .latitude.toString()
-                                                      //       : "-",
-                                                      //   style: blackTextStyle
-                                                      //       .copyWith(
-                                                      //           fontWeight:
-                                                      //               FontWeight
-                                                      //                   .w600),
-                                                      // )
-                                                    ],
-                                                  ),
-                                                ]),
-                                              ),
-                                              const SizedBox(
-                                                height: 14,
-                                              ),
                                               Text(
-                                                "Ketentuan",
-                                                style: blackTextStyle.copyWith(
-                                                    fontWeight: FontWeight.w700,
-                                                    fontSize: 20),
-                                              ),
-                                              const SizedBox(
-                                                height: 20,
-                                              ),
-                                              Container(
-                                                width: double.infinity,
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 17,
-                                                        vertical: 16),
-                                                decoration: BoxDecoration(
-                                                    color: whiteColor,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8)),
-                                                child: Column(children: [
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Text(
-                                                        "Berat Minimum",
-                                                        style: blackTextStyle,
-                                                      ),
-                                                      Text(
-                                                        "${state.iklanSellerDetail!.data.minimumWeight.toString()} kg",
-                                                        style: blackTextStyle
-                                                            .copyWith(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600),
-                                                      )
-                                                    ],
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 12,
-                                                  ),
-                                                  Divider(
-                                                    color: greyColor,
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 12,
-                                                  ),
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Text(
-                                                        "Berat Maksimum",
-                                                        style: blackTextStyle,
-                                                      ),
-                                                      Text(
-                                                        "${state.iklanSellerDetail!.data.maximumWeight.toString()} kg",
-                                                        style: blackTextStyle
-                                                            .copyWith(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600),
-                                                      )
-                                                    ],
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 12,
-                                                  ),
-                                                  Divider(
-                                                    color: greyColor,
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 12,
-                                                  ),
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Text(
-                                                        "Pengeluaran",
-                                                        style: blackTextStyle,
-                                                      ),
-                                                      Text(
-                                                        "+Rp.${state.iklanSellerDetail!.data.price},- / Kilogram",
-                                                        style: blackTextStyle
-                                                            .copyWith(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600),
-                                                      )
-                                                    ],
-                                                  ),
-                                                ]),
-                                              ),
-                                            ]),
-                                      )),
+                                                  "Spesifikasi Permintaan Limbah")
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 16,
+                                          ),
+                                          Wrap(
+                                            children: [
+                                              state.iklanSellerDetail!.data
+                                                          .additionalInformation ==
+                                                      ""
+                                                  ? Text("-",
+                                                      style: blackTextStyle
+                                                          .copyWith(
+                                                              fontWeight:
+                                                                  semiBold,
+                                                              fontSize: 14))
+                                                  : Text(
+                                                      "${state.iklanSellerDetail!.data.additionalInformation}",
+                                                      style: blackTextStyle
+                                                          .copyWith(
+                                                              fontWeight:
+                                                                  semiBold,
+                                                              fontSize: 14),
+                                                    )
+                                            ],
+                                          )
+                                        ]),
+                                  ),
 
                                   const SizedBox(
-                                    height: 23,
+                                    height: 16,
+                                  ),
+                                  Divider(
+                                    color: greyColor,
+                                  ),
+                                  const SizedBox(
+                                    height: 21,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text("Ketentuan Limbah"),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 19,
+                                  ),
+                                  Container(
+                                    child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.stretch,
+                                        children: [
+                                          Container(
+                                            width: double.infinity,
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 17, vertical: 16),
+                                            decoration: BoxDecoration(
+                                                color: whiteColor,
+                                                borderRadius:
+                                                    BorderRadius.circular(8)),
+                                            child: Column(children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    "Berat Minimum",
+                                                    style: blackTextStyle,
+                                                  ),
+                                                  Text(
+                                                    "${state.iklanSellerDetail!.data.minimumWeight.toString()} kg",
+                                                    style:
+                                                        blackTextStyle.copyWith(
+                                                            fontWeight:
+                                                                regular),
+                                                  )
+                                                ],
+                                              ),
+                                              const SizedBox(
+                                                height: 24,
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    "Berat Maksimum",
+                                                    style: blackTextStyle,
+                                                  ),
+                                                  Text(
+                                                    "${state.iklanSellerDetail!.data.maximumWeight.toString()} kg",
+                                                    style:
+                                                        blackTextStyle.copyWith(
+                                                            fontWeight:
+                                                                regular),
+                                                  )
+                                                ],
+                                              ),
+                                              const SizedBox(
+                                                height: 24,
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    userType == 3
+                                                        ? "Pengeluaran"
+                                                        : "Pendapatan",
+                                                    style: blackTextStyle,
+                                                  ),
+                                                  Text(
+                                                    "+Rp.${state.iklanSellerDetail!.data.price},- / Kilogram",
+                                                    style:
+                                                        blackTextStyle.copyWith(
+                                                            fontWeight:
+                                                                regular),
+                                                  )
+                                                ],
+                                              ),
+                                            ]),
+                                          ),
+                                        ]),
+                                  ),
+                                  const SizedBox(
+                                    height: 13,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Berat Limbah yang Dibutuhkan",
+                                        style: blackTextStyle.copyWith(
+                                            fontWeight: regular, fontSize: 14),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 12,
+                                  ),
+                                  TextFormField(
+                                    onChanged: (value) {
+                                      setState(() {
+                                        penghasilanValue =
+                                            beratLimbahController.text;
+                                      });
+                                    },
+                                    autovalidateMode:
+                                        AutovalidateMode.onUserInteraction,
+                                    keyboardType: TextInputType.number,
+                                    controller: beratLimbahController,
+                                    decoration: InputDecoration(
+                                        suffix: Text(
+                                          "/Kilogram",
+                                          style: blackTextStyle.copyWith(
+                                            fontWeight: semiBold,
+                                          ),
+                                        ),
+                                        hintText: "Berat",
+                                        contentPadding:
+                                            const EdgeInsets.all(12),
+                                        border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8))),
+                                  ),
+
+                                  const SizedBox(
+                                    height: 59,
+                                  ),
+
+                                  BlocProvider(
+                                    create: (context) => TransaksiBloc(),
+                                    child: BlocConsumer<TransaksiBloc,
+                                            TransaksiState>(
+                                        listener: (context, state) {
+                                      // TODO: implement listener
+                                      if (state is TransaksiFailed) {
+                                        showCustomSnacKbar(context, state.e);
+                                      }
+                                      if (state is createTransaksiSuccess) {
+                                        Navigator.pushNamed(context,
+                                            JualLimbahSuccessPage.routeName);
+                                      }
+                                    }, builder: (context, state) {
+                                      if (state is TransaksiLoading) {
+                                        return Center(
+                                          child: LoadingAnimationWidget
+                                              .twistingDots(
+                                            leftDotColor:
+                                                greenColor,
+                                            rightDotColor:
+                                                greenColor,
+                                            size: 40,
+                                          ),
+                                        );
+                                      }
+                                      return CustomFilledButton(
+                                        width: double.infinity,
+                                        title: "Buat Penawaran",
+                                        onPressed: () {
+                                          JualLimbahForm jualLimbahForm =
+                                              JualLimbahForm(
+                                                  userId: userId,
+                                                  advertisementId:
+                                                      widget.advertisementId!,
+                                                  weight: int.parse(
+                                                      penghasilanValue),
+                                                  location: "",
+                                                  image: "");
+
+                                          context.read<TransaksiBloc>().add(
+                                              CreateTransaksiSeller(
+                                                  jualLimbahForm));
+                                        },
+                                      );
+                                    }),
                                   ),
 
                                   if (userType == 2) ...[
@@ -1109,8 +966,14 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
                                                                   fontSize: 15),
                                                         ),
                                                         lineHeight: 11,
-                                                        percent: widget
-                                                            .iklanProgress,
+                                                        percent: state
+                                                                .iklanSellerDetail!
+                                                                .data
+                                                                .ongoingWeight /
+                                                            state
+                                                                .iklanSellerDetail!
+                                                                .data
+                                                                .requestedWeight,
                                                         animation: true,
                                                         progressColor:
                                                             blueColor,
@@ -1165,6 +1028,7 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
                         ),
                       );
                     }
+
                     return Container();
                   },
                 ),
