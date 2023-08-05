@@ -43,6 +43,7 @@ class _IklanPageState extends State<IklanPage> {
   String? queryIklan = "";
   dynamic getAdvertisementId;
   late IklanBloc _iklanBloc;
+  bool onSearch = false;
   bool isRefresh = false;
   bool isProcess = false;
 
@@ -175,8 +176,13 @@ class _IklanPageState extends State<IklanPage> {
                                 placeholder: "Daging Ayam Prasmanan",
                                 placeholderStyle: TextStyle(color: Colors.grey),
                                 onChanged: ((value) {
-                                  _iklanBloc = IklanBloc()
-                                    ..add(IklanSearch(value));
+                                  if (value.isEmpty) {
+                                    onSearch = false;
+                                  } else {
+                                    onSearch = true;
+                                    _iklanBloc = IklanBloc()
+                                      ..add(IklanSearch(value));
+                                  }
                                 }),
                               ),
                             ),
@@ -216,7 +222,8 @@ class _IklanPageState extends State<IklanPage> {
                                             color: greenColor),
                                       ));
                                 }
-                                if (state is IklanGetSuccess) {
+                                if (state is IklanGetSuccess &&
+                                    onSearch == false) {
                                   return ListView.builder(
                                     shrinkWrap: true,
                                     itemCount: state.iklanSeller!.data.length,
@@ -247,7 +254,8 @@ class _IklanPageState extends State<IklanPage> {
                                     },
                                   );
                                 }
-                                if (state is IklanSearchSuccess) {
+                                if (state is IklanSearchSuccess &&
+                                    onSearch == true) {
                                   print('horay');
                                   print(state.searchIklan!.data[0].title);
                                   return ListView.builder(
