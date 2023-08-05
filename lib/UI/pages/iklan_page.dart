@@ -50,7 +50,7 @@ class _IklanPageState extends State<IklanPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _iklanBloc = IklanBloc()..add(IklanSearch(queryIklan));
+    _iklanBloc = IklanBloc()..add(IklanGetAll());
     final authState = context.read<AuthBloc>().state;
 
     if (authState is AuthSuccess) {
@@ -175,7 +175,7 @@ class _IklanPageState extends State<IklanPage> {
                                 placeholder: "Daging Ayam Prasmanan",
                                 placeholderStyle: TextStyle(color: Colors.grey),
                                 onChanged: ((value) {
-                                  print(value);
+                                  // print(value);
                                   context
                                       .read<IklanBloc>()
                                       .add(IklanSearch(value));
@@ -217,7 +217,39 @@ class _IklanPageState extends State<IklanPage> {
                                             color: greenColor),
                                       ));
                                 }
+                                if (state is IklanGetSuccess) {
+                                  return ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: state.iklanSeller!.data.length,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemBuilder: (context, index) {
+                                      var iklan =
+                                          state.iklanSeller!.data[index];
+                                      getAdvertisementId = iklan.id;
+                                      return ListIklan(
+                                        title: iklan.title,
+                                        id: getAdvertisementId,
+                                        price: iklan.price,
+                                        image: iklan.image,
+                                        user: iklan.user,
+                                        category: iklan.category,
+                                        onTap: () {
+                                          Navigator.push(context,
+                                              MaterialPageRoute(
+                                            builder: (context) {
+                                              return DetailIklanPage(
+                                                advertisementId:
+                                                    getAdvertisementId,
+                                              );
+                                            },
+                                          ));
+                                        },
+                                      );
+                                    },
+                                  );
+                                }
                                 if (state is IklanSearchSuccess) {
+                                  print("SAMPAI");
                                   return ListView.builder(
                                     shrinkWrap: true,
                                     itemCount: state.searchIklan!.data.length,
