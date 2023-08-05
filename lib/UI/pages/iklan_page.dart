@@ -173,9 +173,9 @@ class _IklanPageState extends State<IklanPage> {
                                 prefix: Icon(Icons.search),
                                 placeholder: "Daging Ayam Prasmanan",
                                 placeholderStyle: TextStyle(color: Colors.grey),
-                                onChanged: ((value) {})
-                                // ((value) => SearchList(value))
-                                ,
+                                onChanged: ((value) {
+                                  print(value);
+                                }),
                               ),
                             ),
                           ),
@@ -213,14 +213,14 @@ class _IklanPageState extends State<IklanPage> {
                                             color: greenColor),
                                       ));
                                 }
-                                if (state is IklanGetSuccess) {
+                                if (state is IklanSearchSuccess) {
                                   return ListView.builder(
                                     shrinkWrap: true,
-                                    itemCount: state.iklanSeller!.data.length,
+                                    itemCount: state.searchIklan!.data.length,
                                     physics: NeverScrollableScrollPhysics(),
                                     itemBuilder: (context, index) {
                                       var iklan =
-                                          state.iklanSeller!.data[index];
+                                          state.searchIklan!.data[index];
                                       getAdvertisementId = iklan.id;
                                       return ListIklan(
                                         title: iklan.title,
