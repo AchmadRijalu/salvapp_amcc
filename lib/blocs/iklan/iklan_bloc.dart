@@ -107,8 +107,10 @@ class IklanBloc extends Bloc<IklanEvent, IklanState> {
       if (event is IklanSearch) {
         try {
           emit(IklanLoading());
-          final getIklanSearch = await IklanService().searchIklan(event.query);
+          SearchIklan? getIklanSearch =
+              await IklanService().searchIklan(event.query);
           emit(IklanSearchSuccess(getIklanSearch));
+          print('SUKSES ${event.query}');
         } catch (e) {
           print('GAGAL');
           emit(IklanFailed(e.toString()));

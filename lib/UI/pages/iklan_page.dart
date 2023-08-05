@@ -50,7 +50,7 @@ class _IklanPageState extends State<IklanPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _iklanBloc = IklanBloc()..add(IklanGetAll());
+    _iklanBloc = IklanBloc()..add(IklanSearch("butuh"));
     final authState = context.read<AuthBloc>().state;
 
     if (authState is AuthSuccess) {
@@ -132,7 +132,7 @@ class _IklanPageState extends State<IklanPage> {
               setState(() {
                 isRefresh = true;
               });
-              _iklanBloc.add(IklanGetAll());
+              _iklanBloc.add(IklanSearch("butuh"));
               await Future.delayed(const Duration(milliseconds: 100))
                   .timeout(const Duration(seconds: 3));
               setState(() {
@@ -210,6 +210,7 @@ class _IklanPageState extends State<IklanPage> {
                             create: (context) => _iklanBloc,
                             child: BlocBuilder<IklanBloc, IklanState>(
                               builder: (context, state) {
+                                print("current state ${state}");
                                 if (state is IklanLoading && !isRefresh ||
                                     isRefresh) {
                                   return Container(
@@ -251,8 +252,8 @@ class _IklanPageState extends State<IklanPage> {
                                 //   );
                                 // }
                                 if (state is IklanSearchSuccess) {
-                                  print('horay');
-                                  print(state.searchIklan!.data[0].title);
+                                  // print('horay');
+                                  // print(state.searchIklan!.data[0].title);
                                   return ListView.builder(
                                     shrinkWrap: true,
                                     itemCount: state.searchIklan!.data.length,
@@ -261,6 +262,7 @@ class _IklanPageState extends State<IklanPage> {
                                       var iklan =
                                           state.searchIklan!.data[index];
                                       getAdvertisementId = iklan.id;
+                                      print("SHEES ${iklan.title}");
                                       return ListIklan(
                                         title: iklan.title,
                                         id: getAdvertisementId,
