@@ -7,8 +7,6 @@ import '../../models/sign_up_form_model.dart';
 import '../../models/user_model.dart';
 import '../../services/auth_services.dart';
 
-
-
 part 'auth_event.dart';
 part 'auth_state.dart';
 
@@ -23,7 +21,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
           emit(AuthSuccess(user));
         } catch (e) {
-          
           emit(AuthFailed(e.toString()));
         }
       }
@@ -33,7 +30,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
           final user = await AuthService().login(event.data!);
 
-          print(user.point);
           emit(AuthSuccess(user));
         } catch (e) {
           emit(AuthFailed(e.toString()));
@@ -52,13 +48,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           emit(AuthFailed(e.toString()));
         }
       }
-      if(event is AuthLogout){
-        try{
-            emit(AuthLoading());
-            await AuthService().logout();
-            emit(AuthInitial());
-        }
-        catch(e){
+      if (event is AuthLogout) {
+        try {
+          emit(AuthLoading());
+          await AuthService().logout();
+          emit(AuthInitial());
+        } catch (e) {
           emit(AuthFailed(e.toString()));
         }
       }
