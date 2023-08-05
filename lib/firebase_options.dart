@@ -63,7 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '365890102802',
     projectId: 'salv-amcc',
     storageBucket: 'salv-amcc.appspot.com',
-    iosClientId: '365890102802-h46ug2bb56ibadp8avbkp418hrc7es2e.apps.googleusercontent.com',
+    iosClientId:
+        '365890102802-h46ug2bb56ibadp8avbkp418hrc7es2e.apps.googleusercontent.com',
     iosBundleId: 'com.example.salvappAmcc',
   );
 }

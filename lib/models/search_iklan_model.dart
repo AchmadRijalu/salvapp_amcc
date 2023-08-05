@@ -10,65 +10,63 @@ SearchIklan searchIklanFromJson(String str) =>
 String searchIklanToJson(SearchIklan data) => json.encode(data.toJson());
 
 class SearchIklan {
-  List<Datum> data;
-  String message;
   int statusCode;
+  String message;
+  List<SearchIklanData> data;
 
   SearchIklan({
-    required this.data,
-    required this.message,
     required this.statusCode,
+    required this.message,
+    required this.data,
   });
 
   factory SearchIklan.fromJson(Map<String, dynamic> json) => SearchIklan(
-        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
-        message: json["message"],
         statusCode: json["status_code"],
+        message: json["message"],
+        data: List<SearchIklanData>.from(
+            json["data"].map((x) => SearchIklanData.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
-        "message": message,
         "status_code": statusCode,
+        "message": message,
+        "data": List<dynamic>.from(data.map((x) => x.toJson())),
       };
 }
 
-class Datum {
-  String category;
+class SearchIklanData {
   String id;
-  int ongoingWeight;
-  int price;
-  int requestedWeight;
   String title;
-  String endDate;
+  String category;
+  int price;
+  String user;
+  String image;
 
-  Datum({
-    required this.category,
+  SearchIklanData({
     required this.id,
-    required this.ongoingWeight,
-    required this.price,
-    required this.requestedWeight,
     required this.title,
-    required this.endDate,
+    required this.category,
+    required this.price,
+    required this.user,
+    required this.image,
   });
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
-        category: json["category"],
+  factory SearchIklanData.fromJson(Map<String, dynamic> json) =>
+      SearchIklanData(
         id: json["id"],
-        ongoingWeight: json["ongoing_weight"],
-        price: json["price"],
-        requestedWeight: json["requested_weight"],
         title: json["title"],
-        endDate: json["end_date"],
+        category: json["category"],
+        price: json["price"],
+        user: json["user"],
+        image: json["image"],
       );
 
   Map<String, dynamic> toJson() => {
-        "category": category,
         "id": id,
-        "ongoing_weight": ongoingWeight,
-        "price": price,
-        "requested_weight": requestedWeight,
         "title": title,
-        "end_date": endDate,
+        "category": category,
+        "price": price,
+        "user": user,
+        "image": image,
       };
 }

@@ -146,7 +146,6 @@ class IklanService {
           'Authorization': await AuthService().getToken(),
         },
       );
-      print("halo ${response}");
       return SearchIklan.fromJson(json.decode(response.body));
     } catch (e) {
       rethrow;
