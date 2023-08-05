@@ -176,6 +176,9 @@ class _IklanPageState extends State<IklanPage> {
                                 placeholderStyle: TextStyle(color: Colors.grey),
                                 onChanged: ((value) {
                                   print(value);
+                                  context
+                                      .read<IklanBloc>()
+                                      .add(IklanSearch(value));
                                 }),
                               ),
                             ),
@@ -227,8 +230,8 @@ class _IklanPageState extends State<IklanPage> {
                                         title: iklan.title,
                                         id: getAdvertisementId,
                                         price: iklan.price,
-                                        image: iklan.image,
-                                        user: iklan.user,
+                                        // image: iklan.image,
+                                        // user: iklan.user,
                                         category: iklan.category,
                                         onTap: () {
                                           Navigator.push(context,
