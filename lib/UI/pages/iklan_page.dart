@@ -40,6 +40,7 @@ class _IklanPageState extends State<IklanPage> {
   String? userType;
   dynamic userId;
 
+  String? queryIklan = "";
   dynamic getAdvertisementId;
   late IklanBloc _iklanBloc;
   bool isRefresh = false;
@@ -49,7 +50,7 @@ class _IklanPageState extends State<IklanPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _iklanBloc = IklanBloc()..add(IklanGetAll());
+    _iklanBloc = IklanBloc()..add(IklanSearch(queryIklan));
     final authState = context.read<AuthBloc>().state;
 
     if (authState is AuthSuccess) {
