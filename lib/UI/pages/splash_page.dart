@@ -29,7 +29,7 @@ class SplashPage extends StatelessWidget {
           
           if(state is AuthFailed){
             print(state.props);
-            Navigator.pushNamedAndRemoveUntil(context, SigninPage.routeName , (route) => false);
+            Navigator.pushNamedAndRemoveUntil(context, OnboardingPage.routeName, (route) => false);
           }
         },
         child: Center(
