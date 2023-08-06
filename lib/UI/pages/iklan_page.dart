@@ -181,14 +181,10 @@ class _IklanPageState extends State<IklanPage> {
                                       placeholderStyle:
                                           TextStyle(color: Colors.grey),
                                       onChanged: ((value) {
-                                        if (value.isEmpty) {
-                                          onSearch = false;
-                                        } else {
-                                          onSearch = true;
-                                          context
-                                              .read<IklanBloc>()
-                                              .add(IklanSearch(value));
-                                        }
+                                        onSearch = true;
+                                        context
+                                            .read<IklanBloc>()
+                                            .add(IklanSearch(value));
                                       }),
                                     ),
                                   ),
