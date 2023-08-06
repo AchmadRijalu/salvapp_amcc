@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-
 import '../../models/aksi_transaksi_buyer_model.dart';
 import '../../models/aksi_transaksi_seller_model.dart';
 import '../../models/detail_transaksi_buyer_model.dart';
@@ -27,6 +26,7 @@ class TransaksiBloc extends Bloc<TransaksiEvent, TransaksiState> {
           emit(TransaksiLoading());
           final transaksi =
               await TransaksiService().getTransaksiSeller(event.userdata!);
+
           emit(TransaksiSellerGetSuccess(transaksi));
         } catch (e) {
           print(e.toString());
@@ -97,8 +97,8 @@ class TransaksiBloc extends Bloc<TransaksiEvent, TransaksiState> {
           final createTransaksi =
               await TransaksiService().createTransaksi(event.jualLimbahForm);
 
-          print(createTransaksi.message);
           emit(createTransaksiSuccess(createTransaksi));
+          print(createTransaksi.message);
         } catch (e) {
           print(e.toString());
           emit(TransaksiFailed(e.toString()));

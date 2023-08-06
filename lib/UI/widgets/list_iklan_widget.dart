@@ -115,10 +115,7 @@ class ListIklan extends StatelessWidget {
 
 class ListIklanPabrik extends StatelessWidget {
   late String? title;
-  late String? endDate;
-  late String? tanggal;
-  late dynamic ongoing_weight;
-  late int? requested_weight;
+  
 
   dynamic? progressBarIndicator;
 
@@ -127,9 +124,7 @@ class ListIklanPabrik extends StatelessWidget {
       {super.key,
       this.title,
       this.onTap,
-      this.endDate,
-      this.ongoing_weight,
-      this.requested_weight,
+      
       this.progressBarIndicator});
 
   @override
@@ -193,12 +188,12 @@ class ListIklanPabrik extends StatelessWidget {
                                       Flexible(
                                           child: Row(
                                         children: [
-                                          Text(
-                                            "Iklan selesai pada ${endDate}",
-                                            style: blackTextStyle.copyWith(
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 10),
-                                          )
+                                          // Text(
+                                          //   "Iklan selesai pada ${endDate}",
+                                          //   style: blackTextStyle.copyWith(
+                                          //       fontWeight: FontWeight.w700,
+                                          //       fontSize: 10),
+                                          // )
                                         ],
                                       )),
                                       Flexible(
@@ -211,19 +206,19 @@ class ListIklanPabrik extends StatelessWidget {
                                               style: blackTextStyle.copyWith(
                                                   fontSize: 10),
                                             ),
-                                            Text("${ongoing_weight}",
-                                                style: blackTextStyle.copyWith(
-                                                    fontWeight: FontWeight.w700,
-                                                    fontSize: 10)),
-                                            Text(" Kg / ",
-                                                style: blackTextStyle.copyWith(
-                                                    fontWeight: FontWeight.w700,
-                                                    fontSize: 10)),
-                                            Text(
-                                              "${requested_weight} Kg",
-                                              style: blackTextStyle.copyWith(
-                                                  fontSize: 10),
-                                            ),
+                                            // Text("${ongoing_weight}",
+                                            //     style: blackTextStyle.copyWith(
+                                            //         fontWeight: FontWeight.w700,
+                                            //         fontSize: 10)),
+                                            // Text(" Kg / ",
+                                            //     style: blackTextStyle.copyWith(
+                                            //         fontWeight: FontWeight.w700,
+                                            //         fontSize: 10)),
+                                            // Text(
+                                            //   "${requested_weight} Kg",
+                                            //   style: blackTextStyle.copyWith(
+                                            //       fontSize: 10),
+                                            // ),
                                           ],
                                         ),
                                       ))
@@ -264,10 +259,10 @@ class ListIklanPabrik extends StatelessWidget {
                           "0 Kg",
                           style: blackTextStyle.copyWith(fontSize: 16),
                         ),
-                        Text(
-                          "${requested_weight} Kg",
-                          style: blackTextStyle.copyWith(fontSize: 16),
-                        )
+                        // Text(
+                        //   "${requested_weight} Kg",
+                        //   style: blackTextStyle.copyWith(fontSize: 16),
+                        // )
                       ],
                     ),
                   ))

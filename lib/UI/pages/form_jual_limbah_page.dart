@@ -234,7 +234,6 @@ class _FormJualLimbahPageState extends State<FormJualLimbahPage> {
                             userId: widget.userId!,
                             advertisementId: widget.adsId!,
                             weight: int.parse(penghasilanValue),
-                            location: lokasiController.text,
                             image: downloadUrl);
 
                         context

@@ -169,11 +169,12 @@ class _BerandaPageState extends State<BerandaPage> {
                                         ListView.builder(
                                       shrinkWrap: true,
                                       scrollDirection: Axis.horizontal,
-                                      itemCount: state
-                                          .beranda!.data[0].transactionCount,
+                                      itemCount: 
+                                      // state.beranda!.data[0].transactionCount,
+                                      state.beranda!.data.length,
                                       physics: BouncingScrollPhysics(),
                                       itemBuilder: (context, index) {
-                                        var limbah = state.beranda!.data[0];
+                                        var limbah = state.beranda!.data[index];
                                         return ListLimbahBerandaItem(
                                             category: limbah.category,
                                             totalWeight: limbah.totalWeight);

@@ -28,94 +28,93 @@ class _EdukasiPageState extends State<EdukasiPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<EdukasiBloc, EdukasiState>(
-        builder: (context, state) {
-          if (state is EdukasiLoading) {
-            return Center(
-              child: CircularProgressIndicator(color: greenColor),
-            );
-          }
-          if (state is EdukasiSuccess) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 37),
-              child: Container(
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+      body: SafeArea(
+        child: ListView(children: [
+          Container(
+            color: greenColor,
+            height: 153,
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const SizedBox(
-                        height: 44,
+                      Row(
+                        children: [
+                          Text(
+                            "Edukasi Limbah Makanan",
+                            style: whiteTextStyle.copyWith(
+                                fontSize: 20, fontWeight: regular),
+                          )
+                        ],
                       ),
-                      Row(children: [Image.asset('assets/image/logo-png.png')]),
                       const SizedBox(
-                        height: 14,
+                        height: 8,
                       ),
-                      Expanded(
-                          child: Container(
-                        child: SingleChildScrollView(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    "Mengapa Limbah Makanan \nPenting?",
-                                    style: blackTextStyle.copyWith(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w700),
-                                  )
-                                ],
-                              ),
-
-                              ListView.builder(
-                                shrinkWrap: true,
-                                physics: NeverScrollableScrollPhysics(),
-                                itemCount: state.edukasi!.data.length,
-                                itemBuilder: (context, index) {
-                                  var edukasi = state.edukasi!.data[index];
-                                  return ListEdukasi(
-                                    onTap: () {
-                                      Navigator.push(context, MaterialPageRoute(
-                                        builder: (context) {
-                                          return DetailEdukasiPage(
-                                            edukasiId: edukasi.id,
-                                          );
-                                        },
-                                      ));
-                                    },
-                                    gambarLimbah:
-                                        "assets/image/image_sampah.png",
-                                    namaTutorial: edukasi.title,
-                                    durasiVideo: 15,
-                                    tipeLimbah: edukasi.category,
-                                  );
-                                },
-                              )
-                              // ListEdukasi(
-                              //   gambarLimbah: "assets/image/image_sampah.png",
-                              //   namaTutorial:
-                              //       "Cara membuat kompos dari sampah rumah tangga tanpa bau",
-                              //   durasiVideo: 15,
-                              //   tipeLimbah: "Buah-buahan",
-                              // )
-                            ],
-                          ),
-                        ),
-                      ))
-                    ]),
-              ),
-            );
-          }
-          if (state is EdukasiFailed) {
-            return Center(
-              child: Text(
-                "Ditunggu segera...",
-                style:
-                    blackTextStyle.copyWith(fontSize: 16, fontWeight: semiBold),
-              ),
-            );
-          }
-          return Container();
-        },
+                      Row(
+                        children: [
+                          Text(
+                            "Sisa limbah makanan memiliki banyak manfaat. \nSimaklah edukasi yang disediakan untuk \nmengetahui apa yang dapat dilakukan terhadap \nlimbah makanan.",
+                            style: whiteTextStyle.copyWith(
+                                fontSize: 12, fontWeight: light),
+                          )
+                        ],
+                      ),
+                    ],
+                  )),
+            ]),
+          ),
+          BlocBuilder<EdukasiBloc, EdukasiState>(
+            builder: (context, state) {
+              if (state is EdukasiLoading) {
+                return Container(
+                  margin: const EdgeInsets.only(top: 50),
+                  child: Column(children: [
+                    Center(
+                      child: CircularProgressIndicator(color: greenColor),
+                    )
+                  ]),
+                );
+              }
+              if (state is EdukasiSuccess) {
+                return ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: state.edukasi!.data.length,
+                  itemBuilder: (context, index) {
+                    var edukasi = state.edukasi!.data[index];
+                    return ListEdukasi(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context) {
+                            return DetailEdukasiPage(
+                              edukasiId: edukasi.id,
+                            );
+                          },
+                        ));
+                      },
+                      thumbnail: "assets/image/image_example_edukasipng.png",
+                      namaTutorial: edukasi.title,
+                      durasiVideo: 15,
+                      tipeLimbah: edukasi.category,
+                    );
+                  },
+                );
+              }
+              if (state is EdukasiFailed) {
+                return Center(
+                  child: Text(
+                    "${state.e.toString()}",
+                    style: blackTextStyle.copyWith(
+                        fontSize: 16, fontWeight: semiBold),
+                  ),
+                );
+              }
+              return Container();
+            },
+          ),
+        ]),
       ),
     );
   }

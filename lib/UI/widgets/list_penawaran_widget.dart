@@ -8,7 +8,6 @@ import '../../common/common.dart';
 class ListPenawaran extends StatelessWidget {
   final String? namaLimbah;
   final String? username;
-  final String? tanggal;
   final String? beratLimbah;
   final String? gambar;
   final VoidCallback? onTap;
@@ -20,7 +19,6 @@ class ListPenawaran extends StatelessWidget {
       required this.beratLimbah,
       this.gambar,
       required this.statusPenawaran,
-      required this.tanggal,
       required this.username});
 
   @override
@@ -121,16 +119,7 @@ class ListPenawaran extends StatelessWidget {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  Text(
-                                    tanggal!,
-                                    style: statusPenawaran == 'Respon' ||
-                                            statusPenawaran ==
-                                                "Sedang Berlangsung" ||
-                                            statusPenawaran ==
-                                                "Menunggu Konfirmasi"
-                                        ? whiteTextStyle.copyWith(fontSize: 7, fontWeight: medium)
-                                        : greenTextStyle.copyWith(fontSize: 7, fontWeight: medium),
-                                  )
+                                  
                                 ],
                               ),
                             ),

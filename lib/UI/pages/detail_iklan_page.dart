@@ -1,8 +1,14 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:camera/camera.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:salvapp_amcc/blocs/transaksi/transaksi_bloc.dart';
@@ -38,6 +44,8 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
 
   final TextEditingController beratLimbahController =
       TextEditingController(text: '');
+  XFile? file;
+  String downloadUrl = "";
 
   void initState() {
     // TODO: implement initState
@@ -843,10 +851,72 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
                                                 BorderRadius.circular(8))),
                                   ),
 
+                                  if (file != null) ...[
+                                    const SizedBox(
+                                      height: 22,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Foto Limbah Penawaran Anda",
+                                          style: blackTextStyle.copyWith(
+                                              fontWeight: regular,
+                                              fontSize: 14),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 12,
+                                    ),
+                                    Center(
+                                        child: Container(
+                                      padding: const EdgeInsets.all(12),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          color: whiteColor),
+                                      width: 200,
+                                      height: 200,
+                                      child: Image.file(
+                                        File(file!.path),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    )),
+                                  ],
                                   const SizedBox(
-                                    height: 59,
+                                    height: 22,
+                                  ),
+                                  CustomFilledButton(
+                                    title: "Ambil Foto",
+                                    onPressed: () async {
+                                      //Function with imagePicker to open and save photo.
+                                      ImagePicker imagePicker = ImagePicker();
+                                      file = await imagePicker.pickImage(
+                                          source: ImageSource.camera);
+                                      setState(() {
+                                        file = file;
+                                        print(file!.name);
+                                      });
+
+                                      // ImagePicker imagePicker = ImagePicker();
+                                      // file = await imagePicker.pickImage(
+                                      //     source: ImageSource.camera);
+
+                                      // print('${file?.path}');
+                                    },
                                   ),
 
+                                  file != null
+                                      ? const SizedBox(
+                                          height: 42,
+                                        )
+                                      : const SizedBox(
+                                          height: 57,
+                                        ),
+
+                                  ///////Button Kirim //////
                                   BlocProvider(
                                     create: (context) => TransaksiBloc(),
                                     child: BlocConsumer<TransaksiBloc,
@@ -865,10 +935,8 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
                                         return Center(
                                           child: LoadingAnimationWidget
                                               .twistingDots(
-                                            leftDotColor:
-                                                greenColor,
-                                            rightDotColor:
-                                                greenColor,
+                                            leftDotColor: greenColor,
+                                            rightDotColor: greenColor,
                                             size: 40,
                                           ),
                                         );
@@ -876,20 +944,57 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
                                       return CustomFilledButton(
                                         width: double.infinity,
                                         title: "Buat Penawaran",
-                                        onPressed: () {
-                                          JualLimbahForm jualLimbahForm =
-                                              JualLimbahForm(
-                                                  userId: userId,
-                                                  advertisementId:
-                                                      widget.advertisementId!,
-                                                  weight: int.parse(
-                                                      penghasilanValue),
-                                                  location: "",
-                                                  image: "");
+                                        onPressed: () async {
+                                          if (beratLimbahController.text !=
+                                                  null ||
+                                              beratLimbahController.text !=
+                                                  "") {
+                                            final storageRef =
+                                                FirebaseStorage.instance.ref();
+                                            final pictureRef =
+                                                storageRef.child(file!.path);
+                                            String dataUrl =
+                                                'data:image/png;base64,' +
+                                                    base64Encode(
+                                                        File(file!.path)
+                                                            .readAsBytesSync());
 
-                                          context.read<TransaksiBloc>().add(
-                                              CreateTransaksiSeller(
-                                                  jualLimbahForm));
+                                            //Getting reference to storage root
+                                            Reference reference =
+                                                FirebaseStorage.instance.ref();
+                                            Reference referenceDirectoryImages =
+                                                reference.child('image');
+
+                                            //Store the file
+                                            if (file != null) {
+                                              try {
+                                                await pictureRef.putString(
+                                                    dataUrl,
+                                                    format: PutStringFormat
+                                                        .dataUrl);
+                                                downloadUrl = await pictureRef
+                                                    .getDownloadURL();
+                                              } catch (e) {
+                                                //Nothing yet
+                                              }
+                                            }
+
+                                            JualLimbahForm jualLimbahForm =
+                                                JualLimbahForm(
+                                                    userId: userId,
+                                                    advertisementId:
+                                                        widget.advertisementId!,
+                                                    weight: int.parse(
+                                                        penghasilanValue),
+                                                    image: downloadUrl);
+
+                                            context.read<TransaksiBloc>().add(
+                                                CreateTransaksiSeller(
+                                                    jualLimbahForm));
+                                          } else {
+                                            showCustomSnacKbar(context,
+                                                "Berat Limbah tidak boleh kosong");
+                                          }
                                         },
                                       );
                                     }),

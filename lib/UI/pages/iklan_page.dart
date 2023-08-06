@@ -257,6 +257,9 @@ class _IklanPageState extends State<IklanPage> {
                               },
                             ),
                           ),
+
+
+                          
                         ] else if (userType == "2") ...[
                           BlocProvider(
                             create: (context) =>
@@ -281,35 +284,35 @@ class _IklanPageState extends State<IklanPage> {
                                     itemBuilder: (context, index) {
                                       var iklan = state.iklanBuyer!.data[index];
                                       getAdvertisementId = iklan.id;
-                                      String iklanDate = iklan.endDate;
-                                      final iklanDateConv =
-                                          iklanDate.indexOf("2023", 0);
-                                      return ListIklanPabrik(
-                                        title: iklan.title,
-                                        progressBarIndicator:
-                                            iklan.ongoingWeight /
-                                                iklan.requestedWeight,
-                                        ongoing_weight: iklan.ongoingWeight,
-                                        requested_weight: iklan.requestedWeight,
-                                        endDate: iklan.endDate
-                                            .substring(0, iklanDateConv),
-                                        onTap: () {
-                                          Navigator.push(context,
-                                              MaterialPageRoute(
-                                            builder: (context) {
-                                              return DetailIklanPage(
-                                                advertisementId: iklan.id,
-                                                // iklanProgress:
-                                                //     iklan.ongoingWeight /
-                                                //         iklan.requestedWeight,
-                                              );
-                                            },
-                                          ));
-                                          // context
-                                          //     .read<IklanBloc>()
-                                          //     .add(IklanGetDetailBuyer(iklan.id));
-                                        },
-                                      );
+                                      // String iklanDate = iklan.endDate;
+                                      // final iklanDateConv =
+                                      //     iklanDate.indexOf("2023", 0);
+                                      // return ListIklanPabrik(
+                                      //   title: iklan.title,
+                                      //   // progressBarIndicator:
+                                      //   //     iklan.ongoingWeight /
+                                      //   //         iklan.requestedWeight,
+                                      //   // ongoing_weight: iklan.ongoingWeight,
+                                      //   // requested_weight: iklan.requestedWeight,
+                                      //   // endDate: iklan.endDate
+                                      //   //     .substring(0, iklanDateConv),
+                                      //   onTap: () {
+                                      //     Navigator.push(context,
+                                      //         MaterialPageRoute(
+                                      //       builder: (context) {
+                                      //         return DetailIklanPage(
+                                      //           advertisementId: iklan.id,
+                                      //           // iklanProgress:
+                                      //           //     iklan.ongoingWeight /
+                                      //           //         iklan.requestedWeight,
+                                      //         );
+                                      //       },
+                                      //     ));
+                                      //     // context
+                                      //     //     .read<IklanBloc>()
+                                      //     //     .add(IklanGetDetailBuyer(iklan.id));
+                                      //   },
+                                      // );
                                     },
                                   );
                                 }
@@ -322,7 +325,7 @@ class _IklanPageState extends State<IklanPage> {
                                             MainAxisAlignment.center,
                                         children: [
                                           Text(
-                                            "Terjadi Kesalahan :(",
+                                            "${state.e.toString()}",
                                             style: blackTextStyle.copyWith(
                                                 fontSize: 16,
                                                 fontWeight: semiBold),

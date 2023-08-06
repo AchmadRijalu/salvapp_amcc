@@ -9,57 +9,57 @@ Edukasi edukasiFromJson(String str) => Edukasi.fromJson(json.decode(str));
 String edukasiToJson(Edukasi data) => json.encode(data.toJson());
 
 class Edukasi {
+    int statusCode;
+    String message;
+    List<EdukasiData> data;
+
     Edukasi({
-        required this.data,
-        required this.message,
         required this.statusCode,
+        required this.message,
+        required this.data,
     });
 
-    List<EdukasiData> data;
-    String message;
-    int statusCode;
-
     factory Edukasi.fromJson(Map<String, dynamic> json) => Edukasi(
-        data: List<EdukasiData>.from(json["data"].map((x) => EdukasiData.fromJson(x))),
-        message: json["message"],
         statusCode: json["status_code"],
+        message: json["message"],
+        data: List<EdukasiData>.from(json["data"].map((x) => EdukasiData.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
-        "message": message,
         "status_code": statusCode,
+        "message": message,
+        "data": List<dynamic>.from(data.map((x) => x.toJson())),
     };
 }
 
 class EdukasiData {
-    EdukasiData({
-        required this.category,
-        required this.duration,
-        required this.id,
-        required this.thumbnail,
-        required this.title,
-    });
-
-    String category;
-    int duration;
     String id;
     String thumbnail;
     String title;
+    String category;
+    DateTime createdAt;
+
+    EdukasiData({
+        required this.id,
+        required this.thumbnail,
+        required this.title,
+        required this.category,
+        required this.createdAt,
+    });
 
     factory EdukasiData.fromJson(Map<String, dynamic> json) => EdukasiData(
-        category: json["category"],
-        duration: json["duration"],
         id: json["id"],
         thumbnail: json["thumbnail"],
         title: json["title"],
+        category: json["category"],
+        createdAt: DateTime.parse(json["created_at"]),
     );
 
     Map<String, dynamic> toJson() => {
-        "category": category,
-        "duration": duration,
         "id": id,
         "thumbnail": thumbnail,
         "title": title,
+        "category": category,
+        "created_at": createdAt.toIso8601String(),
     };
 }

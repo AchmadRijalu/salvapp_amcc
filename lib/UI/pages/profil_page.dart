@@ -164,11 +164,7 @@ class ProfilPage extends StatelessWidget {
                                 context, UbahDataAlamatPage.routeName);
                           },
                         ),
-                        ProfileMenu(
-                          iconUrl: "assets/image/icon_help.svg",
-                          title: "Hubungi Kami",
-                          ontap: () {},
-                        ),
+
                         ProfileMenu(
                           iconUrl: "assets/image/icon_logout.svg",
                           title: "Logout",

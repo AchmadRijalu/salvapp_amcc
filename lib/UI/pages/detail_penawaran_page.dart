@@ -12,7 +12,7 @@ import 'holder_page.dart';
 
 class DetailPenawaranPage extends StatefulWidget {
   final String? transactionId;
-  final int? statusPenawaran;
+  final String? statusPenawaran;
   static const routeName = '/detailpenawaran';
   const DetailPenawaranPage(
       {super.key, this.transactionId, this.statusPenawaran});

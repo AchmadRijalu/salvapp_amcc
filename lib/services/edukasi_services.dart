@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-
 import '../blocs/shared/shared_values.dart';
 import '../models/detail_edukasi_model.dart';
 import '../models/edukasi_model.dart';
@@ -37,6 +36,7 @@ class EdukasiService {
 
       if (response.statusCode == 200) {
         var edukasiDetail = EdukasiDetail.fromJson(json.decode(response.body));
+
         return edukasiDetail;
       } else {
         throw jsonDecode(response.body);
