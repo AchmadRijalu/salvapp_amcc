@@ -162,30 +162,39 @@ class _IklanPageState extends State<IklanPage> {
                             ),
                           ),
                         ),
-                        Positioned(
-                          top: 100,
-                          left: 26,
-                          right: 26,
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: SizedBox(
-                              width: 325,
-                              height: 40,
-                              child: CupertinoTextField(
-                                prefix: Icon(Icons.search),
-                                placeholder: "Daging Ayam Prasmanan",
-                                placeholderStyle: TextStyle(color: Colors.grey),
-                                onChanged: ((value) {
-                                  if (value.isEmpty) {
-                                    onSearch = false;
-                                  } else {
-                                    onSearch = true;
-                                    _iklanBloc = IklanBloc()
-                                      ..add(IklanSearch(value));
-                                  }
-                                }),
-                              ),
-                            ),
+                        BlocProvider(
+                          create: (context) => _iklanBloc,
+                          child: BlocBuilder<IklanBloc, IklanState>(
+                            builder: (context, state) {
+                              return Positioned(
+                                top: 100,
+                                left: 26,
+                                right: 26,
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: SizedBox(
+                                    width: 325,
+                                    height: 40,
+                                    child: CupertinoTextField(
+                                      prefix: Icon(Icons.search),
+                                      placeholder: "Daging Ayam Prasmanan",
+                                      placeholderStyle:
+                                          TextStyle(color: Colors.grey),
+                                      onChanged: ((value) {
+                                        if (value.isEmpty) {
+                                          onSearch = false;
+                                        } else {
+                                          onSearch = true;
+                                          context
+                                              .read<IklanBloc>()
+                                              .add(IklanSearch(value));
+                                        }
+                                      }),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
                           ),
                         ),
                       ]),
