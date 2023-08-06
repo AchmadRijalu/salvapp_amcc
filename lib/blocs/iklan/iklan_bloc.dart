@@ -22,9 +22,7 @@ class IklanBloc extends Bloc<IklanEvent, IklanState> {
       if (event is IklanGetAll) {
         try {
           emit(IklanLoading());
-
           final iklan = await IklanService().getIklanSeller();
-
           emit(IklanGetSuccess(iklan));
         } catch (e) {
           emit(IklanFailed(e.toString()));

@@ -24,6 +24,13 @@ class TransaksiService {
           'Authorization': await AuthService().getToken(),
         },
       );
+
+      print(response.body);
+
+      if (jsonDecode(response.body)['message'] ==
+          'failed get all transaction') {
+        throw Exception(jsonDecode(response.body)['message']);
+      }
       return TransaksiSeller.fromJson(json.decode(response.body));
     } catch (e) {
       rethrow;
@@ -121,7 +128,7 @@ class TransaksiService {
                 'Authorization': await AuthService().getToken(),
               },
               body: jsonEncode(jualLimbahForm.toJson()));
-
+      print(response.body);
       return JualLimbah.fromJson(json.decode(response.body));
     } catch (e) {
       rethrow;

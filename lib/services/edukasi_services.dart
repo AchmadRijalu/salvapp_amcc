@@ -36,6 +36,7 @@ class EdukasiService {
 
       if (response.statusCode == 200) {
         var edukasiDetail = EdukasiDetail.fromJson(json.decode(response.body));
+
         return edukasiDetail;
       } else {
         throw jsonDecode(response.body);

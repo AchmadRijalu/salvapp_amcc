@@ -10,58 +10,61 @@ IklanBuyer iklanBuyerFromJson(String str) =>
 String iklanBuyerToJson(IklanBuyer data) => json.encode(data.toJson());
 
 class IklanBuyer {
-  IklanBuyer({
-    required this.data,
-    required this.message,
-    required this.statusCode,
-  });
+    int statusCode;
+    String message;
+    List<IklanBuyerData> data;
 
-  List<IklanBuyerData> data;
-  String message;
-  int statusCode;
+    IklanBuyer({
+        required this.statusCode,
+        required this.message,
+        required this.data,
+    });
 
-  factory IklanBuyer.fromJson(Map<String, dynamic> json) => IklanBuyer(
-        data: List<IklanBuyerData>.from(
-            json["data"].map((x) => IklanBuyerData.fromJson(x))),
-        message: json["message"],
+    factory IklanBuyer.fromJson(Map<String, dynamic> json) => IklanBuyer(
         statusCode: json["status_code"],
-      );
+        message: json["message"],
+        data: List<IklanBuyerData>.from(json["data"].map((x) => IklanBuyerData.fromJson(x))),
+    );
 
-  Map<String, dynamic> toJson() => {
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
-        "message": message,
+    Map<String, dynamic> toJson() => {
         "status_code": statusCode,
-      };
+        "message": message,
+        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+    };
 }
 
 class IklanBuyerData {
-  IklanBuyerData({
-    required this.endDate,
-    required this.id,
-    required this.ongoingWeight,
-    required this.requestedWeight,
-    required this.title,
-  });
+    String id;
+    String title;
+    String category;
+    int price;
+    String user;
+    String image;
 
-  String endDate;
-  String id;
-  dynamic ongoingWeight;
-  dynamic requestedWeight;
-  String title;
+    IklanBuyerData({
+        required this.id,
+        required this.title,
+        required this.category,
+        required this.price,
+        required this.user,
+        required this.image,
+    });
 
-  factory IklanBuyerData.fromJson(Map<String, dynamic> json) => IklanBuyerData(
-        endDate: json["end_date"],
+    factory IklanBuyerData.fromJson(Map<String, dynamic> json) => IklanBuyerData(
         id: json["id"],
-        ongoingWeight: json["ongoing_weight"],
-        requestedWeight: json["requested_weight"],
         title: json["title"],
-      );
+        category: json["category"],
+        price: json["price"],
+        user: json["user"],
+        image: json["image"],
+    );
 
-  Map<String, dynamic> toJson() => {
-        "end_date": endDate,
+    Map<String, dynamic> toJson() => {
         "id": id,
-        "ongoing_weight": ongoingWeight,
-        "requested_weight": requestedWeight,
         "title": title,
-      };
+        "category": category,
+        "price": price,
+        "user": user,
+        "image": image,
+    };
 }

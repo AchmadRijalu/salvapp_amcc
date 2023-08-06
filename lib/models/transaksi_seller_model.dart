@@ -4,94 +4,66 @@
 
 import 'dart:convert';
 
-TransaksiSeller transaksiSellerFromJson(String str) =>
-    TransaksiSeller.fromJson(json.decode(str));
+TransaksiSeller transaksiSellerFromJson(String str) => TransaksiSeller.fromJson(json.decode(str));
 
-String transaksiSellerToJson(TransaksiSeller data) =>
-    json.encode(data.toJson());
+String transaksiSellerToJson(TransaksiSeller data) => json.encode(data.toJson());
 
 class TransaksiSeller {
-  TransaksiSeller({
-    required this.data,
-    required this.message,
-    required this.statusCode,
-  });
+    int statusCode;
+    String message;
+    List<TransaksiSellerData> data;
 
-  List<TransaksiSellerData> data;
-  String message;
-  int statusCode;
+    TransaksiSeller({
+        required this.statusCode,
+        required this.message,
+        required this.data,
+    });
 
-  factory TransaksiSeller.fromJson(Map<String, dynamic> json) =>
-      TransaksiSeller(
-        data: List<TransaksiSellerData>.from(
-            json["data"].map((x) => TransaksiSellerData.fromJson(x))),
-        message: json["message"],
+    factory TransaksiSeller.fromJson(Map<String, dynamic> json) => TransaksiSeller(
         statusCode: json["status_code"],
-      );
+        message: json["message"],
+        data: List<TransaksiSellerData>.from(json["data"].map((x) => TransaksiSellerData.fromJson(x))),
+    );
 
-  Map<String, dynamic> toJson() => {
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
-        "message": message,
+    Map<String, dynamic> toJson() => {
         "status_code": statusCode,
-      };
+        "message": message,
+        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+    };
 }
 
 class TransaksiSellerData {
-  TransaksiSellerData(
-      {required this.createdAt,
-      required this.id,
-      required this.user,
-      required this.status,
-      required this.title,
-      required this.totalPrice,
-      required this.image});
+    String id;
+    String status;
+    int totalPrice;
+    String title;
+    String user;
+    String image;
 
-  String createdAt;
-  String id;
-  String user;
-  int status;
-  String title;
-  int totalPrice;
-  String image;
+    TransaksiSellerData({
+        required this.id,
+        required this.status,
+        required this.totalPrice,
+        required this.title,
+        required this.user,
+        required this.image,
+    });
 
-  factory TransaksiSellerData.fromJson(Map<String, dynamic> json) =>
-      TransaksiSellerData(
-        createdAt: json["created_at"],
+    factory TransaksiSellerData.fromJson(Map<String, dynamic> json) => TransaksiSellerData(
         id: json["id"],
-        user: json["user"],
         status: json["status"],
-        title: json["title"],
         totalPrice: json["total_price"],
+        title: json["title"],
+        user: json["user"],
         image: json["image"],
-      );
+    );
 
-  Map<String, dynamic> toJson() => {
-        "created_at": createdAt,
+    Map<String, dynamic> toJson() => {
         "id": id,
-        "user": userValues.reverse[user],
         "status": status,
-        "title": title,
         "total_price": totalPrice,
+        "title": title,
+        "user": user,
         "image": image,
-      };
-}
-
-enum User { JON_MEDINA, JAMES_MARSH, ACHMAD_RIJALU }
-
-final userValues = EnumValues({
-  "Achmad Rijalu": User.ACHMAD_RIJALU,
-  "James Marsh": User.JAMES_MARSH,
-  "Jon Medina": User.JON_MEDINA
-});
-
-class EnumValues<T> {
-  Map<String, T> map;
-  late Map<T, String> reverseMap;
-
-  EnumValues(this.map);
-
-  Map<T, String> get reverse {
-    reverseMap = map.map((k, v) => MapEntry(v, k));
-    return reverseMap;
-  }
+    };
 }

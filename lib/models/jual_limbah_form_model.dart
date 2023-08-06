@@ -14,27 +14,24 @@ class JualLimbahForm {
       {required this.userId,
       required this.advertisementId,
       required this.weight,
-      required this.location,
       required this.image});
 
   String userId;
   String advertisementId;
   int weight;
-  String location;
+
   dynamic image;
 
   factory JualLimbahForm.fromJson(Map<String, dynamic> json) => JualLimbahForm(
       userId: json["user_id"],
       advertisementId: json["1"],
       weight: json["weight"],
-      location: json["location"],
       image: json["image"]);
 
   Map<String, dynamic> toJson() => {
         "user_id": userId,
         "advertisement_id": advertisementId,
         "weight": weight,
-        "location": location,
         "image": image
       };
 }

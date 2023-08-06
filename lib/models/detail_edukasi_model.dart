@@ -37,7 +37,6 @@ class EdukasiDetailData {
   EdukasiDetailData({
     this.children,
     required this.content,
-    required this.duration,
     required this.id,
     required this.implementation,
     required this.preparation,
@@ -47,7 +46,7 @@ class EdukasiDetailData {
 
   List<EdukasiDetailData>? children;
   String content;
-  int duration;
+
   String id;
   String implementation;
   String preparation;
@@ -61,7 +60,6 @@ class EdukasiDetailData {
             : List<EdukasiDetailData>.from(
                 json["children"]!.map((x) => EdukasiDetailData.fromJson(x))),
         content: json["content"],
-        duration: json["duration"],
         id: json["id"],
         implementation: json["implementation"],
         preparation: json["preparation"],
@@ -74,7 +72,6 @@ class EdukasiDetailData {
             ? []
             : List<dynamic>.from(children!.map((x) => x.toJson())),
         "content": content,
-        "duration": duration,
         "id": id,
         "implementation": implementation,
         "preparation": preparation,

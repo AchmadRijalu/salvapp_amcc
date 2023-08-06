@@ -35,181 +35,179 @@ class _PenawaranPageState extends State<PenawaranPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 37),
-        child: Container(
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-            const SizedBox(
-              height: 44,
-            ),
-            Row(children: [Image.asset('assets/image/logo-png.png')]),
-            const SizedBox(
-              height: 17,
-            ),
-            Expanded(
-                child: Container(
-              child: SingleChildScrollView(
-                  child: Column(children: [
-                Row(
+      body: SafeArea(
+        child: ListView(
+          shrinkWrap: true,
+          children: [
+            Container(
+              color: greenColor,
+              height: 118,
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      "Riwayat Penawaran",
-                      style: blackTextStyle.copyWith(
-                          fontSize: 20, fontWeight: FontWeight.w700),
-                    )
-                  ],
-                ),
-                const SizedBox(
-                  height: 14,
-                ),
-                Row(
-                  children: [
-                    Text(
-                      "Yuk lihat penawaran Anda! Tolak Terima \nlebih gampang daripada ditolak melulu",
-                      style: greyTextStyle.copyWith(fontSize: 12),
-                    )
-                  ],
-                ),
-                //TODO: UI for buyers
-                if (userType == "2") ...[
-                  BlocProvider(
-                    create: (context) =>
-                        TransaksiBloc()..add(TransaksiGetAllBuyer(userId)),
-                    child: BlocBuilder<TransaksiBloc, TransaksiState>(
-                      builder: (context, state) {
-                        if (state is TransaksiLoading) {
-                          return Container(
-                              margin: const EdgeInsets.only(top: 40),
-                              child: Center(
-                                child: CircularProgressIndicator(
-                                    color: greenColor),
-                              ));
-                        }
-                        if (state is TransaksiBuyerGetSuccess) {
-                          return ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: state.transaksiBuyer!.data.length,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, index) {
-                                var transaksi =
-                                    state.transaksiBuyer!.data[index];
-                                return ListPenawaran(
-                                  gambar: "assets/image/image_profilepng.png",
-                                  namaLimbah: transaksi.title,
-                                  beratLimbah: "+${transaksi.weight} kg",
-                                  statusPenawaran: transaksi.status == 0
-                                      ? "Respon"
-                                      : transaksi.status == 1
-                                          ? "Diterima"
-                                          : transaksi.status == 2
-                                              ? "Konfirmasi"
-                                              : transaksi.status == 3
-                                                  ? "Dibatalkan"
-                                                  : "Ditolak",
-                                  tanggal: transaksi.createdAt.substring(4, 16),
-                                  username: transaksi.user,
-                                  onTap: () {
-                                    print(transaksi.status);
-                                    Navigator.push(context,
-                                        MaterialPageRoute(builder: (context) {
-                                      return DetailPenawaranPage(
-                                        statusPenawaran: transaksi.status,
-                                        transactionId: transaksi.id,
-                                      );
-                                    })).then((value) {
-                                      setState(() {});
-                                    });
-                                  },
-                                );
-                              });
-                        }
-                        if (state is TransaksiFailed) {
-                          return Center(
-                            child: Text(
-                              "Terjadi Kesalahan :(",
-                              style: blackTextStyle.copyWith(
-                                  fontSize: 16, fontWeight: semiBold),
+                    Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 24),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  "Riwayat Penawaran",
+                                  style: whiteTextStyle.copyWith(
+                                      fontSize: 20, fontWeight: regular),
+                                )
+                              ],
                             ),
-                          );
-                        }
-                        return Container();
-                      },
-                    ),
-                  )
-                ]
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  "Lihat status penawaran anda \ndapat ditolak, ataupun diterima",
+                                  style: whiteTextStyle.copyWith(
+                                      fontSize: 12, fontWeight: regular),
+                                )
+                              ],
+                            ),
+                          ],
+                        )),
+                  ]),
+            ),
 
-                //TODO: UI for sellers
-                else if (userType == "3") ...[
-                  BlocProvider(
-                    create: (context) =>
-                        TransaksiBloc()..add(TransaksiGetAllSeller(userId)),
-                    child: BlocBuilder<TransaksiBloc, TransaksiState>(
-                      builder: (context, state) {
-                        if (state is TransaksiLoading) {
-                          return Container(
-                              margin: const EdgeInsets.only(top: 40),
-                              child: Center(
-                                child: CircularProgressIndicator(
-                                    color: greenColor),
-                              ));
-                        }
-                        if (state is TransaksiSellerGetSuccess) {
-                          return ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: state.transaksiSeller!.data.length,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemBuilder: (content, index) {
-                                var transaksi =
-                                    state.transaksiSeller!.data[index];
-                                //kirim data ke detail untuk statusnya
-                                var statusType = transaksi.status;
-                                return ListPenawaran(
-                                  gambar: "assets/image/image_profilepng.png",
-                                  namaLimbah: transaksi.title,
-                                  beratLimbah: "+ Rp.${transaksi.totalPrice}",
-                                  statusPenawaran: transaksi.status == 0
-                                      ? "Menunggu Konfirmasi"
-                                      : transaksi.status == 1
-                                          ? "Diterima"
-                                          : transaksi.status == 2
-                                              ? "Sedang Berlangsung"
-                                              : transaksi.status == 3
-                                                  ? "Dibatalkan"
-                                                  : "Ditolak",
-                                  tanggal: transaksi.createdAt.substring(4, 16),
-                                  username: transaksi.user,
-                                  onTap: () {
-                                    Navigator.push(context,
-                                        MaterialPageRoute(builder: (context) {
-                                      return DetailPenawaranPage(
-                                        transactionId: transaksi.id,
-                                        statusPenawaran: statusType,
-                                      );
-                                    })).then((value) {
-                                      setState(() {});
-                                    });
-                                  },
-                                );
-                              });
-                        }
-                        if (state is TransaksiFailed) {
-                          return Center(
-                            child: Text(
-                              "Terjadi Kesalahan :(",
-                              style: blackTextStyle.copyWith(
-                                  fontSize: 16, fontWeight: semiBold),
-                            ),
-                          );
-                        }
-                        return Container();
-                      },
-                    ),
-                  )
-                ]
-              ])),
-            ))
-          ]),
+            //TODO: UI for buyers
+            if (userType == 2) ...[
+              BlocProvider(
+                create: (context) =>
+                    TransaksiBloc()..add(TransaksiGetAllBuyer(userId)),
+                child: BlocBuilder<TransaksiBloc, TransaksiState>(
+                  builder: (context, state) {
+                    if (state is TransaksiLoading) {
+                      return Container(
+                          margin: const EdgeInsets.only(top: 40),
+                          child: Center(
+                            child: CircularProgressIndicator(color: greenColor),
+                          ));
+                    }
+                    if (state is TransaksiBuyerGetSuccess) {
+                      return ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: state.transaksiBuyer!.data.length,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            var transaksi = state.transaksiBuyer!.data[index];
+                            return ListPenawaran(
+                              gambar: "assets/image/image_profilepng.png",
+                              namaLimbah: transaksi.title,
+                              beratLimbah: "+${transaksi.weight} kg",
+                              statusPenawaran: transaksi.status == 0
+                                  ? "Respon"
+                                  : transaksi.status == 1
+                                      ? "Diterima"
+                                      : transaksi.status == 2
+                                          ? "Konfirmasi"
+                                          : transaksi.status == 3
+                                              ? "Dibatalkan"
+                                              : "Ditolak",
+                              username: transaksi.user,
+                              onTap: () {
+                                print(transaksi.status);
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) {
+                                  return DetailPenawaranPage(
+                                    statusPenawaran:
+                                        transaksi.status.toString(),
+                                    transactionId: transaksi.id,
+                                  );
+                                })).then((value) {
+                                  setState(() {});
+                                });
+                              },
+                            );
+                          });
+                    }
+                    if (state is TransaksiFailed) {
+                      return Center(
+                        child: Text(
+                          "Terjadi Kesalahan :(",
+                          style: blackTextStyle.copyWith(
+                              fontSize: 16, fontWeight: semiBold),
+                        ),
+                      );
+                    }
+                    return Container();
+                  },
+                ),
+              )
+            ]
+
+            // TODO: UI for sellers
+            else if (userType == 3) ...[
+              BlocProvider(
+                create: (context) =>
+                    TransaksiBloc()..add(TransaksiGetAllSeller(userId)),
+                child: BlocBuilder<TransaksiBloc, TransaksiState>(
+                  builder: (context, state) {
+                    if (state is TransaksiLoading) {
+                      return Container(
+                          margin: const EdgeInsets.only(top: 40),
+                          child: Center(
+                            child: CircularProgressIndicator(color: greenColor),
+                          ));
+                    }
+                    if (state is TransaksiSellerGetSuccess) {
+                      return ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: state.transaksiSeller!.data.length,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (content, index) {
+                            var transaksi = state.transaksiSeller!.data[index];
+                            //kirim data ke detail untuk statusnya
+                            var statusType = transaksi.status;
+                            return ListPenawaran(
+                              gambar: "assets/image/image_profilepng.png",
+                              namaLimbah: transaksi.title,
+                              beratLimbah: "+ Rp.${transaksi.totalPrice}",
+                              statusPenawaran: transaksi.status == 0
+                                  ? "Menunggu Konfirmasi"
+                                  : transaksi.status == 1
+                                      ? "Diterima"
+                                      : transaksi.status == 2
+                                          ? "Sedang Berlangsung"
+                                          : transaksi.status == 3
+                                              ? "Dibatalkan"
+                                              : "Ditolak",
+                              username: transaksi.user,
+                              onTap: () {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) {
+                                  return DetailPenawaranPage(
+                                    transactionId: transaksi.id,
+                                    statusPenawaran: statusType,
+                                  );
+                                })).then((value) {
+                                  setState(() {});
+                                });
+                              },
+                            );
+                          });
+                    }
+                    if (state is TransaksiFailed) {
+                      return Center(
+                        child: Text(
+                          "${state.e.toString()}",
+                          style: blackTextStyle.copyWith(
+                              fontSize: 16, fontWeight: semiBold),
+                        ),
+                      );
+                    }
+                    return Container();
+                  },
+                ),
+              )
+            ]
+          ],
         ),
       ),
     );
