@@ -92,27 +92,29 @@ class _PenawaranPageState extends State<PenawaranPage> {
                     }
                     if (state is TransaksiBuyerGetSuccess) {
                       return ListView.builder(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 24, vertical: 26),
                           shrinkWrap: true,
                           itemCount: state.transaksiBuyer!.data.length,
                           physics: NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) {
                             var transaksi = state.transaksiBuyer!.data[index];
+
                             return ListPenawaran(
-                              gambar: "assets/image/image_profilepng.png",
+                              image: transaksi.image,
                               namaLimbah: transaksi.title,
-                              beratLimbah: "+${transaksi.weight} kg",
-                              statusPenawaran: transaksi.status == 0
-                                  ? "Respon"
-                                  : transaksi.status == 1
-                                      ? "Diterima"
-                                      : transaksi.status == 2
-                                          ? "Konfirmasi"
-                                          : transaksi.status == 3
-                                              ? "Dibatalkan"
-                                              : "Ditolak",
+                              totalPrice: "+${transaksi.weight} kg",
+                              statusPenawaran: transaksi.status == "0"
+                                  ? "Menunggu Konfirmasi"
+                                  : transaksi.status == "1"
+                                      ? "Sedang Berlangsung"
+                                      : transaksi.status == "2"
+                                          ? "Selesai"
+                                          : transaksi.status == "3"
+                                              ? "Ditolak"
+                                              : "Dibatalkan",
                               username: transaksi.user,
                               onTap: () {
-                                print(transaksi.status);
                                 Navigator.push(context,
                                     MaterialPageRoute(builder: (context) {
                                   return DetailPenawaranPage(
@@ -158,6 +160,8 @@ class _PenawaranPageState extends State<PenawaranPage> {
                     }
                     if (state is TransaksiSellerGetSuccess) {
                       return ListView.builder(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 24, vertical: 26),
                           shrinkWrap: true,
                           itemCount: state.transaksiSeller!.data.length,
                           physics: NeverScrollableScrollPhysics(),
@@ -166,18 +170,18 @@ class _PenawaranPageState extends State<PenawaranPage> {
                             //kirim data ke detail untuk statusnya
                             var statusType = transaksi.status;
                             return ListPenawaran(
-                              gambar: "assets/image/image_profilepng.png",
+                              image: transaksi.image,
                               namaLimbah: transaksi.title,
-                              beratLimbah: "+ Rp.${transaksi.totalPrice}",
-                              statusPenawaran: transaksi.status == 0
+                              totalPrice: "Rp.${transaksi.totalPrice}",
+                              statusPenawaran: transaksi.status == "0"
                                   ? "Menunggu Konfirmasi"
-                                  : transaksi.status == 1
-                                      ? "Diterima"
-                                      : transaksi.status == 2
-                                          ? "Sedang Berlangsung"
-                                          : transaksi.status == 3
-                                              ? "Dibatalkan"
-                                              : "Ditolak",
+                                  : transaksi.status == "1"
+                                      ? "Sedang Berlangsung"
+                                      : transaksi.status == "2"
+                                          ? "Diterima"
+                                          : transaksi.status == "3"
+                                              ? "Ditolak"
+                                              : "Dibatalkan",
                               username: transaksi.user,
                               onTap: () {
                                 Navigator.push(context,
@@ -194,13 +198,17 @@ class _PenawaranPageState extends State<PenawaranPage> {
                           });
                     }
                     if (state is TransaksiFailed) {
-                      return Center(
-                        child: Text(
-                          "${state.e.toString()}",
-                          style: blackTextStyle.copyWith(
-                              fontSize: 16, fontWeight: semiBold),
-                        ),
-                      );
+                      print("yes");
+                      return Container(
+                          child: Column(
+                        children: [
+                          Image.asset("assets/image/image_penawaran_empty.png"),
+                          Text(
+                            "Data Penawaran kamu kosong",
+                            style: blackTextStyle.copyWith(fontSize: 16),
+                          )
+                        ],
+                      ));
                     }
                     return Container();
                   },

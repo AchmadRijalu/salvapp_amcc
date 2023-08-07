@@ -81,7 +81,7 @@ class _WebviewMidtransPageState extends State<WebviewMidtransPage> {
                                 Navigator.pushAndRemoveUntil(context,
                                     MaterialPageRoute(
                                   builder: (context) {
-                                    return TopUpSuccessPage();
+                                    return TopUpSuccessPage(transactionId: state.midtransPayment!.transactionId ,);
                                   },
                                 ), (route) => false);
                               });

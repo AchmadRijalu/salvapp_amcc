@@ -25,8 +25,6 @@ class TransaksiService {
         },
       );
 
-      print(response.body);
-
       if (jsonDecode(response.body)['message'] ==
           'failed get all transaction') {
         throw Exception(jsonDecode(response.body)['message']);
@@ -103,15 +101,20 @@ class TransaksiService {
   }
 
   Future<AksiTransaksiSeller> getAksiTransaksiSeller(
-      dynamic transactionId) async {
+      dynamic transactionId, int status) async {
     try {
       final response = await http.get(
-        Uri.parse("${baseUrlSalv}seller-transaction/update/${transactionId}"),
+        Uri.parse(
+            "${baseUrlSalv}seller-transaction/${transactionId}/${status}"),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': await AuthService().getToken(),
         },
       );
+
+      print(transactionId);
+      print(status);
+      print(response.body);
 
       return AksiTransaksiSeller.fromJson(json.decode(response.body));
     } catch (e) {
@@ -129,6 +132,10 @@ class TransaksiService {
               },
               body: jsonEncode(jualLimbahForm.toJson()));
       print(response.body);
+
+      if (json.decode(response.body)["data"] == "weight exceed the target") {
+        throw "Berat melebihi target";
+      }
       return JualLimbah.fromJson(json.decode(response.body));
     } catch (e) {
       rethrow;

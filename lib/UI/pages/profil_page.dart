@@ -47,8 +47,6 @@ class ProfilPage extends StatelessWidget {
             }
 
             if (state is AuthSuccess) {
-              Uint8List bytes = base64.decode(state.user!.image!);
-
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: Container(
@@ -77,20 +75,37 @@ class ProfilPage extends StatelessWidget {
                           horizontal: 30, vertical: 22),
                       child: Column(children: [
                         //  Image.memory(base64.decode(state.user!.image.split(',').last)),
-                        Container(
-                          width: 120,
-                          height: 120,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                              image: state.user!.image == ""
-                                  ? AssetImage(
-                                      "assets/image/user_no_profpic.png")
-                                  : AssetImage(
-                                      "assets/image/image_profilepng.png"),
-                            ),
-                          ),
-                        ),
+
+                        state.user!.image == ""
+                            ? Container(
+                                width: 120,
+                                height: 120,
+                                child: CircleAvatar(
+                                    backgroundColor: whiteColor,
+                                    radius: 50, // Image radius
+                                    backgroundImage: AssetImage(
+                                        "assets/image/user_no_profpic.png")))
+                            : Container(
+                                width: 120,
+                                child: CircleAvatar(
+                                  radius: 50,
+                                  backgroundColor: whiteColor,
+                                  child: ClipOval(
+                                    child: FadeInImage(
+                                      placeholder: AssetImage(
+                                          "assets/image/user_no_profpic.png"),
+                                      image: NetworkImage(state.user!.image ??
+                                          "assets/image/user_pic.png"),
+                                      fadeInDuration: Duration(
+                                          milliseconds:
+                                              300), // Set your desired duration
+                                      fit: BoxFit.cover,
+                                      width: 100,
+                                      height: 100,
+                                    ),
+                                  ),
+                                ),
+                              ),
                         const SizedBox(
                           height: 16,
                         ),

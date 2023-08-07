@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 class SignupFormModel {
   final String? name;
   final String? email;

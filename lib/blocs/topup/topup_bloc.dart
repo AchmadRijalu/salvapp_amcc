@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:salvapp_amcc/models/midtrans_success_model.dart';
 import 'package:salvapp_amcc/services/topup_services.dart';
 
 import '../../models/midtrans_model.dart';
@@ -20,6 +21,18 @@ class TopupBloc extends Bloc<TopupEvent, TopupState> {
           final topupData = await TopUpServices().topUp(event.topupFormModel!);
 
           emit(TopupSuccess(topupData));
+        } catch (e) {
+          print(e.toString());
+          emit(TopupFailed(e.toString()));
+        }
+      }
+      if (event is TopupMidtransSuccess) {
+        try {
+          emit(TopupLoading());
+          // print(TopUpServices().topUp(event.topupFormModel!));
+          final topupDataSuccess = await TopUpServices().topUpSuccess(event.midtransTransactionId!);
+
+          emit(TopupSuccessMidtrans(topupDataSuccess!));
         } catch (e) {
           print(e.toString());
           emit(TopupFailed(e.toString()));

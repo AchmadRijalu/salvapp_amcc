@@ -60,7 +60,9 @@ class _SigninPageState extends State<SigninPage> {
         builder: (context, state) {
           if (state is AuthLoading) {
             return Center(
-              child: const CircularProgressIndicator(),
+              child: CircularProgressIndicator(
+                color: greenColor,
+              ),
             );
           }
 

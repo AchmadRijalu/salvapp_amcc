@@ -1,10 +1,6 @@
 class TambahIklanForm {
   final String? foodWasteCategoryId;
-  final String? userId;
-  final String? status;
   final String? name;
-  final int? retrievalSystem;
-  final String? location;
   final String? additionalInformation;
   final int? price;
   final int? requestedWeight;
@@ -13,11 +9,7 @@ class TambahIklanForm {
 
   TambahIklanForm({
     this.foodWasteCategoryId,
-    this.userId,
-    this.status,
     this.name,
-    this.retrievalSystem,
-    this.location,
     this.additionalInformation,
     this.price,
     this.requestedWeight,
@@ -28,11 +20,7 @@ class TambahIklanForm {
   Map<String, dynamic> toJson() {
     return {
       "food_waste_category_id": foodWasteCategoryId,
-      'user_id': userId,
-      'status': status,
       'name': name,
-      'retrieval_system': retrievalSystem,
-      'location': location,
       'additional_information': additionalInformation,
       'price': price,
       'requested_weight': requestedWeight,
@@ -56,11 +44,7 @@ class TambahIklanForm {
   }) =>
       TambahIklanForm(
           foodWasteCategoryId: foodWasteCategoryId ?? this.foodWasteCategoryId,
-          userId: userId ?? this.userId,
-          status: status ?? this.status,
           name: name ?? this.name,
-          retrievalSystem: retrievalSystem ?? this.retrievalSystem,
-          location: location ?? this.location,
           additionalInformation:
               additionalInformation ?? this.additionalInformation,
           price: price ?? this.price,

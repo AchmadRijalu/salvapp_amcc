@@ -14,3 +14,11 @@ class TopupGetAmount extends TopupEvent {
   @override
   List<Object> get props => [topupFormModel!];
 }
+
+class TopupMidtransSuccess extends TopupEvent {
+  final String? midtransTransactionId;
+  TopupMidtransSuccess({required this.midtransTransactionId});
+
+  @override
+  List<Object> get props => [midtransTransactionId!];
+}

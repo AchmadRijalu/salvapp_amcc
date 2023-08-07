@@ -19,6 +19,14 @@ class TopupSuccess extends TopupState {
   List<Object> get props => [midtransPayment!];
 }
 
+class TopupSuccessMidtrans extends TopupState {
+  final MidtransSuccess? midtransSuccess;
+  const TopupSuccessMidtrans(this.midtransSuccess);
+
+  @override
+  List<Object> get props => [midtransSuccess!];
+}
+
 class TopupFailed extends TopupState {
   final String e;
   const TopupFailed(this.e);

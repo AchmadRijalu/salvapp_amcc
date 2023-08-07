@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:salvapp_amcc/UI/pages/sign_up_set_profil.dart';
 import 'package:salvapp_amcc/UI/pages/sign_up_wilayah_page.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
@@ -141,7 +142,7 @@ class _SignupPageState extends State<SignupPage> {
                             endChild: Container(
                               margin: const EdgeInsets.only(top: 14),
                               alignment: Alignment.center,
-                              width: MediaQuery.of(context).size.width / 3.5,
+                              width: MediaQuery.of(context).size.width / 2.5,
                               constraints: const BoxConstraints(),
                               child: Wrap(children: [
                                 Text(
@@ -151,29 +152,7 @@ class _SignupPageState extends State<SignupPage> {
                               ]),
                             ),
                             startChild: Container(
-                              width: MediaQuery.of(context).size.width / 3.5,
-                            ),
-                          ),
-                          TimelineTile(
-                            indicatorStyle: IndicatorStyle(
-                              color: greyColor,
-                            ),
-                            axis: TimelineAxis.horizontal,
-                            alignment: TimelineAlign.center,
-                            endChild: Container(
-                              margin: const EdgeInsets.only(top: 14),
-                              alignment: Alignment.center,
-                              width: MediaQuery.of(context).size.width / 3.5,
-                              constraints: const BoxConstraints(),
-                              child: Wrap(children: [
-                                Text(
-                                  "Lokasi",
-                                  style: greenTextStyle,
-                                )
-                              ]),
-                            ),
-                            startChild: Container(
-                              width: MediaQuery.of(context).size.width / 3.5,
+                              width: MediaQuery.of(context).size.width / 2.5,
                             ),
                           ),
                           TimelineTile(
@@ -186,7 +165,7 @@ class _SignupPageState extends State<SignupPage> {
                             endChild: Container(
                               margin: const EdgeInsets.only(top: 14),
                               alignment: Alignment.center,
-                              width: MediaQuery.of(context).size.width / 3.5,
+                              width: MediaQuery.of(context).size.width / 2.5,
                               constraints: const BoxConstraints(),
                               child: Wrap(children: [
                                 Text(
@@ -375,7 +354,7 @@ class _SignupPageState extends State<SignupPage> {
                             if (validate()) {
                               Navigator.push(context, MaterialPageRoute(
                                 builder: (context) {
-                                  return SignupWilayahPage(
+                                  return SignupSetProfilPage(
                                       data: SignupFormModel(
                                           username: usernameController.text,
                                           email: emailController.text,

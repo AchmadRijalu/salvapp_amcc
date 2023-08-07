@@ -158,21 +158,21 @@ class _TambahIklanLimbah3PageState extends State<TambahIklanLimbah3Page> {
                                   beratMax = beratLimbahMaksimumController.text;
                                   beratMin = beratLimbahMinimumController.text;
 
-                                  widget.iklan = TambahIklanForm(
-                                      name: widget.iklan!.name,
-                                      foodWasteCategoryId:
-                                          widget.iklan!.foodWasteCategoryId,
-                                      userId: userId,
-                                      retrievalSystem:
-                                          widget.iklan!.retrievalSystem,
-                                      location: widget.iklan!.location,
-                                      additionalInformation:
-                                          widget.iklan!.additionalInformation,
-                                      price: widget.iklan!.price,
-                                      requestedWeight:
-                                          int.tryParse(beratLimbah),
-                                      maximumWeight: int.tryParse(beratMax),
-                                      minimumWeight: int.tryParse(beratMin));
+                                  // widget.iklan = TambahIklanForm(
+                                  //     name: widget.iklan!.name,
+                                  //     foodWasteCategoryId:
+                                  //         widget.iklan!.foodWasteCategoryId,
+                                  //     userId: userId,
+                                  //     retrievalSystem:
+                                  //         widget.iklan!.retrievalSystem,
+                                  //     location: widget.iklan!.location,
+                                  //     additionalInformation:
+                                  //         widget.iklan!.additionalInformation,
+                                  //     price: widget.iklan!.price,
+                                  //     requestedWeight:
+                                  //         int.tryParse(beratLimbah),
+                                  //     maximumWeight: int.tryParse(beratMax),
+                                  //     minimumWeight: int.tryParse(beratMin));
 
                                   Alert(
                                     context: context,

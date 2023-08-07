@@ -18,6 +18,7 @@ class BerandaService {
           'Authorization': await AuthService().getToken(),
         },
       );
+
       return Beranda.fromJson(json.decode(response.body));
     } catch (e) {
       rethrow;

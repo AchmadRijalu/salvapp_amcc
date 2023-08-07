@@ -169,13 +169,14 @@ class _BerandaPageState extends State<BerandaPage> {
                                         ListView.builder(
                                       shrinkWrap: true,
                                       scrollDirection: Axis.horizontal,
-                                      itemCount: 
-                                      // state.beranda!.data[0].transactionCount,
-                                      state.beranda!.data.length,
+                                      itemCount:
+                                          // state.beranda!.data[0].transactionCount,
+                                          state.beranda!.data.length,
                                       physics: BouncingScrollPhysics(),
                                       itemBuilder: (context, index) {
                                         var limbah = state.beranda!.data[index];
                                         return ListLimbahBerandaItem(
+                                          image: limbah.image,
                                             category: limbah.category,
                                             totalWeight: limbah.totalWeight);
                                       },
@@ -203,11 +204,20 @@ class _BerandaPageState extends State<BerandaPage> {
                                     var transaksi =
                                         state.beranda!.transactions[index];
                                     return ListPenawaranBerandaItem(
+                                      image: transaksi.image,
                                       createdAt:
                                           transaksi.createdAt.toIso8601String(),
                                       user: transaksi.user,
                                       title: transaksi.title,
-                                      status: transaksi.status,
+                                      statusPenawaran: transaksi.status == "0"
+                                          ? "Menunggu Konfirmasi"
+                                          : transaksi.status == "1"
+                                              ? "Sedang Berlangsung"
+                                              : transaksi.status == "2"
+                                                  ? "Diterima"
+                                                  : transaksi.status == "3"
+                                                      ? "Ditolak"
+                                                      : "Dibatalkan",
                                       total_price: transaksi.totalPrice,
                                     );
                                   },

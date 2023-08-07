@@ -4,8 +4,7 @@
 
 import 'dart:convert';
 
-IklanBuyer iklanBuyerFromJson(String str) =>
-    IklanBuyer.fromJson(json.decode(str));
+IklanBuyer iklanBuyerFromJson(String str) => IklanBuyer.fromJson(json.decode(str));
 
 String iklanBuyerToJson(IklanBuyer data) => json.encode(data.toJson());
 

@@ -216,10 +216,6 @@ class _TopupAmountPageState extends State<TopupAmountPage> {
             const SizedBox(
               height: 25,
             ),
-            CustomTextButton(
-              title: "Terms and Condition",
-              onPressed: () {},
-            ),
             const SizedBox(
               height: 40,
             ),

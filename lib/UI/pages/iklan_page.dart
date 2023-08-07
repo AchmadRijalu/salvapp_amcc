@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:http/http.dart' as http;
@@ -60,6 +62,69 @@ class _IklanPageState extends State<IklanPage> {
       userId = authState.user!.id;
       print("User ID AKUN : $userId");
     }
+  }
+
+  //MARK: - POSITION
+  Position? currentPositions;
+  String? _currentAddress;
+  Position? _currentPosition;
+
+  bool? isloading = false;
+
+  Future<bool> _handleLocationPermission() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text(
+              'Location services are disabled. Please enable the services')));
+      return false;
+    }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Location permissions are denied')));
+        return false;
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text(
+              'Location permissions are permanently denied, we cannot request permissions.')));
+      return false;
+    }
+    return true;
+  }
+
+  Future<void> _getCurrentPosition() async {
+    final hasPermission = await _handleLocationPermission();
+
+    if (!hasPermission) return;
+    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+        .then((Position position) {
+      setState(() => _currentPosition = position);
+      _getAddressFromLatLng(_currentPosition!);
+    }).catchError((e) {
+      debugPrint(e);
+    });
+  }
+
+  Future<void> _getAddressFromLatLng(Position position) async {
+    await placemarkFromCoordinates(
+            _currentPosition!.latitude, _currentPosition!.longitude)
+        .then((List<Placemark> placemarks) {
+      Placemark place = placemarks[0];
+      setState(() {
+        _currentAddress =
+            '${place.street}, ${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}';
+      });
+    }).catchError((e) {
+      debugPrint(e);
+    });
   }
 
   // void filterListIklan(String enteredTitle) {
@@ -144,20 +209,105 @@ class _IklanPageState extends State<IklanPage> {
               child: ListView(children: [
                 Container(
                   color: greenColor,
-                  height: 118,
+                  height: 151,
                   child: Stack(
                       clipBehavior: Clip.none,
                       // mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Positioned.fill(
                           child: Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 24),
-                            child: Row(
+                            margin: const EdgeInsets.symmetric(horizontal: 36),
+                            child: Column(
                               children: [
-                                Text(
-                                  "Pilihlah iklan yang sesuai dengan \nlimbah makanan yang anda miliki",
-                                  style: whiteTextStyle.copyWith(fontSize: 14),
-                                )
+                                const SizedBox(
+                                  height: 24,
+                                ),
+                                SizedBox(
+                                  child: ElevatedButton(
+                                      style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStatePropertyAll<Color>(
+                                                  Color(0xff184D47)),
+                                          shape: MaterialStateProperty.all<
+                                                  RoundedRectangleBorder>(
+                                              RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ))),
+                                      onPressed: () async {
+                                        //Location
+                                        // await getLocation().then((value) {
+                                        //   print(value);
+                                        // });
+                                        setState(() {
+                                          isloading = true;
+                                        });
+                                        await _getCurrentPosition();
+
+                                        print(_currentPosition!.latitude
+                                            .toString());
+                                        print(_currentPosition!.longitude
+                                            .toString());
+
+                                        Future.delayed(Duration(seconds: 1))
+                                            .then((value) {
+                                          setState(() {
+                                            isloading = false;
+                                          });
+                                        });
+                                      },
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            child: Row(children: [
+                                              Icon(
+                                                Icons.location_on_outlined,
+                                                color: Colors.black26,
+                                              ),
+                                              const SizedBox(
+                                                width: 4,
+                                              ),
+                                              Flexible(
+                                                child: Text(
+                                                  (_currentPosition == null &&
+                                                          isloading == false)
+                                                      ? "Ketuk untuk mengambil lokasi anda"
+                                                      : (_currentPosition !=
+                                                                  null &&
+                                                              isloading ==
+                                                                  false)
+                                                          ? _currentAddress
+                                                              .toString()
+                                                          : (isloading == true)
+                                                              ? "Mengambil.."
+                                                              : "",
+                                                  style:
+                                                      whiteTextStyle.copyWith(
+                                                          fontWeight: medium,
+                                                          fontSize: 10),
+                                                ),
+                                              )
+                                            ]),
+                                          ),
+                                        ],
+                                      )),
+                                ),
+                                const SizedBox(
+                                  height: 8,
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      "Pilihlah iklan yang sesuai dengan \nlimbah makanan yang anda miliki",
+                                      style:
+                                          whiteTextStyle.copyWith(fontSize: 14),
+                                    )
+                                  ],
+                                ),
                               ],
                             ),
                           ),
@@ -167,7 +317,7 @@ class _IklanPageState extends State<IklanPage> {
                           child: BlocBuilder<IklanBloc, IklanState>(
                             builder: (context, state) {
                               return Positioned(
-                                top: 100,
+                                top: 130,
                                 left: 26,
                                 right: 26,
                                 child: Align(
@@ -303,9 +453,6 @@ class _IklanPageState extends State<IklanPage> {
                               },
                             ),
                           ),
-
-
-                          
                         ] else if (userType == "2") ...[
                           BlocProvider(
                             create: (context) =>
@@ -330,35 +477,31 @@ class _IklanPageState extends State<IklanPage> {
                                     itemBuilder: (context, index) {
                                       var iklan = state.iklanBuyer!.data[index];
                                       getAdvertisementId = iklan.id;
-                                      // String iklanDate = iklan.endDate;
-                                      // final iklanDateConv =
-                                      //     iklanDate.indexOf("2023", 0);
-                                      // return ListIklanPabrik(
-                                      //   title: iklan.title,
-                                      //   // progressBarIndicator:
-                                      //   //     iklan.ongoingWeight /
-                                      //   //         iklan.requestedWeight,
-                                      //   // ongoing_weight: iklan.ongoingWeight,
-                                      //   // requested_weight: iklan.requestedWeight,
-                                      //   // endDate: iklan.endDate
-                                      //   //     .substring(0, iklanDateConv),
-                                      //   onTap: () {
-                                      //     Navigator.push(context,
-                                      //         MaterialPageRoute(
-                                      //       builder: (context) {
-                                      //         return DetailIklanPage(
-                                      //           advertisementId: iklan.id,
-                                      //           // iklanProgress:
-                                      //           //     iklan.ongoingWeight /
-                                      //           //         iklan.requestedWeight,
-                                      //         );
-                                      //       },
-                                      //     ));
-                                      //     // context
-                                      //     //     .read<IklanBloc>()
-                                      //     //     .add(IklanGetDetailBuyer(iklan.id));
-                                      //   },
-                                      // );
+
+                                      return ListIklanPabrik(
+                                        title: iklan.title,
+                                        id: getAdvertisementId,
+                                        price: iklan.price,
+                                        image: iklan.image,
+                                        user: iklan.user,
+                                        category: iklan.category,
+                                        onTap: () {
+                                          Navigator.push(context,
+                                              MaterialPageRoute(
+                                            builder: (context) {
+                                              return DetailIklanPage(
+                                                advertisementId: iklan.id,
+                                                // iklanProgress:
+                                                //     iklan.ongoingWeight /
+                                                //         iklan.requestedWeight,
+                                              );
+                                            },
+                                          ));
+                                          // context
+                                          //     .read<IklanBloc>()
+                                          //     .add(IklanGetDetailBuyer(iklan.id));
+                                        },
+                                      );
                                     },
                                   );
                                 }
@@ -402,27 +545,6 @@ Widget buildTambahIklan(BuildContext context, String? usernameIklan) {
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          "Hello",
-          style: greyTextStyle.copyWith(fontSize: 16),
-        ),
-        const SizedBox(
-          height: 2,
-        ),
-        Text(
-          "Hello ${usernameIklan}",
-          style: blackTextStyle.copyWith(fontWeight: medium, fontSize: 20),
-        ),
-        const SizedBox(
-          height: 18,
-        ),
-        Text(
-          "Butuh limbah? \nYuk, buat iklan.",
-          style: greenTextStyle.copyWith(fontSize: 24, fontWeight: bold),
-        ),
-        const SizedBox(
-          height: 22,
-        ),
         CustomFilledButton(
           title: "Tambah Sekarang",
           height: 37,

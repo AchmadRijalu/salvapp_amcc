@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -28,6 +29,7 @@ class SignupSetProfilPage extends StatefulWidget {
 class _SignupSetProfilPageState extends State<SignupSetProfilPage> {
   XFile? selectedImage;
   dynamic imageStringHolder = '';
+  String downloadUrl = "";
 
   bool validate() {
     if (selectedImage == null) {
@@ -41,6 +43,12 @@ class _SignupSetProfilPageState extends State<SignupSetProfilPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
   }
 
   @override
@@ -73,7 +81,7 @@ class _SignupSetProfilPageState extends State<SignupSetProfilPage> {
                   Container(
                     color: greenColor,
                     width: double.infinity,
-                    height: 167,
+                    height: 149,
                     padding: const EdgeInsets.symmetric(horizontal: 26),
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -124,7 +132,7 @@ class _SignupSetProfilPageState extends State<SignupSetProfilPage> {
                                       margin: const EdgeInsets.only(top: 14),
                                       alignment: Alignment.center,
                                       width: MediaQuery.of(context).size.width /
-                                          3.5,
+                                          2.5,
                                       constraints: const BoxConstraints(),
                                       child: Wrap(children: [
                                         Text(
@@ -135,35 +143,7 @@ class _SignupSetProfilPageState extends State<SignupSetProfilPage> {
                                     ),
                                     startChild: Container(
                                       width: MediaQuery.of(context).size.width /
-                                          3.5,
-                                    ),
-                                  ),
-                                  TimelineTile(
-                                    indicatorStyle: IndicatorStyle(
-                                      color: greenColor,
-                                    ),
-                                    beforeLineStyle:
-                                        LineStyle(color: greenColor),
-                                    afterLineStyle:
-                                        LineStyle(color: greenColor),
-                                    axis: TimelineAxis.horizontal,
-                                    alignment: TimelineAlign.center,
-                                    endChild: Container(
-                                      margin: const EdgeInsets.only(top: 14),
-                                      alignment: Alignment.center,
-                                      width: MediaQuery.of(context).size.width /
-                                          3.5,
-                                      constraints: const BoxConstraints(),
-                                      child: Wrap(children: [
-                                        Text(
-                                          "Lokasi",
-                                          style: greenTextStyle,
-                                        )
-                                      ]),
-                                    ),
-                                    startChild: Container(
-                                      width: MediaQuery.of(context).size.width /
-                                          3.5,
+                                          2.5,
                                     ),
                                   ),
                                   TimelineTile(
@@ -177,7 +157,7 @@ class _SignupSetProfilPageState extends State<SignupSetProfilPage> {
                                       margin: const EdgeInsets.only(top: 14),
                                       alignment: Alignment.center,
                                       width: MediaQuery.of(context).size.width /
-                                          3.5,
+                                          2.5,
                                       constraints: const BoxConstraints(),
                                       child: Wrap(children: [
                                         Text(
@@ -188,7 +168,7 @@ class _SignupSetProfilPageState extends State<SignupSetProfilPage> {
                                     ),
                                     startChild: Container(
                                       width: MediaQuery.of(context).size.width /
-                                          3.5,
+                                          2.5,
                                     ),
                                   ),
                                 ],
@@ -256,31 +236,50 @@ class _SignupSetProfilPageState extends State<SignupSetProfilPage> {
                                           horizontal: 45),
                                       child: CustomFilledButton(
                                         title: "Daftar",
-                                        onPressed: () {
-                                          widget.data = SignupFormModel(
-                                              // KecamatanId: widget.data!.KecamatanId,
-                                              username: widget.data!.username,
-                                              email: widget.data!.email,
-                                              name: widget.data!.name,
-                                              password: widget.data!.password,
-                                              type: widget.data!.type,
-                                              phoneNumber:
-                                                  widget.data!.phoneNumber,
-                                              province: widget.data!.province,
-                                              city: widget.data!.city,
-                                              subdistrict:
-                                                  widget.data!.subdistrict,
-                                              ward: widget.data!.ward,
-                                              postal_code:
-                                                  widget.data!.postal_code,
-                                              latitude: widget.data!.latitude,
-                                              longitude: widget.data!.longitude,
-                                              address: widget.data!.address,
-                                              image: "");
+                                        onPressed: () async {
+                                          Future.delayed(Duration(seconds: 1),
+                                              () async {
+                                            final storageRef =
+                                                FirebaseStorage.instance.ref();
+                                            final pictureRef = storageRef
+                                                .child(selectedImage!.path);
+                                            String dataUrl =
+                                                'data:image/png;base64,' +
+                                                    base64Encode(File(
+                                                            selectedImage!.path)
+                                                        .readAsBytesSync());
 
-                                          context
-                                              .read<AuthBloc>()
-                                              .add(AuthRegister(widget.data));
+                                            //Getting reference to storage root
+                                            Reference reference =
+                                                FirebaseStorage.instance.ref();
+                                            Reference referenceDirectoryImages =
+                                                reference.child('image');
+                                            //Store the file
+                                            if (selectedImage != null) {
+                                              try {
+                                                await pictureRef.putString(
+                                                    dataUrl,
+                                                    format: PutStringFormat
+                                                        .dataUrl);
+                                                downloadUrl = await pictureRef
+                                                    .getDownloadURL();
+                                              } catch (e) {
+                                                //Nothing yet
+                                              }
+                                            }
+                                            widget.data = SignupFormModel(
+                                                username: widget.data!.username,
+                                                email: widget.data!.email,
+                                                name: widget.data!.name,
+                                                password: widget.data!.password,
+                                                type: widget.data!.type,
+                                                phoneNumber:
+                                                    widget.data!.phoneNumber,
+                                                image: downloadUrl);
+                                            context
+                                                .read<AuthBloc>()
+                                                .add(AuthRegister(widget.data));
+                                          });
                                         },
                                       ),
                                     )

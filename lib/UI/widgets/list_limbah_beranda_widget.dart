@@ -21,10 +21,37 @@ class ListLimbahBerandaItem extends StatelessWidget {
           color: whiteColor, borderRadius: BorderRadius.circular(8)),
       child: Column(children: [
         Expanded(
-            flex: 2,
-            child: Container(
-              child: Image.asset("assets/image/dummy1.png"),
-            )),
+          flex: 2,
+          child: image == ""
+              ? Container(
+                  width: 120,
+                  height: 120,
+                  child: CircleAvatar(
+                      backgroundColor: whiteColor,
+                      radius: 50, // Image radius
+                      backgroundImage:
+                          AssetImage("assets/image/user_no_profpic.png")))
+              : Container(
+                  width: 120,
+                  child: CircleAvatar(
+                    radius: 50,
+                    backgroundColor: whiteColor,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: FadeInImage(
+                        placeholder:
+                            AssetImage("assets/image/user_no_profpic.png"),
+                        image: NetworkImage(image!),
+                        fadeInDuration: Duration(
+                            milliseconds: 300), // Set your desired duration
+                        fit: BoxFit.cover,
+                        width: 100,
+                        height: 100,
+                      ),
+                    ),
+                  ),
+                ),
+        ),
         const SizedBox(
           height: 12,
         ),

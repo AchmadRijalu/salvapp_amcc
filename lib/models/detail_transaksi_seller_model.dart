@@ -4,92 +4,74 @@
 
 import 'dart:convert';
 
-DetailTransaksiSeller detailTransaksiSellerFromJson(String str) =>
-    DetailTransaksiSeller.fromJson(json.decode(str));
+DetailTransaksiSeller detailTransaksiSellerFromJson(String str) => DetailTransaksiSeller.fromJson(json.decode(str));
 
-String detailTransaksiSellerToJson(DetailTransaksiSeller data) =>
-    json.encode(data.toJson());
+String detailTransaksiSellerToJson(DetailTransaksiSeller data) => json.encode(data.toJson());
 
 class DetailTransaksiSeller {
-  DetailTransaksiSeller({
-    required this.data,
-    required this.message,
-    required this.statusCode,
-  });
+    int statusCode;
+    String message;
+    DetailTransaksiSellerData data;
 
-  DetailTransaksiSellerData data;
-  String message;
-  int statusCode;
+    DetailTransaksiSeller({
+        required this.statusCode,
+        required this.message,
+        required this.data,
+    });
 
-  factory DetailTransaksiSeller.fromJson(Map<String, dynamic> json) =>
-      DetailTransaksiSeller(
-        data: DetailTransaksiSellerData.fromJson(json["data"]),
-        message: json["message"],
+    factory DetailTransaksiSeller.fromJson(Map<String, dynamic> json) => DetailTransaksiSeller(
         statusCode: json["status_code"],
-      );
+        message: json["message"],
+        data: DetailTransaksiSellerData.fromJson(json["data"]),
+    );
 
-  Map<String, dynamic> toJson() => {
-        "data": data.toJson(),
-        "message": message,
+    Map<String, dynamic> toJson() => {
         "status_code": statusCode,
-      };
+        "message": message,
+        "data": data.toJson(),
+    };
 }
 
 class DetailTransaksiSellerData {
-  DetailTransaksiSellerData(
-      {required this.additionalInformation,
-      required this.category,
-      required this.id,
-      required this.location,
-      required this.maximumWeight,
-      required this.minimumWeight,
-      required this.price,
-      required this.retrievalSystem,
-      required this.title,
-      required this.totalPrice,
-      required this.weight,
-      this.image});
+    String id;
+    int ongoingWeight;
+    int requestedWeight;
+    String title;
+    String category;
+    String additionalInformation;
+    int weight;
+    int totalPrice;
 
-  String additionalInformation;
-  String category;
-  String id;
-  String location;
-  dynamic maximumWeight;
-  dynamic minimumWeight;
-  int price;
-  int retrievalSystem;
-  String title;
-  int totalPrice;
-  dynamic weight;
-  dynamic image;
+    DetailTransaksiSellerData({
+        required this.id,
+        required this.ongoingWeight,
+        required this.requestedWeight,
+        required this.title,
+        required this.category,
+        required this.additionalInformation,
+        required this.weight,
+        required this.totalPrice,
+    });
 
-  factory DetailTransaksiSellerData.fromJson(Map<String, dynamic> json) =>
-      DetailTransaksiSellerData(
-          additionalInformation: json["additional_information"],
-          category: json["category"],
-          id: json["id"],
-          location: json["location"],
-          maximumWeight: json["maximum_weight"],
-          minimumWeight: json["minimum_weight"],
-          price: json["price"],
-          retrievalSystem: json["retrieval_system"],
-          title: json["title"],
-          totalPrice: json["total_price"],
-          weight: json["weight"],
-          image: json["image"]);
+    factory DetailTransaksiSellerData.fromJson(Map<String, dynamic> json) => DetailTransaksiSellerData(
+        id: json["id"],
+        ongoingWeight: json["ongoing_weight"],
+        requestedWeight: json["requested_weight"],
+        title: json["title"],
+        category: json["category"],
+        additionalInformation: json["additional_information"],
+        weight: json["weight"],
+        totalPrice: json["total_price"],
+    );
 
-  Map<String, dynamic> toJson() => {
-        "additional_information": additionalInformation,
-        "category": category,
+    Map<String, dynamic> toJson() => {
         "id": id,
-        "location": location,
-        "maximum_weight": maximumWeight,
-        "minimum_weight": minimumWeight,
-        "price": price,
-        "retrieval_system": retrievalSystem,
+        "ongoing_weight": ongoingWeight,
+        "requested_weight": requestedWeight,
         "title": title,
-        "total_price": totalPrice,
+        "category": category,
+        "additional_information": additionalInformation,
         "weight": weight,
-        "image": image
-      };
+        "total_price": totalPrice,
+    };
 }

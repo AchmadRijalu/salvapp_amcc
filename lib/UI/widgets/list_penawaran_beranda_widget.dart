@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:salvapp_amcc/common/common.dart';
 
 class ListPenawaranBerandaItem extends StatelessWidget {
-  String? status;
+  String? statusPenawaran;
   String? image;
   String? title;
   String? user;
@@ -10,7 +10,7 @@ class ListPenawaranBerandaItem extends StatelessWidget {
   String? createdAt;
   ListPenawaranBerandaItem(
       {super.key,
-      this.status,
+      this.statusPenawaran,
       this.title,
       this.user,
       this.total_price,
@@ -27,13 +27,36 @@ class ListPenawaranBerandaItem extends StatelessWidget {
       width: double.infinity,
       child: Row(children: [
         Expanded(
-            child: Container(
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(4),
-              image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: AssetImage("assets/image/dummy1.png"))),
-        )),
+          child: image == ""
+              ? Container(
+                  width: 120,
+                  height: 120,
+                  child: CircleAvatar(
+                      backgroundColor: whiteColor,
+                      radius: 50, // Image radius
+                      backgroundImage:
+                          AssetImage("assets/image/user_no_profpic.png")))
+              : Container(
+                  width: 120,
+                  child: CircleAvatar(
+                    radius: 50,
+                    backgroundColor: whiteColor,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: FadeInImage(
+                        placeholder:
+                            AssetImage("assets/image/user_no_profpic.png"),
+                        image: NetworkImage(image!),
+                        fadeInDuration: Duration(
+                            milliseconds: 300), // Set your desired duration
+                        fit: BoxFit.cover,
+                        width: 100,
+                        height: 100,
+                      ),
+                    ),
+                  ),
+                ),
+        ),
         Expanded(
             flex: 3,
             child: Container(
@@ -49,7 +72,7 @@ class ListPenawaranBerandaItem extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "${status}",
+                              "${statusPenawaran}",
                               style: blackTextStyle.copyWith(fontSize: 8),
                             ),
                             Text(

@@ -45,7 +45,9 @@ class IklanBuyerDetailData {
       required this.price,
       required this.ongoingWeight,
       required this.requestedWeight,
-      required this.title});
+      required this.title,
+      this.status
+      });
 
   String id;
   int ongoingWeight;
@@ -56,6 +58,7 @@ class IklanBuyerDetailData {
   int maximumWeight;
   int minimumWeight;
   int price;
+  String? status;
 
   factory IklanBuyerDetailData.fromJson(Map<String, dynamic> json) =>
       IklanBuyerDetailData(
@@ -68,6 +71,7 @@ class IklanBuyerDetailData {
         title: json["title"],
         ongoingWeight: json["ongoing_weight"],
         requestedWeight: json["requested_weight"],
+        status: json["status"]
       );
 
   Map<String, dynamic> toJson() => {
@@ -80,5 +84,6 @@ class IklanBuyerDetailData {
         "title": title,
         "ongoing_weight": ongoingWeight,
         "requested_weight": requestedWeight,
+        "status": status
       };
 }

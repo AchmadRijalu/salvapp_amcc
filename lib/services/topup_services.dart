@@ -1,5 +1,6 @@
 import 'package:salvapp_amcc/blocs/shared/shared_values.dart';
 import 'package:salvapp_amcc/models/midtrans_model.dart';
+import 'package:salvapp_amcc/models/midtrans_success_model.dart';
 
 import '../models/topup_form_model.dart';
 import 'auth_services.dart';
@@ -18,6 +19,25 @@ class TopUpServices {
       );
       if (res.statusCode == 200) {
         return MidtransPayment.fromJson(jsonDecode(res.body));
+      } else {
+        throw jsonDecode(res.body)['message'];
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<MidtransSuccess> topUpSuccess(String transactionId) async {
+    try {
+      final res = await http.get(
+        Uri.parse('${baseUrlSalv}midtrans/success/${transactionId}}'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': await AuthService().getToken(),
+        },
+      );
+      if (res.statusCode == 200) {
+        return MidtransSuccess.fromJson(jsonDecode(res.body));
       } else {
         throw jsonDecode(res.body)['message'];
       }

@@ -4,73 +4,70 @@
 
 import 'dart:convert';
 
-TransaksiBuyer transaksiBuyerFromJson(String str) =>
-    TransaksiBuyer.fromJson(json.decode(str));
+TransaksiBuyer transaksiBuyerFromJson(String str) => TransaksiBuyer.fromJson(json.decode(str));
 
 String transaksiBuyerToJson(TransaksiBuyer data) => json.encode(data.toJson());
 
 class TransaksiBuyer {
-  TransaksiBuyer({
-    required this.data,
-    required this.message,
-    required this.statusCode,
-  });
+    int statusCode;
+    String message;
+    List<TransaksiBuyerData> data;
 
-  List<TransaksiBuyerData> data;
-  String message;
-  int statusCode;
+    TransaksiBuyer({
+        required this.statusCode,
+        required this.message,
+        required this.data,
+    });
 
-  factory TransaksiBuyer.fromJson(Map<String, dynamic> json) => TransaksiBuyer(
-        data: List<TransaksiBuyerData>.from(
-            json["data"].map((x) => TransaksiBuyerData.fromJson(x))),
-        message: json["message"],
+    factory TransaksiBuyer.fromJson(Map<String, dynamic> json) => TransaksiBuyer(
         statusCode: json["status_code"],
-      );
+        message: json["message"],
+        data: List<TransaksiBuyerData>.from(json["data"].map((x) => TransaksiBuyerData.fromJson(x))),
+    );
 
-  Map<String, dynamic> toJson() => {
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
-        "message": message,
+    Map<String, dynamic> toJson() => {
         "status_code": statusCode,
-      };
+        "message": message,
+        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+    };
 }
 
-class TransaksiBuyerData {
-  TransaksiBuyerData({
-    required this.createdAt,
-    required this.id,
-    required this.user,
-    required this.status,
-    required this.title,
-    required this.weight,
-    required this.image,
-  });
+class TransaksiBuyerData{
+    String id;
+    String status;
+    String title;
+    String user;
+    String image;
+    int weight;
+    DateTime createdAt;
 
-  String createdAt;
-  String id;
-  String user;
-  int status;
-  String title;
-  int weight;
-  String image;
+    TransaksiBuyerData({
+        required this.id,
+        required this.status,
+        required this.title,
+        required this.user,
+        required this.image,
+        required this.weight,
+        required this.createdAt,
+    });
 
-  factory TransaksiBuyerData.fromJson(Map<String, dynamic> json) =>
-      TransaksiBuyerData(
-        createdAt: json["created_at"],
+    factory TransaksiBuyerData.fromJson(Map<String, dynamic> json) => TransaksiBuyerData(
         id: json["id"],
-        user: json["user"],
         status: json["status"],
         title: json["title"],
-        weight: json["weight"],
+        user: json["user"],
         image: json["image"],
-      );
+        weight: json["weight"],
+        createdAt: DateTime.parse(json["created_at"]),
+    );
 
-  Map<String, dynamic> toJson() => {
-        "created_at": createdAt,
+    Map<String, dynamic> toJson() => {
         "id": id,
-        "user": user,
         "status": status,
         "title": title,
-        "weight": weight,
+        "user": user,
         "image": image,
-      };
+        "weight": weight,
+        "created_at": createdAt.toIso8601String(),
+    };
 }

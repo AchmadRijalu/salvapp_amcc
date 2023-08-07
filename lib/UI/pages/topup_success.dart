@@ -6,8 +6,21 @@ import 'package:salvapp_amcc/common/common.dart';
 
 import '../widgets/buttons.dart';
 
-class TopUpSuccessPage extends StatelessWidget {
-  const TopUpSuccessPage({super.key});
+class TopUpSuccessPage extends StatefulWidget {
+  String? transactionId;
+  TopUpSuccessPage({super.key, this.transactionId});
+
+  @override
+  State<TopUpSuccessPage> createState() => _TopUpSuccessPageState();
+}
+
+class _TopUpSuccessPageState extends State<TopUpSuccessPage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print("transaction id: ${widget.transactionId}");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,17 +47,20 @@ class TopUpSuccessPage extends StatelessWidget {
                   Expanded(
                       child: Column(
                     children: [
-                      Text("Pembayaran Anda Berhasil!",
+                      Text("Pembayaran  Berhasil !",
                           style: Theme.of(context)!
                               .textTheme
                               .headline6!
                               .copyWith(
                                   color: greenColor,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 18)),
+                                  fontSize: 28)),
+                      const SizedBox(
+                        height: 21,
+                      ),
                       Text("Ketuk Tombol dibawah untuk Kembali",
                           style: greenTextStyle.copyWith(
-                              fontSize: 12, fontWeight: regular)),
+                              fontSize: 16, fontWeight: regular)),
                     ],
                   )),
                   Expanded(
