@@ -37,7 +37,13 @@ class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
       userId = authState.user!.id;
     }
 
-    print(widget.statusPenawaran);
+    print(widget.statusPenawaran.runtimeType);
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
   }
 
   @override
@@ -440,7 +446,7 @@ class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
                                                                             BorderRadius.circular(8))),
                                                                 onPressed: () {
                                                                   //TODO: Terima
-                                                                  status = 2;
+                                                                  status = 1;
                                                                   print(
                                                                       "Konfirmasi: Status ${status}");
                                                                   context
@@ -485,27 +491,94 @@ class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
                                         )
                                       ],
                                       if (widget.statusPenawaran == "1") ...[
-                                        Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(12)),
-                                          child: Column(children: [
-                                            Image.asset(
-                                              "assets/image/check.png",
-                                              width: 100,
-                                              height: 100,
-                                            ),
-                                            const SizedBox(
-                                              height: 8,
-                                            ),
-                                            Text(
-                                              "Penawaran Telah Diterima",
-                                              style: greenTextStyle.copyWith(
-                                                  fontSize: 16,
-                                                  fontWeight: semiBold),
-                                            )
-                                          ]),
-                                        ),
+                                        Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Flexible(
+                                                  child: Container(
+                                                      child: GestureDetector(
+                                                onTap: () {},
+                                                child: SizedBox(
+                                                  width: 144,
+                                                  height: 50,
+                                                  child: TextButton(
+                                                    style: TextButton.styleFrom(
+                                                        backgroundColor:
+                                                            Colors.red,
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8))),
+                                                    onPressed: () {
+                                                      //TODO: Tolak
+                                                      status = 3;
+                                                      print(
+                                                          "Batal: Status ${status}");
+                                                      context
+                                                          .read<TransaksiBloc>()
+                                                          .add(AksiTransaksiGetBuyer(
+                                                              widget
+                                                                  .transactionId,
+                                                              status));
+                                                    },
+                                                    child: Text(
+                                                      "Batalkan",
+                                                      style: whiteTextStyle
+                                                          .copyWith(
+                                                              fontSize: 16,
+                                                              fontWeight:
+                                                                  semiBold),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ))),
+                                              SizedBox(
+                                                width: 12,
+                                              ),
+                                              Flexible(
+                                                child: Container(
+                                                    child: GestureDetector(
+                                                  onTap: () {},
+                                                  child: SizedBox(
+                                                    width: 144,
+                                                    height: 50,
+                                                    child: TextButton(
+                                                      style: TextButton.styleFrom(
+                                                          backgroundColor:
+                                                              Colors.green,
+                                                          shape: RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          8))),
+                                                      onPressed: () {
+                                                        //TODO: Terima
+                                                        status = 1;
+                                                        print(
+                                                            "TERIMA: Status ${status}");
+                                                        context
+                                                            .read<
+                                                                TransaksiBloc>()
+                                                            .add(AksiTransaksiGetBuyer(
+                                                                widget
+                                                                    .transactionId,
+                                                                status));
+                                                      },
+                                                      child: Text(
+                                                        "Selesai",
+                                                        style: whiteTextStyle
+                                                            .copyWith(
+                                                                fontSize: 16,
+                                                                fontWeight:
+                                                                    semiBold),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                )),
+                                              )
+                                            ]),
                                         const SizedBox(
                                           height: 12,
                                         )
@@ -559,7 +632,7 @@ class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
                                                   width: 12,
                                                 ),
                                                 Text(
-                                                  "Penawaran Ditolak",
+                                                  "Penawaran Dibatalkan",
                                                   style:
                                                       blackTextStyle.copyWith(
                                                           fontSize: 16,
@@ -571,139 +644,30 @@ class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
                                           height: 12,
                                         )
                                       ],
-                                      if (widget.statusPenawaran == 2) ...[
-                                        BlocProvider(
-                                          create: (context) => TransaksiBloc()
-                                            ..add(AksiTransaksiGetBuyer(
-                                                widget.transactionId, status)),
-                                          child: BlocConsumer<TransaksiBloc,
-                                              TransaksiState>(
-                                            listener: (context, state) {
-                                              if (state
-                                                  is AksiTransaksiBuyerGetSuccess) {
-                                                Navigator
-                                                    .pushNamedAndRemoveUntil(
-                                                        context,
-                                                        HolderPage.routeName,
-                                                        (route) => false);
-                                              }
-                                            },
-                                            builder: (context, state) {
-                                              // var detailTransaksi =
-                                              //     state.detailTransaksiBuyer!.data;
-                                              return Flexible(
-                                                  child: Container(
-                                                child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Flexible(
-                                                          child: Container(
-                                                              child:
-                                                                  GestureDetector(
-                                                        onTap: () {},
-                                                        child: SizedBox(
-                                                          width: 144,
-                                                          height: 50,
-                                                          child: TextButton(
-                                                            style: TextButton.styleFrom(
-                                                                backgroundColor:
-                                                                    Colors.red,
-                                                                shape: RoundedRectangleBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            8))),
-                                                            onPressed: () {
-                                                              //TODO: Tolak
-                                                              status = 3;
-                                                              print(
-                                                                  "Batal: Status ${status}");
-                                                              context
-                                                                  .read<
-                                                                      TransaksiBloc>()
-                                                                  .add(AksiTransaksiGetBuyer(
-                                                                      widget
-                                                                          .transactionId,
-                                                                      status));
-                                                            },
-                                                            child: Text(
-                                                              "Batalkan",
-                                                              style: whiteTextStyle
-                                                                  .copyWith(
-                                                                      fontSize:
-                                                                          16,
-                                                                      fontWeight:
-                                                                          semiBold),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ))),
-                                                      SizedBox(
-                                                        width: 12,
-                                                      ),
-                                                      Flexible(
-                                                        child: Container(
-                                                            child:
-                                                                GestureDetector(
-                                                          onTap: () {},
-                                                          child: SizedBox(
-                                                            width: 144,
-                                                            height: 50,
-                                                            child: TextButton(
-                                                              style: TextButton.styleFrom(
-                                                                  backgroundColor:
-                                                                      Colors
-                                                                          .green,
-                                                                  shape: RoundedRectangleBorder(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              8))),
-                                                              onPressed: () {
-                                                                //TODO: Terima
-                                                                status = 1;
-                                                                print(
-                                                                    "TERIMA: Status ${status}");
-                                                                context
-                                                                    .read<
-                                                                        TransaksiBloc>()
-                                                                    .add(AksiTransaksiGetBuyer(
-                                                                        widget
-                                                                            .transactionId,
-                                                                        status));
-                                                              },
-                                                              child: Text(
-                                                                "Selesai",
-                                                                style: whiteTextStyle
-                                                                    .copyWith(
-                                                                        fontSize:
-                                                                            16,
-                                                                        fontWeight:
-                                                                            semiBold),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        )),
-                                                      )
-                                                    ]),
-                                              ));
-
-                                              if (state
-                                                  is DetailTransaksiBuyerFailed) {
-                                                return Center(
-                                                  child: Text(
-                                                    "Terjadi Kesalahan :(",
-                                                    style:
-                                                        blackTextStyle.copyWith(
-                                                            fontSize: 16,
-                                                            fontWeight:
-                                                                semiBold),
-                                                  ),
-                                                );
-                                              }
-                                              return Container();
-                                            },
-                                          ),
+                                      if (widget.statusPenawaran == "2") ...[
+                                        Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(12)),
+                                          child: Column(children: [
+                                            Image.asset(
+                                              "assets/image/check.png",
+                                              width: 100,
+                                              height: 100,
+                                            ),
+                                            const SizedBox(
+                                              height: 8,
+                                            ),
+                                            Text(
+                                              "Penawaran Telah Diterima",
+                                              style: greenTextStyle.copyWith(
+                                                  fontSize: 16,
+                                                  fontWeight: semiBold),
+                                            )
+                                          ]),
+                                        ),
+                                        const SizedBox(
+                                          height: 12,
                                         )
                                       ],
                                     ],
