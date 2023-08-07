@@ -33,6 +33,12 @@ class AksiTransaksiBuyerGetSuccess extends TransaksiState {
   List<Object> get props => [aksiTransaksiBuyer!];
 }
 
+class AksiTransaksiFinalBuyerGetSuccess extends TransaksiState {
+  final AksiTransaksiBuyer? aksiTransaksiBuyer;
+  const AksiTransaksiFinalBuyerGetSuccess(this.aksiTransaksiBuyer);
+  List<Object> get props => [aksiTransaksiBuyer!];
+}
+
 class AksiTransaksiBuyerFailed extends TransaksiState {
   final String e;
   const AksiTransaksiBuyerFailed(this.e);

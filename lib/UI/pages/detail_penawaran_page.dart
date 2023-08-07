@@ -28,16 +28,24 @@ class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
   int status = 0;
   dynamic userId;
   dynamic userType;
+  late TransaksiBloc _transaksiBloc;
   @override
   void initState() {
     super.initState();
+
     final authState = context.read<AuthBloc>().state;
     if (authState is AuthSuccess) {
       userType = authState.user!.type;
       userId = authState.user!.id;
     }
-
-    print(widget.statusPenawaran.runtimeType);
+    if (userType == 2) {
+      _transaksiBloc = TransaksiBloc()
+        ..add(TransaksiGetDetailBuyer(widget.transactionId));
+    } else if (userType == 3) {
+      _transaksiBloc = TransaksiBloc()
+        ..add(TransaksiGetDetailSeller(widget.transactionId));
+    }
+    print(widget.statusPenawaran);
   }
 
   @override
@@ -75,9 +83,7 @@ class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
                           child: Container(
                           color: lightBackgroundColor,
                           child: BlocProvider(
-                            create: (context) => TransaksiBloc()
-                              ..add(TransaksiGetDetailBuyer(
-                                  widget.transactionId)),
+                            create: (context) => _transaksiBloc,
                             child: BlocConsumer<TransaksiBloc, TransaksiState>(
                               listener: (context, state) {},
                               builder: (context, state) {
@@ -356,9 +362,7 @@ class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
                                       const SizedBox(height: 30),
                                       if (widget.statusPenawaran == "0") ...[
                                         BlocProvider(
-                                          create: (context) => TransaksiBloc()
-                                            ..add(TransaksiGetDetailBuyer(
-                                                widget.transactionId)),
+                                          create: (context) => _transaksiBloc,
                                           child: BlocConsumer<TransaksiBloc,
                                               TransaksiState>(
                                             listener: (context, state) {
@@ -372,6 +376,11 @@ class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
                                               }
                                             },
                                             builder: (context, state) {
+                                              if (state is TransaksiLoading) {
+                                                return const Center(
+                                                    child:
+                                                        CircularProgressIndicator());
+                                              }
                                               if (state
                                                   is DetailTransaksiBuyerGetSuccess) {
                                                 // var detailTransaksi =
@@ -405,13 +414,17 @@ class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
                                                                 status = 3;
                                                                 print(
                                                                     "TOLAK: Status ${status}");
-                                                                context
-                                                                    .read<
-                                                                        TransaksiBloc>()
-                                                                    .add(AksiTransaksiGetBuyer(
+                                                                _transaksiBloc.add(
+                                                                    AksiTransaksiGetBuyer(
                                                                         widget
                                                                             .transactionId,
-                                                                        status));
+                                                                        3));
+                                                                Navigator.pushNamedAndRemoveUntil(
+                                                                    context,
+                                                                    HolderPage
+                                                                        .routeName,
+                                                                    (route) =>
+                                                                        false);
                                                               },
                                                               child: Text(
                                                                 "Tolak",
@@ -449,13 +462,17 @@ class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
                                                                   status = 1;
                                                                   print(
                                                                       "Konfirmasi: Status ${status}");
-                                                                  context
-                                                                      .read<
-                                                                          TransaksiBloc>()
-                                                                      .add(AksiTransaksiGetBuyer(
+                                                                  _transaksiBloc.add(
+                                                                      AksiTransaksiGetBuyer(
                                                                           widget
                                                                               .transactionId,
-                                                                          status));
+                                                                          1));
+                                                                  Navigator.pushNamedAndRemoveUntil(
+                                                                      context,
+                                                                      HolderPage
+                                                                          .routeName,
+                                                                      (route) =>
+                                                                          false);
                                                                 },
                                                                 child: Text(
                                                                   "Terima",
@@ -491,94 +508,134 @@ class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
                                         )
                                       ],
                                       if (widget.statusPenawaran == "1") ...[
-                                        Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Flexible(
+                                        BlocProvider(
+                                          create: (context) => _transaksiBloc,
+                                          child: BlocConsumer<TransaksiBloc,
+                                              TransaksiState>(
+                                            listener: (context, state) {
+                                              if (state
+                                                  is AksiTransaksiFinalBuyerGetSuccess) {
+                                                Navigator
+                                                    .pushNamedAndRemoveUntil(
+                                                        context,
+                                                        HolderPage.routeName,
+                                                        (route) => false);
+                                              }
+                                            },
+                                            builder: (context, state) {
+                                              // var detailTransaksi =
+                                              //     state.detailTransaksiBuyer!.data;
+                                              return Flexible(
                                                   child: Container(
-                                                      child: GestureDetector(
-                                                onTap: () {},
-                                                child: SizedBox(
-                                                  width: 144,
-                                                  height: 50,
-                                                  child: TextButton(
-                                                    style: TextButton.styleFrom(
-                                                        backgroundColor:
-                                                            Colors.red,
-                                                        shape: RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        8))),
-                                                    onPressed: () {
-                                                      //TODO: Tolak
-                                                      status = 3;
-                                                      print(
-                                                          "Batal: Status ${status}");
-                                                      context
-                                                          .read<TransaksiBloc>()
-                                                          .add(AksiTransaksiGetBuyer(
-                                                              widget
-                                                                  .transactionId,
-                                                              status));
-                                                    },
-                                                    child: Text(
-                                                      "Batalkan",
-                                                      style: whiteTextStyle
-                                                          .copyWith(
-                                                              fontSize: 16,
-                                                              fontWeight:
-                                                                  semiBold),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ))),
-                                              SizedBox(
-                                                width: 12,
-                                              ),
-                                              Flexible(
-                                                child: Container(
-                                                    child: GestureDetector(
-                                                  onTap: () {},
-                                                  child: SizedBox(
-                                                    width: 144,
-                                                    height: 50,
-                                                    child: TextButton(
-                                                      style: TextButton.styleFrom(
-                                                          backgroundColor:
-                                                              Colors.green,
-                                                          shape: RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          8))),
-                                                      onPressed: () {
-                                                        //TODO: Terima
-                                                        status = 1;
-                                                        print(
-                                                            "TERIMA: Status ${status}");
-                                                        context
-                                                            .read<
-                                                                TransaksiBloc>()
-                                                            .add(AksiTransaksiGetBuyer(
-                                                                widget
-                                                                    .transactionId,
-                                                                status));
-                                                      },
-                                                      child: Text(
-                                                        "Selesai",
-                                                        style: whiteTextStyle
-                                                            .copyWith(
-                                                                fontSize: 16,
-                                                                fontWeight:
-                                                                    semiBold),
+                                                child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Flexible(
+                                                          child: Container(
+                                                              child:
+                                                                  GestureDetector(
+                                                        onTap: () {},
+                                                        child: SizedBox(
+                                                          width: 144,
+                                                          height: 50,
+                                                          child: TextButton(
+                                                            style: TextButton.styleFrom(
+                                                                backgroundColor:
+                                                                    Colors.red,
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            8))),
+                                                            onPressed: () {
+                                                              //TODO: Tolak
+                                                              status = 4;
+                                                              print(
+                                                                  "Batal: Status ${status}");
+                                                              context
+                                                                  .read<
+                                                                      TransaksiBloc>()
+                                                                  .add(AksiTransaksiGetBuyer(
+                                                                      widget
+                                                                          .transactionId,
+                                                                      4));
+                                                              Navigator.pushNamedAndRemoveUntil(
+                                                                  context,
+                                                                  HolderPage
+                                                                      .routeName,
+                                                                  (route) =>
+                                                                      false);
+                                                            },
+                                                            child: Text(
+                                                              "Batalkan",
+                                                              style: whiteTextStyle
+                                                                  .copyWith(
+                                                                      fontSize:
+                                                                          16,
+                                                                      fontWeight:
+                                                                          semiBold),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ))),
+                                                      SizedBox(
+                                                        width: 12,
                                                       ),
-                                                    ),
-                                                  ),
-                                                )),
-                                              )
-                                            ]),
+                                                      Flexible(
+                                                        child: Container(
+                                                            child:
+                                                                GestureDetector(
+                                                          onTap: () {},
+                                                          child: SizedBox(
+                                                            width: 144,
+                                                            height: 50,
+                                                            child: TextButton(
+                                                              style: TextButton.styleFrom(
+                                                                  backgroundColor:
+                                                                      Colors
+                                                                          .green,
+                                                                  shape: RoundedRectangleBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              8))),
+                                                              onPressed: () {
+                                                                //TODO: Terima
+                                                                status = 2;
+                                                                print(
+                                                                    "TERIMA: Status ${status}");
+                                                                context
+                                                                    .read<
+                                                                        TransaksiBloc>()
+                                                                    .add(AksiTransaksiGetBuyer(
+                                                                        widget
+                                                                            .transactionId,
+                                                                        2));
+                                                                Navigator.pushNamedAndRemoveUntil(
+                                                                    context,
+                                                                    HolderPage
+                                                                        .routeName,
+                                                                    (route) =>
+                                                                        false);
+                                                              },
+                                                              child: Text(
+                                                                "Selesai",
+                                                                style: whiteTextStyle
+                                                                    .copyWith(
+                                                                        fontSize:
+                                                                            16,
+                                                                        fontWeight:
+                                                                            semiBold),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        )),
+                                                      )
+                                                    ]),
+                                              ));
+                                            },
+                                          ),
+                                        ),
                                         const SizedBox(
                                           height: 12,
                                         )
@@ -691,9 +748,7 @@ class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
                           child: Container(
                           color: lightBackgroundColor,
                           child: BlocProvider(
-                            create: (context) => TransaksiBloc()
-                              ..add(TransaksiGetDetailSeller(
-                                  widget.transactionId)),
+                            create: (context) => _transaksiBloc,
                             child: BlocConsumer<TransaksiBloc, TransaksiState>(
                               listener: (context, state) {},
                               builder: (context, state) {
@@ -971,7 +1026,7 @@ class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
                                       const SizedBox(height: 30),
                                       if (widget.statusPenawaran == "0") ...[
                                         BlocProvider(
-                                          create: (context) => TransaksiBloc(),
+                                          create: (context) => _transaksiBloc,
                                           child: BlocConsumer<TransaksiBloc,
                                               TransaksiState>(
                                             listener: (context, state) {
