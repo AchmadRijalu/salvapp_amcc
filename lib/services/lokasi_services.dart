@@ -19,6 +19,8 @@ class LokasiService {
               },
               body: jsonEncode(updatedLocation.toJson()));
 
+              print(response.body);
+
       return UpdateAddress.fromJson(json.decode(response.body));
     } catch (e) {
       rethrow;

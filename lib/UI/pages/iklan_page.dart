@@ -265,7 +265,7 @@ class _IklanPageState extends State<IklanPage> {
                                                               .toDouble(),
                                                       longitude:
                                                           _currentPosition!
-                                                              .latitude
+                                                              .longitude
                                                               .toDouble());
                                               context.read<LokasiBloc>().add(
                                                   LokasiUpdate(
