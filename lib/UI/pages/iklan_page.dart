@@ -14,6 +14,8 @@ import 'package:image_picker/image_picker.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:salvapp_amcc/UI/pages/tambah_iklan_limbah1_page.dart';
+import 'package:salvapp_amcc/blocs/lokasi/lokasi_bloc.dart';
+import 'package:salvapp_amcc/models/update_address_model.dart';
 
 import '../../blocs/auth/auth_bloc.dart';
 import '../../blocs/iklan/iklan_bloc.dart';
@@ -223,78 +225,106 @@ class _IklanPageState extends State<IklanPage> {
                                   height: 24,
                                 ),
                                 SizedBox(
-                                  child: ElevatedButton(
-                                      style: ButtonStyle(
-                                          backgroundColor:
-                                              MaterialStatePropertyAll<Color>(
-                                                  Color(0xff184D47)),
-                                          shape: MaterialStateProperty.all<
-                                                  RoundedRectangleBorder>(
-                                              RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                          ))),
-                                      onPressed: () async {
-                                        //Location
-                                        // await getLocation().then((value) {
-                                        //   print(value);
-                                        // });
-                                        setState(() {
-                                          isloading = true;
-                                        });
-                                        await _getCurrentPosition();
+                                  child: BlocProvider(
+                                    create: (context) => LokasiBloc(),
+                                    child:
+                                        BlocConsumer<LokasiBloc, LokasiState>(
+                                      listener: (context, state) {},
+                                      builder: (context, state) {
+                                        return ElevatedButton(
+                                            style: ButtonStyle(
+                                                backgroundColor:
+                                                    MaterialStatePropertyAll<
+                                                            Color>(
+                                                        Color(0xff184D47)),
+                                                shape: MaterialStateProperty.all<
+                                                        RoundedRectangleBorder>(
+                                                    RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
+                                                ))),
+                                            onPressed: () async {
+                                              //Location
+                                              // await getLocation().then((value) {
+                                              //   print(value);
+                                              // });
+                                              setState(() {
+                                                isloading = true;
+                                              });
+                                              await _getCurrentPosition();
 
-                                        print(_currentPosition!.latitude
-                                            .toString());
-                                        print(_currentPosition!.longitude
-                                            .toString());
-
-                                        Future.delayed(Duration(seconds: 1))
-                                            .then((value) {
-                                          setState(() {
-                                            isloading = false;
-                                          });
-                                        });
-                                      },
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            child: Row(children: [
-                                              Icon(
-                                                Icons.location_on_outlined,
-                                                color: Colors.black26,
-                                              ),
-                                              const SizedBox(
-                                                width: 4,
-                                              ),
-                                              Flexible(
-                                                child: Text(
-                                                  (_currentPosition == null &&
-                                                          isloading == false)
-                                                      ? "Ketuk untuk mengambil lokasi anda"
-                                                      : (_currentPosition !=
-                                                                  null &&
-                                                              isloading ==
-                                                                  false)
-                                                          ? _currentAddress
-                                                              .toString()
-                                                          : (isloading == true)
-                                                              ? "Mengambil.."
-                                                              : "",
-                                                  style:
-                                                      whiteTextStyle.copyWith(
-                                                          fontWeight: medium,
-                                                          fontSize: 10),
+                                              print(_currentPosition!.latitude
+                                                  .toString());
+                                              print(_currentPosition!.longitude
+                                                  .toString());
+                                              var updatedAddress =
+                                                  UpdatedAddress(
+                                                      latitude:
+                                                          _currentPosition!
+                                                              .latitude
+                                                              .toDouble(),
+                                                      longitude:
+                                                          _currentPosition!
+                                                              .latitude
+                                                              .toDouble());
+                                              context.read<LokasiBloc>().add(
+                                                  LokasiUpdate(
+                                                      updatedAddress!));
+                                              Future.delayed(
+                                                      Duration(seconds: 1))
+                                                  .then((value) {
+                                                setState(() {
+                                                  isloading = false;
+                                                });
+                                              });
+                                            },
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Container(
+                                                  child: Row(children: [
+                                                    Icon(
+                                                      Icons
+                                                          .location_on_outlined,
+                                                      color: Colors.black26,
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 4,
+                                                    ),
+                                                    Flexible(
+                                                      child: Text(
+                                                        (_currentPosition ==
+                                                                    null &&
+                                                                isloading ==
+                                                                    false)
+                                                            ? "Ketuk untuk mengambil lokasi anda"
+                                                            : (_currentPosition !=
+                                                                        null &&
+                                                                    isloading ==
+                                                                        false)
+                                                                ? _currentAddress
+                                                                    .toString()
+                                                                : (isloading ==
+                                                                        true)
+                                                                    ? "Mengambil.."
+                                                                    : "",
+                                                        style: whiteTextStyle
+                                                            .copyWith(
+                                                                fontWeight:
+                                                                    medium,
+                                                                fontSize: 10),
+                                                      ),
+                                                    )
+                                                  ]),
                                                 ),
-                                              )
-                                            ]),
-                                          ),
-                                        ],
-                                      )),
+                                              ],
+                                            ));
+                                      },
+                                    ),
+                                  ),
                                 ),
                                 const SizedBox(
                                   height: 8,

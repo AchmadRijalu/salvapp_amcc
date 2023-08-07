@@ -33,6 +33,17 @@ class User {
       };
 }
 
+class UpdatedAddress {
+  UpdatedAddress({this.latitude, this.longitude});
+  double? latitude;
+  double? longitude;
+
+  Map<String, dynamic> toJson() => {
+        "latitude": latitude,
+        "longitude": longitude,
+      };
+}
+
 class Userdata {
   Userdata(
       {this.address,
