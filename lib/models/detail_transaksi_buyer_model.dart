@@ -43,6 +43,7 @@ class DetailTransaksiBuyerData {
     int totalPrice;
     double latitude;
     double longitude;
+    String? image;
 
     DetailTransaksiBuyerData({
         required this.id,
@@ -55,6 +56,7 @@ class DetailTransaksiBuyerData {
         required this.totalPrice,
         required this.latitude,
         required this.longitude,
+        this.image
     });
 
     factory DetailTransaksiBuyerData.fromJson(Map<String, dynamic> json) => DetailTransaksiBuyerData(
@@ -68,6 +70,7 @@ class DetailTransaksiBuyerData {
         totalPrice: json["total_price"],
         latitude: json["latitude"],
         longitude: json["longitude"],
+        image: json["image"]
     );
 
     Map<String, dynamic> toJson() => {
@@ -81,5 +84,6 @@ class DetailTransaksiBuyerData {
         "total_price": totalPrice,
         "latitude": latitude,
         "longitude": longitude,
+        "image": image
     };
 }

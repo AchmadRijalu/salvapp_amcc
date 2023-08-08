@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:salvapp_amcc/UI/pages/batal_iklan_page.dart';
 import 'package:salvapp_amcc/UI/pages/batal_penawaran_page.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../blocs/auth/auth_bloc.dart';
 import '../../blocs/shared/shared_methods.dart';
@@ -46,12 +47,22 @@ class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
         ..add(TransaksiGetDetailSeller(widget.transactionId));
     }
     print(widget.statusPenawaran);
+    print(widget.transactionId);
   }
 
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
+  }
+
+  void _launchMapsUrl(double lat, double lon) async {
+    final url = 'https://www.google.com/maps/search/?api=1&query=$lat,$lon';
+    if (await canLaunchUrlString(url)) {
+      await launchUrlString(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   @override
@@ -283,8 +294,37 @@ class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
                                         height: 21,
                                       ),
                                       Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text("Data Pengiriman "),
+                                          SizedBox(
+                                            width: 150,
+                                            child: ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                  primary:
+                                                      greenColor, // Set the button's background color
+                                                  onPrimary: Colors
+                                                      .white, // Set the button's text color
+                                                ),
+                                                onPressed: () {
+                                                  // print(state.iklanSellerDetail!.data
+                                                  //     .latitude);
+                                                  // print(state.iklanSellerDetail!.data
+                                                  //     .longitude);
+                                                  _launchMapsUrl(
+                                                      (-7.773275621200758),
+                                                      110.40157088496792);
+                                                },
+                                                child: Row(
+                                                  children: [
+                                                    Icon(Icons.location_on),
+                                                    Text("Lihat lokasi")
+                                                  ],
+                                                )),
+                                          ),
+                                          const SizedBox(
+                                            height: 12,
+                                          ),
                                         ],
                                       ),
                                       const SizedBox(
@@ -359,6 +399,40 @@ class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
                                       const SizedBox(
                                         height: 13,
                                       ),
+
+                                      detailTransaksi.image == ""
+                                          ? Container(
+                                              width: 120,
+                                              height: 120,
+                                              child: CircleAvatar(
+                                                  backgroundColor: whiteColor,
+                                                  radius: 50, // Image radius
+                                                  backgroundImage: AssetImage(
+                                                      "assets/image/image_onboarding1.png")))
+                                          : Container(
+                                              width: 120,
+                                              child: CircleAvatar(
+                                                radius: 50,
+                                                backgroundColor: whiteColor,
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
+                                                  child: FadeInImage(
+                                                    placeholder: AssetImage(
+                                                        "assets/image/image_onboarding1.png"),
+                                                    image: NetworkImage(
+                                                        detailTransaksi.image!),
+                                                    fadeInDuration: Duration(
+                                                        milliseconds:
+                                                            300), // Set your desired duration
+                                                    fit: BoxFit.cover,
+                                                    width: 100,
+                                                    height: 100,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+
                                       const SizedBox(height: 30),
                                       if (widget.statusPenawaran == "0") ...[
                                         BlocProvider(
@@ -1087,14 +1161,14 @@ class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
                                           ),
                                         )
                                       ],
-                                      if (widget.statusPenawaran == "1") ...[
+                                      if (widget.statusPenawaran == "2") ...[
                                         Container(
                                           padding: const EdgeInsets.all(8),
                                           decoration: BoxDecoration(
                                               borderRadius:
                                                   BorderRadius.circular(12),
                                               color: Colors.green.shade600),
-                                          width: 100,
+                                          width: double.infinity,
                                           child: RichText(
                                             textAlign: TextAlign.center,
                                             text: TextSpan(
@@ -1119,7 +1193,7 @@ class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
                                           height: 12,
                                         )
                                       ] else if (widget.statusPenawaran ==
-                                          "2") ...[
+                                          "1") ...[
                                         Container(
                                           padding: const EdgeInsets.all(8),
                                           decoration: BoxDecoration(
@@ -1137,7 +1211,7 @@ class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
                                               children: <TextSpan>[
                                                 TextSpan(
                                                     text:
-                                                        "Yuk Segera Antar Penawaran Limbahmu !",
+                                                        "Yuk Ditunggu Pembeli Limbah Kamu !",
                                                     style:
                                                         blackTextStyle.copyWith(
                                                             fontSize: 20,

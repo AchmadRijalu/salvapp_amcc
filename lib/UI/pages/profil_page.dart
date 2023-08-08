@@ -171,14 +171,14 @@ class ProfilPage extends StatelessWidget {
                             ]),
                           ),
                         ),
-                        ProfileMenu(
-                          iconUrl: "assets/image/icon_location.svg",
-                          title: "Ubah Data Alamat",
-                          ontap: () {
-                            Navigator.pushNamed(
-                                context, UbahDataAlamatPage.routeName);
-                          },
-                        ),
+                        // ProfileMenu(
+                        //   iconUrl: "assets/image/icon_location.svg",
+                        //   title: "Ubah Data Alamat",
+                        //   ontap: () {
+                        //     Navigator.pushNamed(
+                        //         context, UbahDataAlamatPage.routeName);
+                        //   },
+                        // ),
 
                         ProfileMenu(
                           iconUrl: "assets/image/icon_logout.svg",
